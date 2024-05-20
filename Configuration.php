@@ -52,7 +52,7 @@ private static function getPresenter()
     return new MustachePresenter("view/template");
 }
 
-private static function getRouter()
+public static function getRouter()
 {
     return new Router("getQuirurgicoController", "get");
 }
