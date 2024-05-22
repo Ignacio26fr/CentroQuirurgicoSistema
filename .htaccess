@@ -8,10 +8,6 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /
 
-    RewriteCond %{REQUEST_URI} !^/login
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ /login [R=302,L]
 
     RewriteRule ^(public)($|/) - [L,NC]
     RewriteCond %{REQUEST_FILENAME} !-f

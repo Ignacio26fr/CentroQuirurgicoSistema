@@ -1,5 +1,11 @@
 <?php
 
+include_once("controller/HomeUsuarioController.php");
+include_once("controller/LoginController.php");
+
+include_once("model/LoginModel.php");
+include_once("model/UsuarioModel.php");
+
 include_once("helper/Database.php");
 include_once("helper/Router.php");
 include_once("helper/Presenter.php");
@@ -19,20 +25,27 @@ class Configuration
 
 
  //Controller   
-public static function getQuirurgicoController()
+public static function getLoginController()
 {
-    return null;
+    return new LoginController(self::getLoginModel(), self::getPresenter());
 }
 
 public static function getHomeUsuarioController()
 {
-    return null;
+    return new HomeUsuarioController(self::getHomeUsuarioModel(), self::getPresenter());
 }
 
 //Models
 
+private static function getLoginModel()
+{
+    return new LoginModel(self::getDatabase());
+}
 
-
+private static function getHomeUsuarioModel()
+{
+    return new UsuarioModel(self::getDatabase());
+}
 
 //helper
 public static function getDatabase()
@@ -54,6 +67,6 @@ private static function getPresenter()
 
 public static function getRouter()
 {
-    return new Router("getQuirurgicoController", "get");
+    return new Router("getHomeUsuarioController", "get");
 }
 }

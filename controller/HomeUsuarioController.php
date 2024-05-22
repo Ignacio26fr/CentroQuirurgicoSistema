@@ -15,38 +15,16 @@ class HomeUsuarioController
     public function get()
     {
         session_start();
-
-
-        if (!isset($_SESSION['usuario'])) {
-
-            header("Location: /login");
-            exit();
-        }
-    }
-
-    public function login()
-    {
-        session_start();
-        $usuario = $_POST["usuario"];
-        $password = $_POST["password"];
-
-        $resultado = $this->model->iniciarSession($usuario, $password);
-
-        $this->redirigirResultadoLogin($resultado);
-
-    }
-
-
-    private function redirigirResultadoLogin($resultado)
-    {
-        if ($resultado == 1) {
-            header("Location:/home");
-            exit();
-        } else {
+        $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["name"]);
+        if($nombreUsuario) {
+            $this->presenter->render("view/home.mustache");
+        }else{
             header("Location:/login");
-            exit();
         }
+
+
     }
+
 
 
 }

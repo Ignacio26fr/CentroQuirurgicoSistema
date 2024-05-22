@@ -11,23 +11,26 @@ class LoginModel {
         $this->database = $database;
     }
 
+    public function getUsuario()
+    {
+        return $this->database->query("Select * from persona");
+
+    }
+
     public function buscarUsuario($usuario, $password)
     {
-        return $this->database->excuteAndReturn("Select * from persona where usuario = '$usuario' and password = '$password'");
+        $query = "SELECT * FROM persona where usuario = '$usuario' and contrasenia = '$password'";
+        echo "Consulta SQL: $query<br>";
+        return $this->database->executeAndReturn($query);
 
     }
 
     public function iniciarSesion($usuario, $password)
     {
         $seInicioSession = $this->obtenerResultadoDeLogin($usuario, $password);
+
         return $seInicioSession;
 
-    }
-
-
-
-    private function seEncontroResultado($resultado){
-        return mysqli_num_rows($resultado) == 1;
     }
 
 
@@ -44,18 +47,23 @@ class LoginModel {
         } else {
             $seInicioSession = 3;
         }
+
         return $seInicioSession;
     }
 
 
     private function verificarSiSeEncuentra($resultado, $usuario): int
     {
-        if ($this->seEncontroResultado($resultado)) {
+        if ($this->seEncontroUnResultado($resultado)) {
             $_SESSION['name'] = $usuario;
             $seInicioSession = 1;
         } else {
             $seInicioSession = 2;
         }
         return $seInicioSession;
+    }
+
+    private function seEncontroUnResultado($resultado){
+        return mysqli_num_rows($resultado) == 1;
     }
 }

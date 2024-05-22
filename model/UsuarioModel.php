@@ -16,5 +16,9 @@ class UsuarioModel{
 
     }
 
+    public function verificarSiHayUnaSessionIniciada($session){
+        return isset($session) ? $session : null;
+    }
+
 
 }
