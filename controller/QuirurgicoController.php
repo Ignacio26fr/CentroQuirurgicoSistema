@@ -1,5 +1,8 @@
 <?php
 
+
+use http\Client\Request;
+
 class QuirurgicoController
 {
     private $model;
@@ -14,8 +17,24 @@ class QuirurgicoController
 
     public function get()
     {
-        $quirurgico = $this->model->getQuirurgico();
-        $this->presenter->render("");
+
+        $this->presenter->render("view/formulario.mustache");
     }
+
+    public function getPaciente()
+    {
+        $quirurgico = $this->model->getPaciente();
+
+    }
+
+    public function buscarPorDni($dni)
+    {
+
+
+        $quirurgico = $this->model->buscaPaciente($dni);
+        return response()->json($quirurgico);
+    }
+
+
 
 }

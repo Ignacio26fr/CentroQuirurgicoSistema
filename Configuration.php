@@ -2,9 +2,11 @@
 
 include_once("controller/HomeUsuarioController.php");
 include_once("controller/LoginController.php");
+include_once ("controller/QuirurgicoController.php");
 
 include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
+include_once ("model/QuirurgicoModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
@@ -35,6 +37,11 @@ public static function getHomeUsuarioController()
     return new HomeUsuarioController(self::getHomeUsuarioModel(), self::getPresenter());
 }
 
+public static function getQuirurgicoController()
+{
+    return new QuirurgicoController(self::getHomeUsuarioModel(), self::getPresenter());
+}
+
 //Models
 
 private static function getLoginModel()
@@ -45,6 +52,11 @@ private static function getLoginModel()
 private static function getHomeUsuarioModel()
 {
     return new UsuarioModel(self::getDatabase());
+}
+
+private static function getQuirurgicoModel()
+{
+    return new QuirurgicoModel(self::getDatabase());
 }
 
 //helper
