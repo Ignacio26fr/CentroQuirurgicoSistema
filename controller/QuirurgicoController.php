@@ -30,10 +30,16 @@ class QuirurgicoController
     public function buscarPorDni($dni)
     {
 
+        $resultados = $this->model->buscarPaciente($dni);
 
-        $quirurgico = $this->model->buscaPaciente($dni);
-        return response()->json($quirurgico);
+
+
+
     }
+
+
+
+
 
 
 

@@ -39,7 +39,7 @@ public static function getHomeUsuarioController()
 
 public static function getQuirurgicoController()
 {
-    return new QuirurgicoController(self::getHomeUsuarioModel(), self::getPresenter());
+    return new QuirurgicoController(self::getQuirurgicoModel(), self::getPresenter());
 }
 
 //Models
