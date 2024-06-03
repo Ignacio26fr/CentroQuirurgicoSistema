@@ -1,0 +1,33 @@
+<div class="form-group">
+    <label for="diagnostico">Diagnóstico primario</label>
+    <input type="text" id="filtroPrimario" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+    <div id="opcionesPrimario" class="opciones-primario"></div>
+    <input type="hidden" id="primarioSeleccionado" name="primario.idDiagnostico">
+</div>
+
+<div class="form-group">
+    <label for="diagnostico">Diagnóstico Secundario</label>
+    <input type="text" id="filtroSecundario" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+    <div id="opcionesSecundario" class="opciones-secundario"></div>
+    <input type="hidden" id="secundarioSeleccionado" name="secundario.idDiagnostico">
+</div>
+
+<div class="form-group">
+    <label for="asa">Asa</label>
+    <select class="form-control" id="asa" name="asa">
+        <option value="0">Seleccionar</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="espQuirurgica">Especialidad quirurgica</label>
+    <select class="form-control" id="espQuirurgica" name="espQuirurgica.idEspQuirurgica" required>
+        <option value="0">Seleccionar</option>
+       
+
+    </select>
+</div>

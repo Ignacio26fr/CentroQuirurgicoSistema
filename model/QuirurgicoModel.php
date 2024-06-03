@@ -28,15 +28,19 @@ class QuirurgicoModel
     }
 
 
-    public function obtenerPrimario($nombre)
+    public function obtenerPrimario()
     {
 
-        $query = "SELECT * FROM diagnostico where LOWER(nombre) LIKE LOWER('%$nombre%')";
+        $query = "SELECT * FROM diagnostico";
 
         return $this->database->executeAndReturn($query);
     }
 
-
+    public function obtenerEspecialidadQuirurgica()
+    {
+        $query = "SELECT * FROM espquirurgica";
+        return $this->database->executeAndReturn($query);
+    }
 }
 
 

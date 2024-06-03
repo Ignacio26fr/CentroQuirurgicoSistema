@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <form id="formularioCirugia" action="/quirurgico/buscarPorDni" method="post" autocomplete="off">
+        <h1>Buscar paciente</h1>
+        <div class="form-group">
+            <label for="dni">DNI</label>
+            <input type="text" id="dni" name="dni" class="form-control" placeholder="Ingrese el DNI">
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    <div id="resultadosContainer" class="mt-3">
+        <form action="/quirurgico/obtenerPacienteSeleccionado" method="post" enctype="multipart/form-data">
+            {{#resultados}}
+                <div class="paciente">
+                    <input type="radio" id="paciente{{idPaciente}}" name="paciente" value="{{idPaciente}}">
+                    <label for="paciente{{idPaciente}}">
+                        <span class="icon"></span>
+                        <h5>{{dni}} {{nombre}} {{apellido}}</h5>
+                    </label>
+                </div>
+            {{/resultados}}
+            <button type="submit" class="btn btn-primary">Continuar</button>
+        </form>
+    </div>
+</div>

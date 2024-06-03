@@ -82,4 +82,55 @@ header:hover {
     top: 16vh;
     right: 15px;
 }
- /* estilos 2 en jav */
+
+
+.paciente {
+    margin-bottom: 10px;
+}
+
+.paciente input[type="radio"] {
+    display: none;
+}
+
+.paciente label {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.paciente .icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+.paciente input[type="radio"]:checked + label .icon {
+    background-color: #007bff;
+}
+
+
+.paciente .icon::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: 3px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.paciente input[type="radio"]:checked + label .icon::after {
+    opacity: 1; /* Muestra el icono cuando se selecciona */
+}
