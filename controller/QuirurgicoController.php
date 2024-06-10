@@ -47,13 +47,21 @@ class QuirurgicoController
 
         if (isset($_POST['paciente'])) {
             $paciente = $_POST['paciente'];
-           $primario = $this->model->obtenerPrimario();
-           $secundario = $this->model->obtenerPrimario();
+            $primario = $this->model->obtenerPrimario();
+            $secundario = $this->model->obtenerDiagnosticoSecu();
 
-            $this->presenter->render("view/formularioQuirurgico.mustache", ["paciente" => $paciente]);
 
-        } else {
-            echo "No se selecciono un paciente";
+
+            $data = [
+                "paciente" => $paciente,
+                "primario" => $primario,
+                "secundario" => $secundario,
+
+            ];
+
+
+            header('Location:/formulario');
+
         }
     }
 

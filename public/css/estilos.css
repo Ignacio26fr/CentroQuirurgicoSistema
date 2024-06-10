@@ -132,5 +132,19 @@ header:hover {
 }
 
 .paciente input[type="radio"]:checked + label .icon::after {
-    opacity: 1; /* Muestra el icono cuando se selecciona */
+    opacity: 1;
+}
+
+.select-option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.select-option:hover {
+    background-color: #f0f0f0;
+}
+
+.select-option.active {
+    background-color: #007bff;
+    color: #fff;
 }

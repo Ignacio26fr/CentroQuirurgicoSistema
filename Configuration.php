@@ -3,6 +3,7 @@
 include_once("controller/HomeUsuarioController.php");
 include_once("controller/LoginController.php");
 include_once ("controller/QuirurgicoController.php");
+include_once("controller/FormularioController.php");
 
 include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
@@ -40,6 +41,11 @@ public static function getHomeUsuarioController()
 public static function getQuirurgicoController()
 {
     return new QuirurgicoController(self::getQuirurgicoModel(), self::getPresenter());
+}
+
+public static function getFormularioController()
+{
+    return new FormularioController(self::getQuirurgicoModel(), self::getPresenter());
 }
 
 //Models
