@@ -86,7 +86,7 @@ $(document).ready(function() {
 
                 $.each(data, function(index, unidad) {
                     $('#unidadFuncional').append($('<option>', {
-                        value: unidad.idUnidadFuncional,
+                        value: unidad.id,
                         text: unidad.nombre
                     }));
                 });
@@ -100,6 +100,7 @@ $(document).ready(function() {
 
     $('#unidadFuncional').change(function() {
         var idUnidadFuncionalSeleccionada = $(this).val();
+        console.log(idUnidadFuncionalSeleccionada)
         $('#idUnidadFuncionalSeleccionada').val(idUnidadFuncionalSeleccionada);
     });
 });

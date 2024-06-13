@@ -47,19 +47,8 @@ class QuirurgicoController
 
         if (isset($_POST['paciente'])) {
             $paciente = $_POST['paciente'];
-            $primario = $this->model->obtenerPrimario();
-            $secundario = $this->model->obtenerDiagnosticoSecu();
 
-
-
-            $data = [
-                "paciente" => $paciente,
-                "primario" => $primario,
-                "secundario" => $secundario,
-
-            ];
-
-
+            //Aca le tengo que pasar el id del paciente a la vista
             header('Location:/formulario');
 
         }

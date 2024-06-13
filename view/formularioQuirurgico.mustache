@@ -48,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label for="unidadFuncional">Unidad funcional</label>
-                <select class="form-control" id="unidadFuncional" name="unidadFuncional.idUnidadFuncional" required>
+                <select class="form-control" id="unidadFuncional" name="idUnidadFuncional" required>
                     <option value="0">Seleccionar</option>
                 </select>
                 <input type="hidden" id="idUnidadFuncionalSeleccionada" name="idUnidadFuncionalSeleccionada" value="">
@@ -57,9 +57,10 @@
                 <label for="sitioAnatomico">Sitio Anatomico</label>
                 <select class="form-control" id="sitioAnatomico" name="sitioAnatomico.idSitioAnatomico" required>
                     <option value="0">Seleccionar</option>
-                    <option></option>
-
                 </select>
+                    <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="">
+
+
             </div>
         {{/data}}
 
