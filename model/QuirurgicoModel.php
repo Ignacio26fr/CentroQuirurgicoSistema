@@ -107,6 +107,22 @@ class QuirurgicoModel
         return $sitiosAnatomicos;
     }
 
+    public function obtenerActosQuirurgicos($idSitioAnatomico)
+    {
+        $query = "SELECT * FROM cirugianombre where idSitioAnatomico = $idSitioAnatomico";
+        $resultados = $this->database->executeAndReturn($query);
+
+        $actosQuirurgicos = array();
+        while ($row = $resultados->fetch_assoc()) {
+            $actoQuirurgico = array(
+                'id' => $row['idCirugiaNombre'],
+                'nombre' => $row['nombre']
+            );
+            $actosQuirurgicos[] = $actoQuirurgico;
+        }
+        return $actosQuirurgicos;
+    }
+
 }
 
 

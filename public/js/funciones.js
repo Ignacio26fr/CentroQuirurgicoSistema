@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // Evento de búsqueda y carga para el diagnóstico primario
     $('#filtroPrimario').on('input', function() {
         var filtroPrimario = $(this).val();
         $.ajax({
@@ -68,6 +67,7 @@ $(document).ready(function() {
     });
 });
 
+
 $(document).ready(function() {
     $('#espQuirurgica').change(function() {
         var idEspQuirurgica = $(this).val();
@@ -124,7 +124,7 @@ $(document).ready(function() {
 
                 $.each(data, function(index, sitio) {
                     $('#sitioAnatomico').append($('<option>', {
-                        value: sitio.idSitioAnatomico,
+                        value: sitio.id,
                         text: sitio.nombre
                     }));
                 });
@@ -134,7 +134,50 @@ $(document).ready(function() {
             }
         });
     });
+    $('#sitioAnatomico').change(function() {
+        var idSitioAnatomicoSeleccionada = $(this).val();
+        console.log(idSitioAnatomicoSeleccionada);
+        $('#idSitioAnatomicoSeleccionada').val(idSitioAnatomicoSeleccionada);
+    });
 });
+
+
+$(document).ready(function() {
+    $('#sitioAnatomico').change(function() {
+        var idSitioAnatomico = $(this).val();
+        console.log(idSitioAnatomico);
+        $.ajax({
+            url: '/formulario/obtenerActoQuirurgicoPrincipal',
+            method: 'GET',
+            data: { idSitioAnatomico: idSitioAnatomico },
+            success: function(data) {
+                $('#actoQuirurgicoPrincipal').empty();
+
+                // Agregar opción vacía por defecto
+                $('#actoQuirurgicoPrincipal').append($('<option>', {
+                    value: '',
+                    text: 'Seleccionar'
+                }));
+
+                $.each(data, function(index, acto) {
+                    $('#actoQuirurgicoPrincipal').append($('<option>', {
+                        value: acto.id,
+                        text: acto.nombre
+                    }));
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+    $('#actoQuirurgicoPrincipal').change(function() {
+        var idActoQuirurgicoPrincipal = $(this).val();
+        console.log(idActoQuirurgicoPrincipal);
+        $('#idActoQuirurgicoPrincipalSeleccionado').val(idActoQuirurgicoPrincipal);
+    });
+});
+
 
 
 

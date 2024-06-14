@@ -1,32 +1,32 @@
 <?php
 class FormularioController
 {
-private $model;
-private $presenter;
+    private $model;
+    private $presenter;
 
 
-public function __construct($model, $presenter)
-{
-$this->model = $model;
-$this->presenter = $presenter;
-}
+    public function __construct($model, $presenter)
+    {
+        $this->model = $model;
+        $this->presenter = $presenter;
+    }
 
-public function get()
-{
+    public function get()
+    {
 
-$primario = $this->model->obtenerPrimario();
-$espquirurgica = $this->model->obtenerEspecialidadQuirurgica();
-
-
-$data = [
-"primario" => $primario,
-    "espquirurgica" => $espquirurgica
+        $primario = $this->model->obtenerPrimario();
+        $espquirurgica = $this->model->obtenerEspecialidadQuirurgica();
 
 
-];
+        $data = [
+            "primario" => $primario,
+            "espquirurgica" => $espquirurgica
 
-    $this->presenter->render("view/formularioQuirurgico.mustache", ["data" => $data]);
-}
+
+        ];
+
+        $this->presenter->render("view/formularioQuirurgico.mustache", ["data" => $data]);
+    }
 
 
     public function obtenerOpcionesSecundario()
@@ -56,7 +56,7 @@ $data = [
     public function obtenerUnidadesFuncionales()
     {
         header('Content-Type: application/json');
-        if(isset($_GET['idEspQuirurgica'])){
+        if (isset($_GET['idEspQuirurgica'])) {
             $idEspQuirurgica = $_GET['idEspQuirurgica'];
             $resultados = $this->model->obtenerUnidadesFuncionales($idEspQuirurgica);
             echo json_encode($resultados);
@@ -65,11 +65,24 @@ $data = [
 
     public function obtenerSitiosAnatomicos()
     {
-     header('Content-Type: application/json');
-     if(isset($_GET['idUnidadFuncional'])){
-         $idUnidadFuncional = $_GET['idUnidadFuncional'];
-         $resultados = $this->model->obtenerSitiosAnatomicos($idUnidadFuncional);
-         echo json_encode($resultados);
-     }
+        header('Content-Type: application/json');
+        if (isset($_GET['idUnidadFuncional'])) {
+            $idUnidadFuncional = $_GET['idUnidadFuncional'];
+            $resultados = $this->model->obtenerSitiosAnatomicos($idUnidadFuncional);
+            echo json_encode($resultados);
+        }
     }
+
+    public function obtenerActoQuirurgicoPrincipal()
+    {
+        header('Content-Type: application/json');
+        if (isset($_GET['idSitioAnatomico'])) {
+            $idSitioAnatomico = $_GET['idSitioAnatomico'];
+            $resultados = $this->model->obtenerActoQuirurgicoPrincipal($idSitioAnatomico);
+            echo json_encode($resultados);
+
+        }
+    }
+
+
 }
