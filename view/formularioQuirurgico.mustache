@@ -53,6 +53,7 @@
                 </select>
                 <input type="hidden" id="idUnidadFuncionalSeleccionada" name="idUnidadFuncionalSeleccionada" value="">
             </div>
+
             <div class="mb-3">
                 <label for="sitioAnatomico">Sitio Anatomico</label>
                 <select class="form-control" id="sitioAnatomico" name="sitioAnatomico.idSitioAnatomico" required>
@@ -60,13 +61,11 @@
                 </select>
                     <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="">
 
-
             </div>
             <div class="mb-3">
                 <label for="actoQuirurgicoPrincipal">Acto quirurgico principal</label>
                 <select class="form-control" id="actoQuirurgicoPrincipal" name="actoQuirurgicoPrincipal" required>
                     <option value="0">Seleccionar</option>
-
                 </select>
                 <input type="hidden" id="idActoQuirurgicoPrincipalSeleccionado" name="idActoQuirurgicoPrincipalSeleccionado" value="">
             </div>
@@ -82,8 +81,210 @@
             <div class="form-group">
                 <label for="cirujano">Cirujano</label>
                 <input type="text" id="filtroCirujano" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
-                <div id="opcionesCirujano" class="opcion-cirujano"></div>
-                <input type="hidden" id="cirujanoSeleccionado" name="cirujanoSeleccionado" >
+                <div id="opcionesCirujano" class="opcion-cirujano">
+
+                </div>
+                <input type="hidden" id="cirujanoSeleccionado" name="cirujanoSeleccionado">
+            </div>
+
+
+            <div class="form-group">
+                <label for="ayudante1">Primer ayudante</label>
+                <input type="text" id="filtroPrimer" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+                <div id="opcionesPrimer" class="opcion-primer"></div>
+                <input type="hidden" id="primerSeleccionado" name="primerSeleccionado" >
+            </div>
+
+            <div class="form-group">
+                <label for="ayudante2">Segundo ayudante</label>
+                <input type="text" id="filtroSegundo" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+                <div id="opcionesSegundo" class="opcion-segundo"></div>
+                <input type="hidden" id="segundoSeleccionado" name="segundoSeleccionado" >
+
+                </select>
+            </div>
+            </article>
+            <div class="form-group">
+                <label for="anestesista">Anestesista</label>
+                <input type="text" id="filtroAnestesista" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+                <div id="opcionesAnestesista" class="opcion-anestesista"></div>
+                <input type="hidden" id="anestesistaSeleccionado" name="anestesistaSeleccionado" >
+            </div>
+
+            <div class="form-group">
+            <label for="neonatologo">Neonatólogo</label>
+            <input type="text" id="filtroNeo" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+            <div id="opcionesNeo" class="opcion-neo"></div>
+            <input type="hidden" id="neoSeleccionado" name="neoSeleccionado" >
+        </div>
+
+            <div class="form-group">
+                <label for="instrumentador">Instrumentador Quirúrgico</label>
+                <select class="form-control" name="instrumentador" id="instrumentador" >
+                    <option value="">Seleccionar</option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="circulante">Circulante</label>
+                <select class="form-control" name="circulante" id="circulante" >
+                    <option value="">Seleccionar</option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="anestesiaTecnico">Técnico en Anestesia</label>
+                <input type="text" id="filtroTecnico" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+                <div id="opcionesTecnico" class="opcion-tecnico"></div>
+                <input type="hidden" id="tecnicoSeleccionado" name="tecnicoSeleccionado" >
+            </div>
+
+            <div class="form-group">
+                <label for="anestesia">Tipo de Anestesia</label>
+                <select class="form-control" name="tipoDeAnestesia.idTipoDeAnestesia" id="anestesia" required>
+                    <option value="">Seleccionar</option>
+                    {{#tipoAnestesia}}
+                        <option value="{{idTipoDeAnestesia}}">{{nombre}}</option>
+                    {{/tipoAnestesia}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="horaIngresoQuirurgico">Hora de ingreso al centro quirurgico</label>
+                <input type="time" class="form-control" name="horaIngresoAlCentroQuirurgico" id="horaIngresoAlCentroQuirurgico"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="horaInicioCirugia">Hora de inicio cirugia</label>
+                <input type="time" class="form-control" name="horaInicio" id="horaInicioCirugia" required>
+            </div>
+            <div class="form-group">
+                <label for="horaFinalizacion">Hora de finalizacion cirugia</label>
+                <input type="time" class="form-control" name="horaFin" id="horaFinalizacionCirugia"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="horaEgreso">Hora de egreso del centro quirurgico</label>
+                <input type="time" class="form-control" name="horaEgreso" id="horaEgreso" required>
+            </div>
+            <div class="form-group">
+                <label for="horaNacimiento">Hora de nacimiento</label>
+                <input type="time" class="form-control" name="horaNac" id="horaNacimiento">
+            </div>
+            <div class="form-group">
+                <label for="proviene">Lugar de donde provino el paciente</label>
+                <select class="form-control"  id="proviene" name="lugarProviene" required>
+                    <option value="0"> Seleccionar</option>
+                    {{#lugar}}
+                        <option value="{{idLugar}}">{{nombre}}</option>
+                    {{/lugar}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="egreso">Lugar a donde egreso el paciente</label>
+                <select class="form-control" name="egreso" id="egreso"  required>
+                    <option value=""> Seleccionar</option>
+                    {{#lugar}}
+                        <option value="{{idLugar}}">{{nombre}}</option>
+                    {{/lugar}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="caja">Caja quirurgica usada</label>
+                <input type="text" id="filtroCaja" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+                <div id="opcionesCaja" class="opcion-caja"></div>
+                <input type="hidden" id="cajaSeleccionado" name="cajaQuirurgica.idCajaQuirurgica" >
+            </div>
+
+            <div class="form-group">
+                <label for="nQuirofano">N° quirofano usada</label>
+                <select class="form-control" name="numeroQuirofano" id="numeroQuirofano" required >
+                    <option value="">Seleccionar</option>
+                    <option value="1"> 1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="conteo">Se realizo conteo?</label>
+                <select class="form-control" name="conteo" id="conteo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="true"> Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="radio">Radiografia control?</label>
+                <select class="form-control" name="radiograma" id="radio" required>
+                    <option value="">Seleccionar</option>
+                    <option value="true"> Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="conteo">Hemoterapia?</label>
+                <select class="form-control" name="hemoterapia" id="conteo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="true"> Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cultivo">Cultivo?</label>
+                <select class="form-control" name="cultivo" id="cultivo" required>
+                    <option value="">Seleccionar</option>
+                    <option value="true"> Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="patagonico">Anatomia patagonica?</label>
+                <select class="form-control" name="anatomiaPatologica" id="patagonico" required>
+                    <option value="">Seleccionar</option>
+                    <option value="true"> Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="codigo">Codigo de práctica anestésica segun AAARBA</label>
+                <input type="text" id="filtroCodigo" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+                <div id="opcionesCodigo" class="opciones-codigo"></div>
+                <input type="hidden" id="codigosSeleccionadosInput" name="codigosSeleccionadosInput">
+
+                <ul id="codigosSeleccionados"></ul>
+            </div>
+
+            <div class="form-group">
+                <label for="tipoCirugia">Tipo de cirugia</label>
+                <select class="form-control" name="tipoCirugia" id="tipoCirugia"  required>
+                    <option value="">Seleccionar</option>
+                    {{#tipoCirugia}}
+                        <option value="{{idTipoCirugia}}">{{nombre}}</option>
+                        {{/tipoCirugia}}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipoCirugia">Material protesico primario implantado usado</label>
+                <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+                <div id="opcionesMaterial" class="opcion-material"></div>
+                <input type="hidden" id="materialSeleccionado" name="materialProtesicoPrimario.idMaterialProtesico" >
+            </div>
+            <div class="form-group">
+                <label for="cantidadMaterialPrimario">Cantidad de material protesico primario:</label>
+                <input type="number" class="form-control" id="cantidadDeMaterialPrimario" name="cantidadDeMaterialPrimario" required>
+            </div>
+
+            <h5>Tecnologias usadas</h5>
+            <div id="tecnologiasCheckboxContainer" >
+                <div id="${tecnologia.nombre}" >
+                    <input type="checkbox"name="'tecnologiaUsada'" value="${tecnologia.idTecnologiaUsada}" id="${tecnologia.nombre}" >
+                    <label for="${tecnologia.nombre}" text="${tecnologia.nombre}"></label>
+                </div>
             </div>
 
 
@@ -94,4 +295,7 @@
 </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/public/js/funciones.js"></script>
 
