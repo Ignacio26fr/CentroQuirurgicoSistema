@@ -19,13 +19,15 @@ class FormularioController
         $tipoAnestesia = $this->model->obtenerTipoAnestesia();
         $lugar = $this->model->obtenerLugar();
         $tipoCirugia = $this->model->obtenerTipoDeCirugia();
+        $tecnologiaUsada = $this->model->obtenerTecnologiaUsada();
 
         $data = [
             "primario" => $primario,
             "espquirurgica" => $espquirurgica,
             "tipoAnestesia" => $tipoAnestesia,
             "lugar" => $lugar,
-            "tipoCirugia" => $tipoCirugia
+            "tipoCirugia" => $tipoCirugia,
+            "tecnologiaUsada" => $tecnologiaUsada
 
         ];
 

@@ -263,6 +263,12 @@ class QuirurgicoModel
         return $materiales;
 
     }
+
+    public function obtenerTecnologiaUsada()
+    {
+        $query = "SELECT * FROM tecnologiausada";
+        return $this->database->executeAndReturn($query);
+    }
 }
 
 

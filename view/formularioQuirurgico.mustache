@@ -1,5 +1,7 @@
 <div class="container">
+
     <h1>Formulario Quirúrgico</h1>
+    <a href="/homeUsuario" class="btn btn-warning">Volver</a>
     <div action="/quirurgico/guardarDatos" method="post">
         {{#data}}
             <input type="hidden" name="paciente" value="{{paciente}}">
@@ -270,20 +272,25 @@
             </div>
             <div class="form-group">
                 <label for="tipoCirugia">Material protesico primario implantado usado</label>
+
                 <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
-                <div id="opcionesMaterial" class="opcion-material"></div>
+                <div id="opcionesMaterial" class="opcion-material custom-select-option"></div>
                 <input type="hidden" id="materialSeleccionado" name="materialProtesicoPrimario.idMaterialProtesico" >
             </div>
+
             <div class="form-group">
                 <label for="cantidadMaterialPrimario">Cantidad de material protesico primario:</label>
                 <input type="number" class="form-control" id="cantidadDeMaterialPrimario" name="cantidadDeMaterialPrimario" required>
             </div>
 
+        <div id="tecnologiasCheckboxContainer" >
             <h5>Tecnologias usadas</h5>
-            <div id="tecnologiasCheckboxContainer" >
-                <div id="${tecnologia.nombre}" >
-                    <input type="checkbox"name="'tecnologiaUsada'" value="${tecnologia.idTecnologiaUsada}" id="${tecnologia.nombre}" >
-                    <label for="${tecnologia.nombre}" text="${tecnologia.nombre}"></label>
+
+                <div>
+                    {{#tecnologiaUsada}}
+                        <input type="checkbox" name="tecnologiasUsadas" class="tecnologiaUsada" value="{{idTecnologiaUsada}}"> {{nombre}}
+
+                    {{/tecnologiaUsada}}
                 </div>
             </div>
 

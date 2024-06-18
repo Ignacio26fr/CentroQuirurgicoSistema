@@ -138,6 +138,8 @@ header:hover {
 .select-option {
     padding: 8px 12px;
     cursor: pointer;
+    border: 1px solid black;
+
 }
 
 .select-option:hover {
@@ -148,3 +150,33 @@ header:hover {
     background-color: #007bff;
     color: #fff;
 }
+
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    z-index: 1;
+    overflow-y: auto;
+}
+
+.custom-select-options.active {
+    display: block;
+}
+
+.custom-select-option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.custom-select-option:hover {
+    background-color: #f1f1f1;
+}
+
+
+
