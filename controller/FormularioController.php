@@ -14,6 +14,9 @@ class FormularioController
     public function get()
     {
 
+        session_start();
+        $paciente = $_SESSION['paciente'];
+
         $primario = $this->model->obtenerPrimario();
         $espquirurgica = $this->model->obtenerEspecialidadQuirurgica();
         $tipoAnestesia = $this->model->obtenerTipoAnestesia();
@@ -27,7 +30,8 @@ class FormularioController
             "tipoAnestesia" => $tipoAnestesia,
             "lugar" => $lugar,
             "tipoCirugia" => $tipoCirugia,
-            "tecnologiaUsada" => $tecnologiaUsada
+            "tecnologiaUsada" => $tecnologiaUsada,
+            "paciente" => $paciente
 
         ];
 
@@ -64,6 +68,7 @@ class FormularioController
         header('Content-Type: application/json');
         if (isset($_GET['idEspQuirurgica'])) {
             $idEspQuirurgica = $_GET['idEspQuirurgica'];
+
             $resultados = $this->model->obtenerUnidadesFuncionales($idEspQuirurgica);
             echo json_encode($resultados);
         }
@@ -193,6 +198,50 @@ class FormularioController
         }
     }
 
+    public function insertarDatos(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $data =[
+                'paciente' => $_POST['paciente'],
+                'primario' => $_POST['primario'],
+                'secundario' => $_POST['secundario'],
+                'asa' => $_POST['asa'],
+                'espquirurgica' => $_POST['espQuirurgica'],
+                'unidadFuncional' => $_POST['idUnidadFuncionalSeleccionada'],
+                'sitioAnatomico' => $_POST['idSitioAnatomicoSeleccionada'],
+                'actoQuirurgico' => $_POST['idActoQuirurgicoPrincipalSeleccionado'],
+                'cirujano'=> $_POST['cirujanoSeleccionado'],
+                'primerAyudante' => $_POST['primerSeleccionado'],
+                'segundoAyudante' => $_POST['segundoSeleccionado'],
+                'anestesista' => $_POST['anestesistaSeleccionado'],
+                'neonatolo' => $_POST['neoSeleccionado'],
+                'tecnico' => $_POST['tecnicoSeleccionado'],
+                'tipoAnestesia' => $_POST['idTipoDeAnestesia'],
+                'horaInicio' => $_POST['horaInicio'],
+                'horaFin' => $_POST['horaFin'],
+                'lugarProviene' => $_POST['lugarProviene'],
+                'lugarEgreso' => $_POST['lugarEgreso'],
+                'cajaQuirurgica' => $_POST['idCajaQuirurgica'],
+                'tipoCirugia' => $_POST['tipoCirugia'],
+                'tecnologiaUsada' => $_POST['tecnologiasUsadas'],
+                'codigo' => $_POST['codigosSeleccionado'],
+                'materialProtesico' => $_POST['materialProtesicoPrimario'],
+                'observacion' => $_POST['detalle']
+
+            ];
+
+             $result = $this->model->insertCirugia($data['observacion'], $data['horaInicio'], $data['horaFin'], null, $data['actoQuirurgico'], $data['tipoAnestesia'], $data['tipoCirugia'], $data['espquirurgica'], $data['cajaQuirurgica'], $data['paciente'], $data['sitioAnatomico'], $data['unidadFuncional']);
+
+
+
+             $this->model->insertCirugiaPersona($result, $data['cirujano'], 1);
+                $this->model->insertCirugiaPersona($result, $data['primerAyudante'], 2);
+                $this->model->insertCirugiaPersona($result, $data['segundoAyudante'], 3);
+                $this->model->insertCirugiaPersona($result, $data['anestesista'], 4);
+
+
+
+        }
+    }
 
 
 }

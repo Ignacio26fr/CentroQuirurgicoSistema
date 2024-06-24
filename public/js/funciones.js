@@ -22,6 +22,7 @@ $(document).ready(function() {
     $('#opcionesPrimario').on('click', '.opcion-diagnostico', function() {
         var nombreDiagnostico = $(this).text();
         var idDiagnostico = $(this).data('id');
+        console.log(idDiagnostico);
         $('#filtroPrimario').val(nombreDiagnostico);
         $('#primarioSeleccionado').val(idDiagnostico);
         $('#opcionesPrimario').empty();
@@ -71,6 +72,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#espQuirurgica').change(function() {
         var idEspQuirurgica = $(this).val();
+        console.log(idEspQuirurgica);
         $.ajax({
             url: '/formulario/obtenerUnidadesFuncionales',
             method: 'GET',
@@ -488,7 +490,7 @@ $(document).ready(function() {
         var idCodigo = $(this).data('id');
         console.log(idCodigo);
         $('#filtroCodigo').val(nombreCodigo);
-        $('#codigoSeleccionado').val(idCodigo);
+        $('#codigosSeleccionado').val(idCodigo);
         $('#opcionesCodigo').empty();
     });
 

@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS `paciente` (
   `fechaNacimiento` date NOT NULL,
   `sexo` varchar(45) NOT NULL,
     `idTipo` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
     FOREIGN KEY (`idTipo`) REFERENCES `tipoPaciente`(`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE IF NOT EXISTS `tipoPaciente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -31,9 +31,8 @@ CREATE TABLE Persona (
                          contrasenia VARCHAR(255),
                          usuario VARCHAR(100),
                          rol VARCHAR(50),
-                         logged BOOLEAN
-                     PRIMARY KEY (`id`)
-    FOREIGN KEY (`idEspecialidad`) REFERENCES `especialidad`(`id`)
+                         logged BOOLEAN,
+    FOREIGN KEY (`idEspecialidad`) REFERENCES `especialidad`(`id`),
     FOREIGN KEY (`idEspQuirurgica`) REFERENCES `especialidadQuirurgica`(`id`)
 
 );
@@ -51,18 +50,18 @@ CREATE TABLE IF NOT EXISTS `especialidadQuirurgica` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
-cREATE TABLE NombreCirugia (
-    id INT PRIMARY KEY,
-    nombre VARCHAR(100),
-    idEspQuirurgica INT,
-    idSitioAnatomico INT,
-    idUnidadFuncional INT,
-    FOREIGN KEY (idEspQuirurgica) REFERENCES EspecialidadQuirurgica(idEspQuirurgica),
-    FOREIGN KEY (idSitioAnatomico) REFERENCES SitioAnatomico(idSitioAnatomico),
-    FOREIGN KEY (idUnidadFuncional) REFERENCES UnidadFuncional(idUnidadFuncional)
-);
+cREATE TABLE `NombreCirugia` (
+                                 `id` INT PRIMARY KEY,
+                                 `nombre` VARCHAR(100),
+                                 `idEspQuirurgica` INT,
+                                 `idSitioAnatomico` INT,
+                                 `idUnidadFuncional` INT,
+                                 FOREIGN KEY (`idEspQuirurgica`) REFERENCES EspecialidadQuirurgica(`id`),
+                                 FOREIGN KEY (`idSitioAnatomico`) REFERENCES SitioAnatomico(`id`),
+                                 FOREIGN KEY (`idUnidadFuncional`) REFERENCES UnidadFuncional(`id`)
+                             );
 
-CREATE TABLE IF NOT EXISTS `sitioAnatomico` (
+                             CREATE TABLE IF NOT EXISTS `sitioAnatomico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
     idEspQuirurgica int(11) NOT NULL,
@@ -73,106 +72,106 @@ CREATE TABLE IF NOT EXISTS `sitioAnatomico` (
 CREATE TABLE IF NOT EXISTS `unidadFuncional` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+    idEspQuirurgica int(11) NOT NULL,
+
+  PRIMARY KEY (`id`),
+    FOREIGN KEY (idEspQuirurgica) references especialidadQuirurgica(id)
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS 'tipoDeAnestesia'
-(
-    id INT PRIMARY KEY AUTO_INCREMENT ,
-    nombre VARCHAR(100)
+CREATE TABLE IF NOT EXISTS `tipoDeAnestesia` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT ,
+    `nombre` varchar(100)
 );
 
-CREATE TABLE IF NOT EXISTS 'tipoDeCirugia'
+CREATE TABLE IF NOT EXISTS `tipoDeCirugia`
 (
-    id INT PRIMARY KEY  AUTO_INCREMENT,
-    nombre VARCHAR(100)
+    `id` INT PRIMARY KEY  AUTO_INCREMENT,
+    `nombre` VARCHAR(100)
 );
 
-CREATE TABLE IF NOT EXISTS 'diagnostico'
+CREATE TABLE IF NOT EXISTS `diagnostico`
 (
-    id INT PRIMARY KEY  AUTO_INCREMENT ,
-    nombre VARCHAR(100)
+    `id` INT PRIMARY KEY  AUTO_INCREMENT ,
+    `nombre` VARCHAR(100)
 );
 
-create table if not exists 'cajaQuirurgica'
+create table if not exists `cajaQuirurgica`
 (
-    id INT PRIMARY KEY  AUTO_INCREMENT,
-    nombre VARCHAR(100),
+    `id` INT PRIMARY KEY  AUTO_INCREMENT,
+    ` nombre` VARCHAR(100)
 
 );
 
-create table if not exists 'codigoPractica'
+create table if not exists `codigoPractica`
 (
-    id int primary key AUTO_INCREMENT,
-    nombre VARCHAR(100)
+    `id` int primary key AUTO_INCREMENT,
+    `nombre` VARCHAR(100)
 
-)
+);
 
-//tengo una relacion n a n con codigo de practica
 
-create table if not exists 'codigoPracticaCirugia'
+
+create table if not exists `codigoPracticaCirugia`
     (
-        idCodigoPractica INT,
-        idCirugia INT,
-        PRIMARY KEY (idCodigo)
-        FOREIGN KEY (idCodigoPractica) REFERENCES codigoPractica(id)
-        FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
+        `idCodigoPractica` INT,
+        `idCirugia` INT,
+        PRIMARY KEY (`idCodigoPractica`),
+        FOREIGN KEY (`idCodigoPractica`) REFERENCES codigoPractica(`id`),
+        FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`)
 
-    )
+    );
 
-CREATE TABLE IF NOT EXISTS 'materialProtesico'
+CREATE TABLE IF NOT EXISTS `materialProtesico`
 (
-    id INT PRIMARY KEY  AUTO_INCREMENT,
-    nombre VARCHAR(100)
+    `id` INT PRIMARY KEY  AUTO_INCREMENT,
+    `nombre` VARCHAR(100)
 
 );
 
-//tengo una relacion n a n con cirugia
 
-
-create table if not exists 'materialProtesicoCirugia'
+create table if not exists `materialProtesicoCirugia`
     (
-        idMaterialProtesico INT,
-        idCirugia INT,
-        PRIMARY KEY (idMaterialProtesico)
-        FOREIGN KEY (idMaterialProtesico) REFERENCES materialProtesico(id)
-        FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
+        `idMaterialProtesico` INT,
+        `idCirugia` INT,
+        PRIMARY KEY (`idMaterialProtesico`),
+        FOREIGN KEY (`idMaterialProtesico`) REFERENCES materialProtesico(`id`),
+        FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`)
 
-    )
+    );
 
-create table if not exists 'lugar'
+create table if not exists `lugar`
 (
-    id INT PRIMARY KEY  AUTO_INCREMENT,
-    nombre VARCHAR(100)
+    `id` INT PRIMARY KEY  AUTO_INCREMENT,
+    `nombre` VARCHAR(100)
 
 );
 
-create table if not exists 'tipoLugar'
+create table if not exists `tipoLugar`
 (
-    id INT PRIMARY KEY  AUTO_INCREMENT,
-    nombre VARCHAR(100)
+    `id` INT PRIMARY KEY  AUTO_INCREMENT,
+    `nombre` VARCHAR(100)
 
 );
 
-//tengo una relacion n a n con cirugia
 
-create table if not exists 'lugarCirugia'
+create table if not exists `lugarCirugia`
     (
-        idLugar INT,
-        idCirugia INT,
-        idTipoLugar INT,
-        PRIMARY KEY (idLugar)
-        FOREIGN KEY (idLugar) REFERENCES lugar(id)
-        FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
-        FOREIGN KEY (idTipoLugar) REFERENCES tipoLugar(id)
+        `idLugar` INT,
+        `idCirugia` INT,
+        `idTipoLugar` INT,
+        PRIMARY KEY (`idLugar`),
+        FOREIGN KEY (`idLugar`) REFERENCES lugar(`id`),
+        FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`),
+        FOREIGN KEY (`idTipoLugar`) REFERENCES tipoLugar(`id`)
 
-    )
+    );
 
 
-create table if not exists 'cirugia'
+create table if not exists `cirugia`
 (
 
-    id int primary key AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     observacion VARCHAR(100),
     horaInicio TIME,
     horaFin TIME,
@@ -195,42 +194,42 @@ create table if not exists 'cirugia'
     FOREIGN KEY (idUnidadFuncional) REFERENCES unidadFuncional(id)
 
 
-)
+);
 
-create table if not exists 'rolCirugia'
+create table if not exists `rolCirugia`
 (
     id int primary key AUTO_INCREMENT,
     nombre VARCHAR(100)
-)
+);
 
-create table if not exists 'cirugiaPersona'
+create table if not exists `cirugiaPersona`
 (
     idCirugia INT,
     idPersona INT,
     idRolCirugia INT,
-    PRIMARY KEY (idCirugia)
-    FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
-    FOREIGN KEY (idPersona) REFERENCES persona(id)
+    PRIMARY KEY (idCirugia),
+    FOREIGN KEY (idCirugia) REFERENCES cirugia(id),
+    FOREIGN KEY (idPersona) REFERENCES persona(id),
     FOREIGN KEY (idRolCirugia) REFERENCES rolCirugia(id)
-)
+);
 
-CREATE TABLE if not exists 'tecnologia'
+CREATE TABLE if not exists `tecnologia`
 (
     id INT PRIMARY KEY  AUTO_INCREMENT,
     nombre VARCHAR(100)
 );
 
-//tengo una relacion n a n con cirugia
 
-create table if not exists 'tecnologiaCirugia'
+
+create table if not exists `tecnologiaCirugia`
     (
         idTecnologia INT,
         idCirugia INT,
-        PRIMARY KEY (idTecnologia)
-        FOREIGN KEY (idTecnologia) REFERENCES tecnologia(id)
+        PRIMARY KEY (idTecnologia),
+        FOREIGN KEY (idTecnologia) REFERENCES tecnologia(id),
         FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
 
-    )
+    );
 
 
-)
+

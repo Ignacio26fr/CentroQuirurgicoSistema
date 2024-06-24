@@ -2,7 +2,7 @@
 
     <h1>Formulario Quirúrgico</h1>
     <a href="/homeUsuario" class="btn btn-warning">Volver</a>
-    <div action="/quirurgico/guardarDatos" method="post">
+    <form action="/formulario/insertarDatos" method="post" enctype="multipart/form-data">
         {{#data}}
             <input type="hidden" name="paciente" value="{{paciente}}">
 
@@ -12,7 +12,7 @@
                 <div id="opcionesPrimario" class="opciones-primario">
                     <!-- Aquí se mostrarán las opciones -->
                 </div>
-                <input type="hidden" id="primarioSeleccionado" name="primario" value="">
+                <input type="hidden" id="primarioSeleccionado" name="primario">
             </div>
 
             <div class="form-group">
@@ -21,7 +21,7 @@
                 <div id="opcionesSecundario" class="opciones-secundario">
                     <!-- Aquí se mostrarán las opciones -->
                 </div>
-                <input type="hidden" id="secundarioSeleccionado" name="secundario" value="">
+                <input type="hidden" id="secundarioSeleccionado" name="secundario">
             </div>
 
 
@@ -41,10 +41,10 @@
 
             <div class="form-group">
                 <label for="espQuirurgica">Especialidad quirúrgica</label>
-                <select class="form-control" id="espQuirurgica" name="espQuirurgica.idEspQuirurgica" required>
+                <select class="form-control" id="espQuirurgica" name="espQuirurgica" required>
                     <option value="0">Seleccionar</option>
                     {{#espquirurgica}}
-                        <option value="{{idEspQuirurgica}}">{{nombre}}</option>
+                        <option value="{{id}}">{{nombre}}</option>
                     {{/espquirurgica}}
                 </select>
             </div>
@@ -53,15 +53,15 @@
                 <select class="form-control" id="unidadFuncional" name="idUnidadFuncional" required>
                     <option value="0">Seleccionar</option>
                 </select>
-                <input type="hidden" id="idUnidadFuncionalSeleccionada" name="idUnidadFuncionalSeleccionada" value="">
+                <input type="hidden" id="idUnidadFuncionalSeleccionada" name="idUnidadFuncionalSeleccionada" >
             </div>
 
             <div class="mb-3">
                 <label for="sitioAnatomico">Sitio Anatomico</label>
-                <select class="form-control" id="sitioAnatomico" name="sitioAnatomico.idSitioAnatomico" required>
+                <select class="form-control" id="sitioAnatomico" name="idSitioAnatomico" required>
                     <option value="0">Seleccionar</option>
                 </select>
-                    <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="">
+                    <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="idSitioAnatomicoSeleccionada">
 
             </div>
             <div class="mb-3">
@@ -69,7 +69,7 @@
                 <select class="form-control" id="actoQuirurgicoPrincipal" name="actoQuirurgicoPrincipal" required>
                     <option value="0">Seleccionar</option>
                 </select>
-                <input type="hidden" id="idActoQuirurgicoPrincipalSeleccionado" name="idActoQuirurgicoPrincipalSeleccionado" value="">
+                <input type="hidden" id="idActoQuirurgicoPrincipalSeleccionado" name="idActoQuirurgicoPrincipalSeleccionado" >
             </div>
 
 
@@ -94,14 +94,14 @@
                 <label for="ayudante1">Primer ayudante</label>
                 <input type="text" id="filtroPrimer" class="form-control" placeholder="Escribe y te van apareciendo opciones">
                 <div id="opcionesPrimer" class="opcion-primer"></div>
-                <input type="hidden" id="primerSeleccionado" name="primerSeleccionado" >
+                <input type="hidden" id="primerSeleccionado" name="primerSeleccionado">
             </div>
 
             <div class="form-group">
                 <label for="ayudante2">Segundo ayudante</label>
                 <input type="text" id="filtroSegundo" class="form-control" placeholder="Escribe y te van apareciendo opciones">
                 <div id="opcionesSegundo" class="opcion-segundo"></div>
-                <input type="hidden" id="segundoSeleccionado" name="segundoSeleccionado" >
+                <input type="hidden" id="segundoSeleccionado" name="segundoSeleccionado">
 
                 </select>
             </div>
@@ -110,14 +110,14 @@
                 <label for="anestesista">Anestesista</label>
                 <input type="text" id="filtroAnestesista" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
                 <div id="opcionesAnestesista" class="opcion-anestesista"></div>
-                <input type="hidden" id="anestesistaSeleccionado" name="anestesistaSeleccionado" >
+                <input type="hidden" id="anestesistaSeleccionado" name="anestesistaSeleccionado">
             </div>
 
             <div class="form-group">
             <label for="neonatologo">Neonatólogo</label>
             <input type="text" id="filtroNeo" class="form-control" placeholder="Escribe y te van apareciendo opciones">
             <div id="opcionesNeo" class="opcion-neo"></div>
-            <input type="hidden" id="neoSeleccionado" name="neoSeleccionado" >
+            <input type="hidden" id="neoSeleccionado" name="neoSeleccionado">
         </div>
 
             <div class="form-group">
@@ -145,10 +145,10 @@
 
             <div class="form-group">
                 <label for="anestesia">Tipo de Anestesia</label>
-                <select class="form-control" name="tipoDeAnestesia.idTipoDeAnestesia" id="anestesia" required>
+                <select class="form-control" name="idTipoDeAnestesia" id="anestesia" required>
                     <option value="">Seleccionar</option>
                     {{#tipoAnestesia}}
-                        <option value="{{idTipoDeAnestesia}}">{{nombre}}</option>
+                        <option value="{{id}}">{{nombre}}</option>
                     {{/tipoAnestesia}}
                 </select>
             </div>
@@ -179,16 +179,16 @@
                 <select class="form-control"  id="proviene" name="lugarProviene" required>
                     <option value="0"> Seleccionar</option>
                     {{#lugar}}
-                        <option value="{{idLugar}}">{{nombre}}</option>
+                        <option value="{{id}}">{{nombre}}</option>
                     {{/lugar}}
                 </select>
             </div>
             <div class="form-group">
                 <label for="egreso">Lugar a donde egreso el paciente</label>
-                <select class="form-control" name="egreso" id="egreso"  required>
+                <select class="form-control" name="lugarEgreso" id="lugarEgreso" required>
                     <option value=""> Seleccionar</option>
                     {{#lugar}}
-                        <option value="{{idLugar}}">{{nombre}}</option>
+                        <option value="{{id}}">{{nombre}}</option>
                     {{/lugar}}
                 </select>
             </div>
@@ -196,12 +196,12 @@
                 <label for="caja">Caja quirurgica usada</label>
                 <input type="text" id="filtroCaja" class="form-control" placeholder="Escribe y te van apareciendo opciones">
                 <div id="opcionesCaja" class="opcion-caja"></div>
-                <input type="hidden" id="cajaSeleccionado" name="cajaQuirurgica.idCajaQuirurgica" >
+                <input type="hidden" id="cajaSeleccionado" name="idCajaQuirurgica">
             </div>
 
             <div class="form-group">
                 <label for="nQuirofano">N° quirofano usada</label>
-                <select class="form-control" name="numeroQuirofano" id="numeroQuirofano" required >
+                <select class="form-control" name="numeroQuirofano" id="numeroQuirofano" required>
                     <option value="">Seleccionar</option>
                     <option value="1"> 1</option>
                     <option value="2">2</option>
@@ -255,9 +255,7 @@
                 <label for="codigo">Codigo de práctica anestésica segun AAARBA</label>
                 <input type="text" id="filtroCodigo" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
                 <div id="opcionesCodigo" class="opciones-codigo"></div>
-                <input type="hidden" id="codigosSeleccionadosInput" name="codigosSeleccionadosInput">
-
-                <ul id="codigosSeleccionados"></ul>
+                <input type="hidden" id="codigosSeleccionado" name="codigosSeleccionado">
             </div>
 
             <div class="form-group">
@@ -265,7 +263,7 @@
                 <select class="form-control" name="tipoCirugia" id="tipoCirugia"  required>
                     <option value="">Seleccionar</option>
                     {{#tipoCirugia}}
-                        <option value="{{idTipoCirugia}}">{{nombre}}</option>
+                        <option value="{{id}}">{{nombre}}</option>
                         {{/tipoCirugia}}
 
                 </select>
@@ -275,7 +273,7 @@
 
                 <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
                 <div id="opcionesMaterial" class="opcion-material custom-select-option"></div>
-                <input type="hidden" id="materialSeleccionado" name="materialProtesicoPrimario.idMaterialProtesico" >
+                <input type="hidden" id="materialSeleccionado" name="materialProtesicoPrimario" >
             </div>
 
             <div class="form-group">
@@ -288,7 +286,7 @@
 
                 <div>
                     {{#tecnologiaUsada}}
-                        <input type="checkbox" name="tecnologiasUsadas" class="tecnologiaUsada" value="{{idTecnologiaUsada}}"> {{nombre}}
+                        <input type="checkbox" name="tecnologiasUsadas" class="tecnologiaUsada" value="{{id}}"> {{nombre}}
 
                     {{/tecnologiaUsada}}
                 </div>

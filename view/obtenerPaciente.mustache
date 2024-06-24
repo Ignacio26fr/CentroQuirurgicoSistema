@@ -12,7 +12,7 @@
         <form action="/quirurgico/obtenerPacienteSeleccionado" method="post" enctype="multipart/form-data">
             {{#resultados}}
                 <div class="paciente">
-                    <input type="radio" id="paciente{{idPaciente}}" name="paciente" value="{{idPaciente}}">
+                    <input type="radio" id="paciente{{idPaciente}}" name="paciente" value="{{id}}">
                     <label for="paciente{{idPaciente}}">
                         <span class="icon"></span>
                         <h5>{{dni}} {{nombre}} {{apellido}}</h5>

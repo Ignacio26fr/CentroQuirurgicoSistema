@@ -44,12 +44,13 @@ class QuirurgicoController
 
     public function obtenerPacienteSeleccionado()
     {
-
+        session_start();
         if (isset($_POST['paciente'])) {
             $paciente = $_POST['paciente'];
 
-            //Aca le tengo que pasar el id del paciente a la vista
-            header('Location:/formulario');
+            $_SESSION['paciente'] = $paciente;
+            header('Location: /formulario');
+
 
         }
     }

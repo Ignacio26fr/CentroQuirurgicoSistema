@@ -14,7 +14,8 @@ class QuirurgicoModel
 
     public function getPaciente()
     {
-        return $this->database->query("Select * from paciente");
+        $query = "Select * from paciente";
+        return $this->database->executeAndReturn($query);
 
     }
 
@@ -23,8 +24,9 @@ class QuirurgicoModel
 
         $query = "SELECT * FROM paciente where dni = '$dni'";
 
-        return $this->database->executeAndReturn($query);
-
+        $result = $this->database->executeAndReturn($query);
+        $resulte = $result->fetch_assoc();
+        return $resulte;
     }
 
 
@@ -38,7 +40,7 @@ class QuirurgicoModel
 
     public function obtenerEspecialidadQuirurgica()
     {
-        $query = "SELECT * FROM espquirurgica";
+        $query = "SELECT * FROM especialidadquirurgica";
         return $this->database->executeAndReturn($query);
     }
 
@@ -49,7 +51,7 @@ class QuirurgicoModel
         $diagnosticos = array();
         while ($row = $resultados->fetch_assoc()) {
             $diagnostico = array(
-                'id' => $row['IdDiagnostico'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $diagnosticos[] = $diagnostico;
@@ -65,7 +67,7 @@ class QuirurgicoModel
         $diagnosticos = array();
         while ($row = $resultados->fetch_assoc()) {
             $diagnostico = array(
-                'id' => $row['IdDiagnostico'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $diagnosticos[] = $diagnostico;
@@ -76,13 +78,13 @@ class QuirurgicoModel
 
     public function obtenerUnidadesFuncionales($idEspQuirurgica)
     {
-        $query = "SELECT * FROM unidadFuncional where idEspQuirurgico = $idEspQuirurgica";
+        $query = "SELECT * FROM unidadFuncional where idEspQuirurgica = $idEspQuirurgica";
         $resultados = $this->database->executeAndReturn($query);
 
         $unidadesFuncionales = array();
         while ($row = $resultados->fetch_assoc()) {
             $unidadFuncional = array(
-                'id' => $row['idUnidadFuncional'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $unidadesFuncionales[] = $unidadFuncional;
@@ -99,7 +101,7 @@ class QuirurgicoModel
         $sitiosAnatomicos = array();
         while ($row = $resultados->fetch_assoc()) {
             $sitioAnatomico = array(
-                'id' => $row['idSitioAnatomico'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $sitiosAnatomicos[] = $sitioAnatomico;
@@ -109,13 +111,13 @@ class QuirurgicoModel
 
     public function obtenerActosQuirurgicos($idSitioAnatomico)
     {
-        $query = "SELECT * FROM cirugianombre where idSitioAnatomico = $idSitioAnatomico";
+        $query = "SELECT * FROM nombrecirugia where idSitioAnatomico = $idSitioAnatomico";
         $resultados = $this->database->executeAndReturn($query);
 
         $actosQuirurgicos = array();
         while ($row = $resultados->fetch_assoc()) {
             $actoQuirurgico = array(
-                'id' => $row['idCirugiaNombre'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $actosQuirurgicos[] = $actoQuirurgico;
@@ -131,7 +133,7 @@ class QuirurgicoModel
         $cirujanos = array();
         while ($row = $resultados->fetch_assoc()) {
             $cirujano = array(
-                'id' => $row['idPersona'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre'],
                 'apellido' => $row['apellido'],
                 'matricula' => $row['matricula']
@@ -149,7 +151,7 @@ class QuirurgicoModel
         $anestesistas = array();
         while ($row = $resultados->fetch_assoc()) {
             $anestesista = array(
-                'id' => $row['idPersona'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre'],
                 'apellido' => $row['apellido'],
                 'matricula' => $row['matricula']
@@ -167,7 +169,7 @@ class QuirurgicoModel
         $neonatologos = array();
         while ($row = $resultados->fetch_assoc()) {
             $neonatologo = array(
-                'id' => $row['idPersona'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre'],
                 'apellido' => $row['apellido'],
                 'matricula' => $row['matricula']
@@ -185,7 +187,7 @@ class QuirurgicoModel
         $tecnicos = array();
         while ($row = $resultados->fetch_assoc()) {
             $tecnico = array(
-                'id' => $row['idPersona'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre'],
                 'apellido' => $row['apellido'],
                 'matricula' => $row['matricula']
@@ -198,13 +200,32 @@ class QuirurgicoModel
     public function obtenerTipoAnestesia()
     {
         $query = "SELECT * FROM tipodeanestesia";
-        return $this->database->executeAndReturn($query);
+        $result = $this->database->executeAndReturn($query);
+        $tipoAnestesia = array();
+        while($row = $result->fetch_assoc()) {
+            $tipo = array(
+                'id' => $row['id'],
+                'nombre' => $row['nombre']
+            );
+            $tipoAnestesia[] = $tipo;
+        }
+
+        return $tipoAnestesia;
     }
 
     public function obtenerLugar()
     {
         $query = "SELECT * FROM lugar";
-        return $this->database->executeAndReturn($query);
+        $result = $this->database->executeAndReturn($query);
+        $lugares = array();
+        while($row = $result->fetch_assoc()) {
+            $lugar = array(
+                'id' => $row['id'],
+                'nombre' => $row['nombre']
+            );
+            $lugares[] = $lugar;
+        }
+        return $lugares;
     }
 
     public function obtnerCajaQuirurgica($filtro)
@@ -215,7 +236,7 @@ class QuirurgicoModel
         $cajas = array();
         while ($row = $resultado->fetch_assoc()) {
             $caja = array(
-                'id' => $row['idCajaQuirurgica'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $cajas[] = $caja;
@@ -232,7 +253,7 @@ class QuirurgicoModel
         $codigos = array();
         while($row = $resultado->fetch_assoc()) {
             $codigo = array(
-                'id' => $row['idCodigoPractica'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $codigos[] = $codigo;
@@ -243,8 +264,17 @@ class QuirurgicoModel
 
     public function obtenerTipoDeCirugia()
     {
-        $query = "SELECT * FROM tipocirugia";
-        return $this->database->executeAndReturn($query);
+        $query = "SELECT * FROM tipodecirugia";
+        $result = $this->database->executeAndReturn($query);
+        $tiposCirugia = array();
+        while($row = $result->fetch_assoc()) {
+            $tipo = array(
+                'id' => $row['id'],
+                'nombre' => $row['nombre']
+            );
+            $tiposCirugia[] = $tipo;
+        }
+        return $tiposCirugia;
     }
 
     public function obtenerMaterial($filtro)
@@ -255,7 +285,7 @@ class QuirurgicoModel
         $materiales = array();
         while($row = $resultado->fetch_assoc()) {
             $material = array(
-                'id' => $row['idMaterialProtesico'],
+                'id' => $row['id'],
                 'nombre' => $row['nombre']
             );
             $materiales[] = $material;
@@ -266,8 +296,62 @@ class QuirurgicoModel
 
     public function obtenerTecnologiaUsada()
     {
-        $query = "SELECT * FROM tecnologiausada";
-        return $this->database->executeAndReturn($query);
+        $query = "SELECT * FROM tecnologia";
+        $result = $this->database->executeAndReturn($query);
+        $tecnologias = array();
+        while($row = $result->fetch_assoc()) {
+            $tecnologia = array(
+                'id' => $row['id'],
+                'nombre' => $row['nombre']
+            );
+            $tecnologias[] = $tecnologia;
+        }
+        return $tecnologias;
+    }
+
+
+
+    public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional) {
+        $query = "INSERT INTO cirugia (observacion, horaInicio, horaFin, fecha, idNombreCirugia, idTipoDeAnestesia, idTipoDeCirugia, idDiagnostico, idCajaQuirurgica, idPaciente, idSitioAnatomico, idUnidadFuncional) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->database->prepare($query);
+
+        if (!$stmt) {
+            throw new Exception("Error al preparar la consulta: " . $this->database->error);
+        }
+
+        $stmt->bind_param("ssssssssssss", $observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+        }
+
+        $idCirugia = $stmt->insert_id;
+        $stmt->close();
+
+        return $idCirugia;
+    }
+
+
+    public function insertCirugiaPersona($idCirugia, $idPersona, $idRolCirugia)
+    {
+        $query = "INSERT INTO cirugiapersona (idCirugia, idPersona, idRolCirugia) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sss", $idCirugia, $idPersona, $idRolCirugia);
+
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function insertTecnologiaCirugia($idCirugia, $idTecnologia)
+    {
+        $query = "INSERT INTO tecnologiacirugia (idCirugia, idTecnologia) VALUES (?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("ss", $idCirugia, $idTecnologia);
+
+        $stmt->execute();
+        $stmt->close();
     }
 }
 
