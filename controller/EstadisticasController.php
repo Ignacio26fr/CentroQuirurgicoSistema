@@ -20,18 +20,29 @@ class EstadisticasController
 
     public function obtenerDatos()
     {
-        if (isset($_POST['fechaDesde']) && isset($_POST['fechaHasta'])) {
-            $fechaInicio = $_POST['fechaDesde'];
-            $fechaFin = $_POST['fechaHasta'];
 
-            $resultados = $this->model->obtenerCirugias($fechaInicio, $fechaFin);
 
+        if (isset($_GET['fechaDesde']) && isset($_GET['fechaHasta'])) {
+            $fechaInicio = $_GET['fechaDesde'];
+            $fechaFin = $_GET['fechaHasta'];
+
+
+
+            $resultados_por_pagina = 5;
+
+            $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+
+                $inicio = ($pagina - 1) * $resultados_por_pagina;
+        //    $resultados = $this->model->obtenerCirugias($fechaInicio, $fechaFin);
+            $resultados_paginado = $this->model->obtenerCirugiasPaginadas($fechaInicio, $fechaFin, $inicio, $resultados_por_pagina);
+            $total_resultados = $this->model->contarCirugias($fechaInicio, $fechaFin);
+            $total_resultados = $total_resultados[0];
 
 
             $idsCirugias = [];
             $idsPaciente = [];
             $idsUnidadFuncional = [];
-            foreach ($resultados as $cirugia) {
+            foreach ($resultados_paginado as $cirugia) {
                 $idsCirugias[] = $cirugia['id'];
                 $idsPaciente[] = $cirugia['idPaciente'];
                 $idsUnidadFuncional[] = $cirugia['idUnidadFuncional'];
@@ -57,7 +68,7 @@ class EstadisticasController
 
 
             $data = [];
-            foreach ($resultados as $cirugia) {
+            foreach ($resultados_paginado as $cirugia) {
 
                 $idCirugia = $cirugia['id'];
                 $paciente = isset($pacientes[$cirugia['idPaciente']]) ? $pacientes[$cirugia['idPaciente']] : 'N/A';
@@ -75,24 +86,37 @@ class EstadisticasController
                 $data[] = [
                     'id' => $cirugia['id'],
                     'fecha' => $cirugia['fecha'],
-                     'paciente' => $pacienteName,
-                //    'paciente' => $paciente,
-                  'primario' => $diagnosticoPrimario,
+                    'paciente' => $pacienteName,
+                    //    'paciente' => $paciente,
+                    'primario' => $diagnosticoPrimario,
                     'secundario' => $diagnosticoSecundario,
                     'especialidad' => $especialidadName,
-                //    'idNombreCirugia' => $cirugia['idNombreCirugia'],
+                    //    'idNombreCirugia' => $cirugia['idNombreCirugia'],
                     'nombreCirujano' => $cirujano,
                     'anestesista' => $anestesista,
                     'instrumentador' => $instrumentador,
-                   'tecnico' => $tecnico,
+                    'tecnico' => $tecnico,
                     'horaInicio' => $cirugia['horaInicio'],
                     'horaFin' => $cirugia['horaFin'],
+
+
                 ];
             }
 
 
+          $pagina_totales = ceil($total_resultados[0] / $resultados_por_pagina);
+
+
+            $retrocederPagina = $pagina - 1;
+
             $this->presenter->render("view/estadisticas.mustache", [
                 "data" => $data,
+                'paginas_totales' => $pagina_totales,
+                'total_resultados' => $total_resultados,
+                'pagina' => $pagina,
+                'fechaInicio' => $fechaInicio,
+                'fechaFin' => $fechaFin,
+                'retrocederPagina' => $retrocederPagina,
             ]);
         }
 
@@ -169,6 +193,5 @@ class EstadisticasController
 
 }
 
-//  nombre / hisClinica /  /
-// / espQui / actoPrinc /  / anestesista /
-// instrumentador / tecnico /  /  / verDetalle
+
+// verDetalle

@@ -3,7 +3,7 @@
         <a href="/homeUsaurio" class="btn btn-warning">Volver</a>
     </div>
     <h2>Lista de Cirugías</h2>
-    <form id="filtroForm" method="POST" action="/estadisticas/obtenerDatos" enctype="multipart/form-data">
+    <form id="filtroForm" method="GET" action="/estadisticas/obtenerDatos" enctype="multipart/form-data">
         <div class="form-group">
             <label for="fechaDesde">Fecha Desde:</label>
             <input type="date" class="form-control" id="fechaDesde" name="fechaDesde">
@@ -57,11 +57,14 @@
             <td>{{horaFin}}</td>
             <td>Acciones</td>
         </tr>
-    {{/data}}
+
     </tbody>
+    {{/data}}
+        </table>
 
 
-    </table>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -150,4 +153,5 @@
         XLSX.writeFile(wb, "cirugias.xlsx");
 
     });
+
 </script>

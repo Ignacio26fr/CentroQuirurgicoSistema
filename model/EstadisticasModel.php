@@ -13,7 +13,7 @@ class EstadisticasModel
 
     public function obtenerCirugias($fechaInicio, $fechaFin)
     {
-        $query = "SELECT * FROM cirugia WHERE fecha BETWEEN ? AND ?";
+        $query = "SELECT * FROM cirugia WHERE fecha BETWEEN ? AND ? ";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('ss', $fechaInicio, $fechaFin);
@@ -31,6 +31,25 @@ class EstadisticasModel
         return $cirugias;
 
     }
+    public function obtenerCirugiasPaginadas($fechaInicio, $fechaFin, $inicio, $paginas )
+    {
+        $query = "SELECT * FROM cirugia WHERE fecha BETWEEN ? AND ? LIMIT ?, ?";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('ssii', $fechaInicio, $fechaFin, $inicio, $paginas);
+        $stmt->execute();
+
+        $result =  $stmt->get_result();
+
+        $cirugias = $result->fetch_all(MYSQLI_ASSOC);
+        foreach($cirugias as $cirugia) {
+            $cirugia['paciente'] = $this->obtenerNombreYApellidoDelPaciente($cirugia['idPaciente']);
+        }
+
+        return $cirugias;
+
+    }
+
 
     public function obtenerProfesionalCirujano($idCirugia)
     {
@@ -59,6 +78,17 @@ class EstadisticasModel
         }
 
         $stmt->close();
+    }
+
+    public function contarCirugias($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT COUNT(*) FROM cirugia where fecha BETWEEN ? AND ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('ss', $fechaInicio, $fechaFin);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all();
+        $total = $result;
+        return $total;
     }
 
     public function obtenerProfesionalAnestesista($idCirugia)
