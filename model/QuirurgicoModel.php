@@ -353,6 +353,36 @@ class QuirurgicoModel
         $stmt->execute();
         $stmt->close();
     }
+
+    public function insertCodigoCirugia($idCirugia, $idCodigo)
+    {
+        $query = "INSERT INTO codigopracticacirugia (idCirugia, idCodigoPractica) VALUES (?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("ss", $idCirugia, $idCodigo);
+
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function insertLugarCirugia($idCirugia, $idLugar, $idTipoLugar)
+    {
+        $query = "INSERT INTO cirugialugar (idCirugia, idLugar, idTipoLugar) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sss", $idCirugia, $idLugar, $idTipoLugar);
+
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function insertDiagnosticoCirugia($idCirugia, $idDiagnostico, $tipo)
+    {
+        $query = "INSERT INTO diagnosticoCirugia (idCirugia, idDiagnostico, tipo) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sss", $idCirugia, $idDiagnostico, $tipo);
+
+        $stmt->execute();
+        $stmt->close();
+    }
 }
 
 

@@ -1,0 +1,153 @@
+<div class="container">
+    <div>
+        <a href="/homeUsaurio" class="btn btn-warning">Volver</a>
+    </div>
+    <h2>Lista de Cirugías</h2>
+    <form id="filtroForm" method="POST" action="/estadisticas/obtenerDatos" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="fechaDesde">Fecha Desde:</label>
+            <input type="date" class="form-control" id="fechaDesde" name="fechaDesde">
+        </div>
+        <div class="form-group">
+            <label for="fechaHasta">Fecha Hasta:</label>
+            <input type="date" class="form-control" id="fechaHasta" name="fechaHasta">
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <button type="button" class="btn btn-success" id="btnDescargarExcel">Descargar Excel</button>
+    </form>
+</div>
+<table class="table mt-3">
+    <thead>
+    <tr>
+
+        <th>ID Quirúrgico</th>
+        <th>Fecha Cirugia</th>
+        <th><input type="text" class="form-control" id="filtroApellidoNombre" name="filtroApellidoNombre" placeholder="Filtrar por Apellido y Nombre"></th>
+        <th><input type="text" class="form-control" id="filtroHistoriaClinica" name="filtroHistoriaClinica" placeholder="Filtrar por Número de Historia Clínica"></th>
+        <th><input type="text" class="form-control" id="filtroPrimario" name="filtroPrimario" placeholder="Filtrar por Diagnóstico primario"></th>
+        <th><input type="text" class="form-control" id="filtroSecundario" name="filtroSecundario" placeholder="Filtrar por Diagnóstico secundario"></th>
+        <th><input type="text" class="form-control" id="filtroEsp" name="filtroEsp" placeholder="Filtrar por Especialidad quirúrgica"></th>
+        <th><input type="text" class="form-control" id="filtroActoQuirurgico" name="filtroActoQuirurgico" placeholder="Filtrar por Acto quirúrgico principal"></th>
+        <th><input type="text" class="form-control" id="filtroCirujano" name="filtroCirujano" placeholder="Filtrar por Cirujano"></th>
+        <th><input type="text" class="form-control" id="filtroAnestesista" name="filtroAnestesista" placeholder="Filtrar por Anestesista"></th>
+        <th><input type="text" class="form-control" id="filtroInstrumentador" name="filtroInstrumentador" placeholder="Filtrar por Instrumentador quirúrgico"></th>
+
+
+    </tr>
+    </thead>
+
+
+
+    <tbody>
+    {{#data}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{fecha}}</td>
+            <td>{{paciente}}</td>
+            <td></td>
+            <td>{{primario}}</td>
+            <td>{{secundario}}</td>
+            <td>{{especialidad}}</td>
+            <td></td>
+            <td>{{nombreCirujano}}</td>
+            <td>{{anestesista}}</td>
+            <td>{{instrumentador}}</td>
+            <td>{{tecnico}}</td>
+            <td>{{horaInicio}}</td>
+            <td>{{horaFin}}</td>
+            <td>Acciones</td>
+        </tr>
+    {{/data}}
+    </tbody>
+
+
+    </table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Función para manejar la búsqueda dinámica
+        function filtrarTabla() {
+            var inputApellidoNombre = $('#filtroApellidoNombre').val().toLowerCase();
+            var inputHistoriaClinica = $('#filtroHistoriaClinica').val().toLowerCase();
+            var inputPrimario = $('#filtroPrimario').val().toLowerCase();
+            var inputSecundario = $('#filtroSecundario').val().toLowerCase();
+            var inputEsp = $('#filtroEsp').val().toLowerCase();
+            var inputActoQuirurgico = $('#filtroActoQuirurgico').val().toLowerCase();
+            var inputCirujano = $('#filtroCirujano').val().toLowerCase();
+            var inputAnestesista = $('#filtroAnestesista').val().toLowerCase();
+            var inputInstrumentador = $('#filtroInstrumentador').val().toLowerCase();
+
+
+            $('tbody tr').each(function() {
+                var mostrar = true;
+                var tr = $(this);
+
+                if (inputApellidoNombre && !tr.find('td:nth-child(3)').text().toLowerCase().includes(inputApellidoNombre)) {
+                    mostrar = false;
+                }
+
+                if (inputHistoriaClinica && !tr.find('td:nth-child(4)').text().toLowerCase().includes(inputHistoriaClinica)) {
+                    mostrar = false;
+                }
+                if (inputPrimario && !tr.find('td:nth-child(5)').text().toLowerCase().includes(inputPrimario)) {
+                    mostrar = false;
+                }
+                if (inputSecundario && !tr.find('td:nth-child(6)').text().toLowerCase().includes(inputSecundario)) {
+                    mostrar = false;
+                }
+                if (inputEsp && !tr.find('td:nth-child(7)').text().toLowerCase().includes(inputEsp)) {
+                    mostrar = false;
+                }
+                if (inputActoQuirurgico && !tr.find('td:nth-child(8)').text().toLowerCase().includes(inputActoQuirurgico)) {
+                    mostrar = false;
+                }
+                if (inputCirujano && !tr.find('td:nth-child(9)').text().toLowerCase().includes(inputCirujano)) {
+                    mostrar = false;
+                }
+                if (inputAnestesista && !tr.find('td:nth-child(10)').text().toLowerCase().includes(inputAnestesista)) {
+                    mostrar = false;
+                }
+                if (inputInstrumentador && !tr.find('td:nth-child(11)').text().toLowerCase().includes(inputInstrumentador)) {
+                    mostrar = false;
+                }
+                if (mostrar) {
+                    tr.show();
+                } else {
+                    tr.hide();
+                }
+            });
+        }
+
+        // Evento para manejar cambios en los campos de búsqueda
+        $('#filtroApellidoNombre, #filtroHistoriaClinica, #filtroPrimario, #filtroSecundario, #filtroEsp, #filtroActoQuirurgico, #filtroCirujano, #filtroAnestesista, #filtroInstrumentador').on('input', function() {
+            filtrarTabla();
+        });
+    });
+    $('#btnDescargarExcel').on('click', function() {
+        var data = [];
+        $('tbody tr:visible').each(function() {
+            var row = [];
+            $(this).find('td').each(function() {
+                row.push($(this).text());
+            });
+            data.push(row);
+        });
+
+        var fechaActual = new Date().toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).replace(/\//g, '-');
+
+        var nombreArchivo = 'cirugias_' + fechaActual + '.xlsx';
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "nombreArchivo");
+
+
+
+        XLSX.writeFile(wb, "cirugias.xlsx");
+
+    });
+</script>

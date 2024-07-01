@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `tipoPaciente` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE Persona (
+CREATE TABLE if not exists Persona (
       id INT PRIMARY KEY,
          apellido VARCHAR(100),
         habilitado BOOLEAN,
@@ -114,9 +114,10 @@ create table if not exists `codigoPractica`
 
 create table if not exists `codigoPracticaCirugia`
     (
+        id INT PRIMARY KEY AUTO_INCREMENT,
         `idCodigoPractica` INT,
         `idCirugia` INT,
-        PRIMARY KEY (`idCodigoPractica`),
+
         FOREIGN KEY (`idCodigoPractica`) REFERENCES codigoPractica(`id`),
         FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`)
 
@@ -132,9 +133,10 @@ CREATE TABLE IF NOT EXISTS `materialProtesico`
 
 create table if not exists `materialProtesicoCirugia`
     (
+        id INT PRIMARY KEY AUTO_INCREMENT,
         `idMaterialProtesico` INT,
         `idCirugia` INT,
-        PRIMARY KEY (`idMaterialProtesico`),
+
         FOREIGN KEY (`idMaterialProtesico`) REFERENCES materialProtesico(`id`),
         FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`)
 
@@ -157,10 +159,11 @@ create table if not exists `tipoLugar`
 
 create table if not exists `lugarCirugia`
     (
+        id INT PRIMARY KEY AUTO_INCREMENT,
         `idLugar` INT,
         `idCirugia` INT,
         `idTipoLugar` INT,
-        PRIMARY KEY (`idLugar`),
+
         FOREIGN KEY (`idLugar`) REFERENCES lugar(`id`),
         FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`),
         FOREIGN KEY (`idTipoLugar`) REFERENCES tipoLugar(`id`)
@@ -204,10 +207,11 @@ create table if not exists `rolCirugia`
 
 create table if not exists `cirugiaPersona`
 (
+    id int not null primary key AUTO_INCREMENT,
     idCirugia INT,
     idPersona INT,
     idRolCirugia INT,
-    PRIMARY KEY (idCirugia),
+
     FOREIGN KEY (idCirugia) REFERENCES cirugia(id),
     FOREIGN KEY (idPersona) REFERENCES persona(id),
     FOREIGN KEY (idRolCirugia) REFERENCES rolCirugia(id)
@@ -223,13 +227,33 @@ CREATE TABLE if not exists `tecnologia`
 
 create table if not exists `tecnologiaCirugia`
     (
+        id int not null primary key AUTO_INCREMENT,
         idTecnologia INT,
         idCirugia INT,
-        PRIMARY KEY (idTecnologia),
         FOREIGN KEY (idTecnologia) REFERENCES tecnologia(id),
         FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
 
     );
 
+create table if not exists `cirugiaLugar`
+(
+    id int not null primary key AUTO_INCREMENT,
+    idCirugia INT,
+    idLugar INT,
+    idTipoLugar INT,
+    FOREIGN KEY (idCirugia) REFERENCES cirugia(id),
+    FOREIGN KEY (idLugar) REFERENCES lugar(id),
+    FOREIGN KEY (idTipoLugar) REFERENCES tipoLugar(id)
+);
+
+create table if not exists `diagnosticoCirugia`
+(
+    id int not null primary key AUTO_INCREMENT,
+    idDiagnostico INT,
+    idCirugia INT,
+    tipo VARCHAR(100),
+    FOREIGN KEY (idDiagnostico) REFERENCES diagnostico(id),
+    FOREIGN KEY (idCirugia) REFERENCES cirugia(id)
+)
 
 

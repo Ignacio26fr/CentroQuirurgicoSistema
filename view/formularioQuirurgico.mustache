@@ -5,12 +5,15 @@
     <form action="/formulario/insertarDatos" method="post" enctype="multipart/form-data">
         {{#data}}
             <input type="hidden" name="paciente" value="{{paciente}}">
-
+            <div class="form-group">
+                <label for="fechaCirugia">Fecha de Cirugía:</label>
+                <input type="date" class="form-control" id="fechaCirugia" name="fechaCirugia" required>
+            </div>
             <div class="form-group">
                 <label for="diagnostico">Diagnóstico Primario</label>
                 <input type="text" id="filtroPrimario" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                 <div id="opcionesPrimario" class="opciones-primario">
-                    <!-- Aquí se mostrarán las opciones -->
+
                 </div>
                 <input type="hidden" id="primarioSeleccionado" name="primario">
             </div>
@@ -19,7 +22,7 @@
                 <label for="diagnostico">Diagnóstico Secundario</label>
                 <input type="text" id="filtroSecundario" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                 <div id="opcionesSecundario" class="opciones-secundario">
-                    <!-- Aquí se mostrarán las opciones -->
+
                 </div>
                 <input type="hidden" id="secundarioSeleccionado" name="secundario">
             </div>
@@ -286,7 +289,7 @@
 
                 <div>
                     {{#tecnologiaUsada}}
-                        <input type="checkbox" name="tecnologiasUsadas" class="tecnologiaUsada" value="{{id}}"> {{nombre}}
+                        <input type="checkbox" name="tecnologiasUsadas[]" class="tecnologiaUsada" value="{{id}}"> {{nombre}}
 
                     {{/tecnologiaUsada}}
                 </div>

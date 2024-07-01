@@ -4,10 +4,12 @@ include_once("controller/HomeUsuarioController.php");
 include_once("controller/LoginController.php");
 include_once ("controller/QuirurgicoController.php");
 include_once("controller/FormularioController.php");
+include_once ("controller/EstadisticasController.php");
 
 include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
 include_once ("model/QuirurgicoModel.php");
+include_once("model/EstadisticasModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
@@ -48,6 +50,11 @@ public static function getFormularioController()
     return new FormularioController(self::getQuirurgicoModel(), self::getPresenter());
 }
 
+public static function getEstadisticasController()
+{
+    return new EstadisticasController(self::getEstadisticasModel(), self::getPresenter());
+}
+
 //Models
 
 private static function getLoginModel()
@@ -63,6 +70,11 @@ private static function getHomeUsuarioModel()
 private static function getQuirurgicoModel()
 {
     return new QuirurgicoModel(self::getDatabase());
+}
+
+private static function getEstadisticasModel()
+{
+    return new EstadisticasModel(self::getDatabase());
 }
 
 //helper
