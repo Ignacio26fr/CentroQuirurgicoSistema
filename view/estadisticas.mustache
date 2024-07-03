@@ -22,16 +22,20 @@
 
         <th>ID Quirúrgico</th>
         <th>Fecha Cirugia</th>
-        <th><input type="text" class="form-control" id="filtroApellidoNombre" name="filtroApellidoNombre" placeholder="Filtrar por Apellido y Nombre"></th>
-        <th><input type="text" class="form-control" id="filtroHistoriaClinica" name="filtroHistoriaClinica" placeholder="Filtrar por Número de Historia Clínica"></th>
-        <th><input type="text" class="form-control" id="filtroPrimario" name="filtroPrimario" placeholder="Filtrar por Diagnóstico primario"></th>
-        <th><input type="text" class="form-control" id="filtroSecundario" name="filtroSecundario" placeholder="Filtrar por Diagnóstico secundario"></th>
-        <th><input type="text" class="form-control" id="filtroEsp" name="filtroEsp" placeholder="Filtrar por Especialidad quirúrgica"></th>
-        <th><input type="text" class="form-control" id="filtroActoQuirurgico" name="filtroActoQuirurgico" placeholder="Filtrar por Acto quirúrgico principal"></th>
-        <th><input type="text" class="form-control" id="filtroCirujano" name="filtroCirujano" placeholder="Filtrar por Cirujano"></th>
-        <th><input type="text" class="form-control" id="filtroAnestesista" name="filtroAnestesista" placeholder="Filtrar por Anestesista"></th>
-        <th><input type="text" class="form-control" id="filtroInstrumentador" name="filtroInstrumentador" placeholder="Filtrar por Instrumentador quirúrgico"></th>
-
+        <th><input type="text" class="form-control" id="filtroApellidoNombre" name="filtroApellidoNombre" placeholder="Filtrar por Apellido y Nombre">Apellido y nombre</th>
+        <th><input type="text" class="form-control" id="filtroHistoriaClinica" name="filtroHistoriaClinica" placeholder="Filtrar por Número de Historia Clínica">Dni</th>
+        <th><input type="text" class="form-control" id="filtroPrimario" name="filtroPrimario" placeholder="Filtrar por Diagnóstico primario">Diag primario</th>
+        <th><input type="text" class="form-control" id="filtroSecundario" name="filtroSecundario" placeholder="Filtrar por Diagnóstico secundario">Diag secundario</th>
+        <th><input type="text" class="form-control" id="filtroEsp" name="filtroEsp" placeholder="Filtrar por Especialidad quirúrgica">Esp quirurgico</th>
+        <th><input type="text" class="form-control" id="filtroActoQuirurgico" name="filtroActoQuirurgico" placeholder="Filtrar por Acto quirúrgico principal">Acto principal</th>
+        <th><input type="text" class="form-control" id="filtroCirujano" name="filtroCirujano" placeholder="Filtrar por Cirujano">Cirujano</th>
+        <th><input type="text" class="form-control" id="filtroAnestesista" name="filtroAnestesista" placeholder="Filtrar por Anestesista">Anestesia</th>
+        <th><input type="text" class="form-control" id="filtroInstrumentador" name="filtroInstrumentador" placeholder="Filtrar por Instrumentador quirúrgico">Instrumentador</th>
+        <th>Tecnico</th>
+        <th>Hora inicio</th>
+        <th>Hora fin</th>
+        <th>Accion</th>
+        <th style="display: none">Observacion</th>
 
     </tr>
     </thead>
@@ -48,7 +52,7 @@
             <td>{{primario}}</td>
             <td>{{secundario}}</td>
             <td>{{especialidad}}</td>
-            <td></td>
+            <td>{{nombreCirugia}}</td>
             <td>{{nombreCirujano}}</td>
             <td>{{anestesista}}</td>
             <td>{{instrumentador}}</td>
@@ -56,6 +60,7 @@
             <td>{{horaInicio}}</td>
             <td>{{horaFin}}</td>
             <td>Acciones</td>
+            <td style="display: none">{{observacion}}</td>
         </tr>
 
     </tbody>
@@ -129,6 +134,14 @@
     });
     $('#btnDescargarExcel').on('click', function() {
         var data = [];
+
+        // Obtener los encabezados de las columnas desde la primera fila de la tabla
+        var headers = [];
+        $('thead tr th').each(function() {
+            headers.push($(this).text());
+        });
+        data.push(headers);
+
         $('tbody tr:visible').each(function() {
             var row = [];
             $(this).find('td').each(function() {
@@ -136,6 +149,7 @@
             });
             data.push(row);
         });
+
 
         var fechaActual = new Date().toLocaleDateString('es-ES', {
             year: 'numeric',
@@ -146,12 +160,13 @@
         var nombreArchivo = 'cirugias_' + fechaActual + '.xlsx';
         var wb = XLSX.utils.book_new();
         var ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "nombreArchivo");
+        XLSX.utils.book_append_sheet(wb, ws, "Datos de cirugia");
 
 
 
-        XLSX.writeFile(wb, "cirugias.xlsx");
+        XLSX.writeFile(wb, nombreArchivo);
 
     });
+
 
 </script>

@@ -278,6 +278,65 @@ class EstadisticasModel
         }
 
     }
+     public function obtenerActoPrincipal($idCirugiaNombre)
+     {
+         $query = "SELECT nc.nombre from cirugia c 
+                    inner join nombrecirugia nc on c.idNombreCirugia = nc.id where nc.id = ?";
+         $stmt = $this->database->prepare($query);
+         $stmt->bind_param('i', $idCirugiaNombre);
+         $stmt->execute();
+
+         $result = $stmt->get_result();
+         if ($result->num_rows > 0) {
+             $cirugias = [];
+             while ($row = $result->fetch_assoc()) {
+                 $cirugias[] = $row;
+
+             }
+             return $cirugias;
+         } else {
+             return [];
+         }
+     }
+
+
+
+    public function obtenerTipoCirugia($idTipoCirugia)
+    {
+        $query = "SELECT t.nombre from tipodecirugia t inner join
+                    cirugia c on c.idTipoDeCirugia = t.id where t.id = ? ";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idTipoCirugia);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+
+            }
+            return $cirugias;
+        } else {
+            return [];
+        }
+    }
+
+    public function obtenerTipoDeAnestesia($idTipoDeAnestesia)
+    {
+        $query = "Select t.nombre from tipodeanestesia t inner join 
+                  cirugia c on c.idTipoDeAnestesia = t.id where t.id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idTipoDeAnestesia);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+            }
+            return $cirugias;
+        }
+    }
 
     private function obtenerNombreYApellidoDelProfesional($idProfesional)
     {
@@ -288,7 +347,6 @@ class EstadisticasModel
 
 
     }
-    
 
 
 
