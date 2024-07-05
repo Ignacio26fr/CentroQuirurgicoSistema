@@ -338,6 +338,39 @@ class EstadisticasModel
         }
     }
 
+    public function obtenerSitioAnatomico($idSitioAnatomico)
+    {
+        $query = "Select s.nombre from sitioAnatomico s inner join 
+                  cirugia c on c.idSitioAnatomico = s.id where s.id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idSitioAnatomico);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+            }
+            return $cirugias;
+        }
+    }
+    public function obtenerUnidadFuncional($idUnidadFuncional)
+    {
+        $query = "Select s.nombre from unidadFuncional s inner join 
+                  cirugia c on c.idUnidadFuncional = s.id where s.id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idUnidadFuncional);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+            }
+            return $cirugias;
+        }
+    }
+
     private function obtenerNombreYApellidoDelProfesional($idProfesional)
     {
         $query = "SELECT nombre, apellido FROM persona WHERE id = ?";

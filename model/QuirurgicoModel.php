@@ -311,9 +311,11 @@ class QuirurgicoModel
 
 
 
-    public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional) {
-        $query = "INSERT INTO cirugia (observacion, horaInicio, horaFin, fecha, idNombreCirugia, idTipoDeAnestesia, idTipoDeCirugia, idDiagnostico, idCajaQuirurgica, idPaciente, idSitioAnatomico, idUnidadFuncional) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional, $asa, $conteo, $nroQuirofanoUsado, $radiografiaControl, $hemoterapia, $cultivo, $anatomiaPatologica, $horaIngresoCentroQuirurgico, $horaEgresoCentroQuirurgico, $horaDeNacimiento) {
+
+        $query = "INSERT INTO cirugia (observacion, horaInicio, horaFin, fecha, idNombreCirugia, idTipoDeAnestesia, idTipoDeCirugia, idDiagnostico, idCajaQuirurgica, idPaciente, idSitioAnatomico, idUnidadFuncional, asa, conteo, nroQuirofanoUsado,
+                 radiografiaControl, hemoterapia, cultivo, anatomiaPatologica, horaIngresoCentroQuirurgico, horaEgresoCentroQuirurgico, horaDeNacimiento) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
 
@@ -321,13 +323,35 @@ class QuirurgicoModel
             throw new Exception("Error al preparar la consulta: " . $this->database->error);
         }
 
-        $stmt->bind_param("ssssssssssss", $observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional);
+        // Aquí se realiza el bind de los parámetros
+        $stmt->bind_param("sssssssssssssssssssss",
+            $observacion,
+            $horaInicio,
+            $horaFin,
+            $fecha,
+            $idNombreCirugia,
+            $idTipoDeAnestesia,
+            $idTipoDeCirugia,
+            $idDiagnostico,
+            $idCajaQuirurgica,
+            $idPaciente,
+            $idSitioAnatomico,
+            $idUnidadFuncional,
+            $asa,
+            $conteo,
+            $nroQuirofanoUsado,
+            $radiografiaControl,
+            $hemoterapia,
+            $cultivo,
+            $anatomiaPatologica,
+            $horaIngresoCentroQuirurgico,
+            $horaEgresoCentroQuirurgico,
+            $horaDeNacimiento);
 
         if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         }
-
-        $idCirugia = $stmt->insert_id;
+$idCirugia = $stmt->insert_id;
         $stmt->close();
 
         return $idCirugia;

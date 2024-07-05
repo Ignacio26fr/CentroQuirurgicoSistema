@@ -34,6 +34,8 @@ class EstadisticasController
             $idsCirugiaNombre = [];
             $idsTipoCirugia = [];
             $idsTipoDeAnestesias = [];
+            $idsSitioAnatomico = [];
+            $idsUnidadFuncional = [];
             foreach ($resultados as $cirugia) {
                 $idsCirugias[] = $cirugia['id'];
                 $idsPaciente[] = $cirugia['idPaciente'];
@@ -41,6 +43,8 @@ class EstadisticasController
                 $idsCirugiaNombre[] = $cirugia['idNombreCirugia'];
                 $idsTipoCirugia[] = $cirugia['idTipoDeCirugia'];
                 $idsTipoDeAnestesias[] = $cirugia['idTipoDeAnestesia'];
+                $idsSitioAnatomico[] = $cirugia['idSitioAnatomico'];
+                $idsUnidadFuncional[] = $cirugia['idUnidadFuncional'];
             }
 
             $idsDiagnosticos = [];
@@ -62,6 +66,8 @@ class EstadisticasController
             list($idsCirugiasNombres, $cirugiaNombre) = $this->obtenerNombreCirugia($idsCirugiaNombre);
             list($idsTipoCirugias, $tipoCirugia) = $this->obtenerTipoCirugia($idsTipoCirugia);
             list($idsTiposDeAnestesias, $idTipoAnestesia) = $this->obtenerTipoDeAnestesia($idsTipoDeAnestesias);
+            list($idsSitiosAnatomicos, $idsSitioAnatomico) = $this->obtenerSitioAnatomico($idsSitioAnatomico);
+            list($idsUnidadesFuncionales, $idUnidadFucnal) = $this->obtenerUnidadFuncional($idsUnidadFuncional);
 
 
             $data = [];
@@ -92,7 +98,12 @@ class EstadisticasController
 
                 $tipoDeAnestesia = isset($idsTiposDeAnestesias[$cirugia['idTipoDeAnestesia']]) ? $idsTiposDeAnestesias[$cirugia['idTipoDeAnestesia']] : 'N/A';
                 $tipoDeAnestesiasName = $tipoDeAnestesia['0']['nombre'];
-                
+
+                $sitioAnatomico = isset($idsSitiosAnatomicos[$cirugia['idSitioAnatomico']]) ? $idsSitiosAnatomicos[$cirugia['idSitioAnatomico']] : 'N/A';
+                $sitioAnatomicoName = $sitioAnatomico['0']['nombre'];
+
+                $unidadFuncional = isset($idsUnidadesFuncionales[$cirugia['idUnidadFuncional']]) ? $idsUnidadesFuncionales[$cirugia['idUnidadFuncional']] : 'N/A';
+                $unidadFuncionalName = $unidadFuncional['0']['nombre'];
 
                 $data[] = [
                     'id' => $cirugia['id'],
@@ -109,11 +120,11 @@ class EstadisticasController
                     'horaInicio' => $cirugia['horaInicio'],
                     'horaFin' => $cirugia['horaFin'],
                     'observacion' => $cirugia['observacion'],
-                    'tipoDeAnestesia' => $tipoDeAnestesia,
-                    'tipoDeCirugia' => $tipoCirugiaName
+                    'tipoDeAnestesia' => $tipoDeAnestesiasName,
+                    'tipoDeCirugia' => $tipoCirugiaName,
                     // caja quirurgica
-                    // sitio anatomico
-                    // unidad funcional
+                    'sitioAnatomico' => $sitioAnatomicoName,
+                    'unidadFuncional' => $unidadFuncionalName,
                     //asa
                     // primer ayudante
                     // segundo ayudante
@@ -242,6 +253,26 @@ class EstadisticasController
 
         }
         return array($tipoDeAnestesias, $tipoDeAnestesia);
+    }
+
+    private function obtenerSitioAnatomico(array $idsSitioAnatomicos): array
+    {
+        $sitioAnatomicos = [];
+        foreach ($idsSitioAnatomicos as $idSitioAnatomico) {
+            $sitioAnatomico = $this->model->obtenerSitioAnatomico($idSitioAnatomico);
+            $sitioAnatomicos[$idSitioAnatomico] = $sitioAnatomico;
+        }
+        return array($sitioAnatomicos, $sitioAnatomico);
+    }
+
+    private function obtenerUnidadFuncional(array $idsUnidadFuncional): array
+    {
+        $unidadesFuncionales = [];
+        foreach ($idsUnidadFuncional as $idUnidadFuncional) {
+            $unidadFuncional = $this->model->obtenerUnidadFuncional($idsUnidadFuncional);
+            $unidadesFuncionales[$idUnidadFuncional] = $unidadFuncional;
+        }
+        return array( $unidadesFuncionales, $unidadFuncional);
     }
 
 

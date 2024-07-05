@@ -157,7 +157,7 @@
             day: '2-digit'
         }).replace(/\//g, '-');
 
-        var nombreArchivo = 'cirugias_' + fechaActual + '.xlsx';
+        var nombreArchivo = 'registroDeCirugia_' + fechaActual + '.xlsx';
         var wb = XLSX.utils.book_new();
         var ws = XLSX.utils.aoa_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, "Datos de cirugia");

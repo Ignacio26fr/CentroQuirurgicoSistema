@@ -264,7 +264,12 @@ class FormularioController
             'tecnologiaUsada' => $_POST['tecnologiasUsadas'], // n a n
             'codigo' => $_POST['codigosSeleccionado'], // n a n
             'materialProtesico' => $_POST['materialProtesicoPrimario'], // n a n
-            'observacion' => $_POST['detalle']
+            'observacion' => $_POST['detalle'],
+            'conteo' => $_POST['conteo'],
+            'numeroQuirofano' => $_POST['numeroQuirofano'],
+            'radiograma' => $_POST['radiograma'],
+            'hemoterapia' => $_POST['hemoterapia'],
+            'cultivo' => $_POST['cultivo'],
 
         ];
         return $data;
