@@ -203,38 +203,61 @@ class FormularioController
             $data = $this->obtenerDatosDelPost();
 
 
-            $result = $this->model->insertCirugia($data['observacion'], $data['horaInicio'], $data['horaFin'], $data['fecha'], $data['actoQuirurgico'], $data['tipoAnestesia'], $data['tipoCirugia'], $data['espquirurgica'], $data['cajaQuirurgica'], $data['paciente'], $data['sitioAnatomico'], $data['unidadFuncional']);
+            $result = $this->model->insertCirugia(
+                $data['observacion'],
+                $data['horaInicio'],
+                $data['horaFin'],
+                $data['fecha'],
+                $data['actoQuirurgico'],
+                $data['tipoAnestesia'],
+                $data['tipoCirugia'],
+                $data['espquirurgica'],
+                $data['cajaQuirurgica'],
+                $data['paciente'],
+                $data['sitioAnatomico'],
+                $data['unidadFuncional'],
+                $data['asa'],
+                $data['conteo'],
+                $data['numeroQuirofano'],
+                $data['radiograma'],
+                $data['hemoterapia'],
+                $data['cultivo'],
+                $data['anatomiaPatologica'],
+                $data['horaIngresoAlCentroQuirurgico'],
+                $data['horaEgreso'],
+                $data['horaNac']
+            );
 
             $this->model->insertDiagnosticoCirugia($result, $data['primario'], 'PRIMARIO');
-
             if($data['secundario'] != null) {
                 $this->model->insertDiagnosticoCirugia($result, $data['secundario'], 'SECUNDARIO');
             }
 
-
             $this->model->insertCirugiaPersona($result, $data['cirujano'], 1);
-            $this->model->insertCirugiaPersona($result, $data['primerAyudante'], 2);
-            $this->model->insertCirugiaPersona($result, $data['segundoAyudante'], 3);
+            if($data['primerAyudante'] != null) {
+                $this->model->insertCirugiaPersona($result, $data['primerAyudante'], 2);
+            }
+            if($data['segundoAyudante'] != null) {
+                $this->model->insertCirugiaPersona($result, $data['segundoAyudante'], 3);
+            }
+
             $this->model->insertCirugiaPersona($result, $data['anestesista'], 4);
             $this->model->insertCirugiaPersona($result, $data['neonatologo'], 5);
 
             if(!empty($tecnologiaUsadas)){
-                    foreach($data['tecnologiaUsada'] as $tecnologia){
-                        var_dump($tecnologia);
-                        $this->model->insertCirugiaTecnologia($result, $tecnologia);
-                    }
+                foreach($data['tecnologiaUsada'] as $tecnologia){
+                    var_dump($tecnologia); // Debug: verifica el valor
+                    $this->model->insertCirugiaTecnologia($result, $tecnologia);
                 }
+            }
 
-                $this->model->insertCodigoCirugia($result, $data['codigo']);
-                $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
+            $this->model->insertCodigoCirugia($result, $data['codigo']);
+            $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
+            $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
 
-
-                $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
-
-             header('Location: /quirurgico');
+            header('Location: /quirurgico');
         }
     }
-
 
     private function obtenerDatosDelPost(): array
     {
@@ -243,7 +266,7 @@ class FormularioController
             'fecha' => $_POST['fechaCirugia'],
             'primario' => $_POST['primario'],
             'secundario' => $_POST['secundario'],
-            'asa' => $_POST['asa'], //este va con cirugia
+            'asa' => $_POST['asa'], // este va con cirugia
             'espquirurgica' => $_POST['espQuirurgica'],
             'unidadFuncional' => $_POST['idUnidadFuncionalSeleccionada'],
             'sitioAnatomico' => $_POST['idSitioAnatomicoSeleccionada'],
@@ -270,13 +293,11 @@ class FormularioController
             'radiograma' => $_POST['radiograma'],
             'hemoterapia' => $_POST['hemoterapia'],
             'cultivo' => $_POST['cultivo'],
-
+            'anatomiaPatologica' => $_POST['anatomiaPatologica'],
+            'horaIngresoAlCentroQuirurgico' => $_POST['horaIngresoAlCentroQuirurgico'],
+            'horaEgreso' => $_POST['horaEgreso'],
+            'horaNac' => $_POST['horaNac'],
         ];
         return $data;
     }
-
-
-
-
-
 }

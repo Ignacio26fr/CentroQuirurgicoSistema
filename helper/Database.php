@@ -40,4 +40,9 @@ class Database
     public function prepare($query) {
         return $this->conn->prepare($query);
     }
+
+    public function getError()
+    {
+        return $this->conn->error;
+    }
 }

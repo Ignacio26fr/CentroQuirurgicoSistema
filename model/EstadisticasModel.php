@@ -178,6 +178,121 @@ class EstadisticasModel
         $stmt->close();
     }
 
+    public function obtenerProfesionalPrimerAyudante($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'PRIMER AYUDANTE'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+    public function obtenerProfesionalSegundoAyudante($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'SEGUNDO AYUDANTE'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+
+    public function obtenerProfesionalNeonatologo($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'NEONATOLOGO'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+
+
+    public function obtenerProfesionalCirculante($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRCULANTE'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
 
     public function obtenerEspecialidadQuirurgica($idUnidadFuncional)
     {
@@ -356,21 +471,70 @@ class EstadisticasModel
     }
     public function obtenerUnidadFuncional($idUnidadFuncional)
     {
-        $query = "Select s.nombre from unidadFuncional s inner join 
-                  cirugia c on c.idUnidadFuncional = s.id where s.id = ?";
+        $query = "Select s.nombre from unidadFuncional s where s.id = ?";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idUnidadFuncional);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $cirugias = [];
+            $unidadesFuncionales = [];
             while ($row = $result->fetch_assoc()) {
-                $cirugias[] = $row;
+                $unidadesFuncionales = $row;
             }
-            return $cirugias;
+            return $unidadesFuncionales;
         }
     }
 
+    public function obtenerLugarProviene($idCirugia)
+    {
+        $query = "SELECT l.nombre FROM lugar l
+                  INNER JOIN lugarcirugia lc ON l.id = lc.idLugar
+                  inner join tipolugar tl on tl.id = lc.idTipolugar
+                  WHERE lc.idCirugia = ? and tl.nombre = 'Lugar Proviene'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $diagnostico = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $diagnostico[] = $row;
+            }
+
+            return $diagnostico;
+        } else {
+            return [];
+        }
+    }
+    public function obtenerLugarEgresa($idCirugia)
+    {
+        $query = "SELECT l.nombre FROM lugar l
+                  INNER JOIN lugarcirugia lc ON l.id = lc.idLugar
+                  inner join tipolugar tl on tl.id = lc.idTipolugar
+                  WHERE lc.idCirugia = ? and tl.nombre = 'Lugar Egresa'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $egresa = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $egresa[] = $row;
+            }
+
+            return $egresa;
+        } else {
+            return [];
+        }
+    }
     private function obtenerNombreYApellidoDelProfesional($idProfesional)
     {
         $query = "SELECT nombre, apellido FROM persona WHERE id = ?";

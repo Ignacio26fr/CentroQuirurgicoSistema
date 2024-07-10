@@ -35,7 +35,7 @@ class EstadisticasController
             $idsTipoCirugia = [];
             $idsTipoDeAnestesias = [];
             $idsSitioAnatomico = [];
-            $idsUnidadFuncional = [];
+            $idesUnidadFuncional = [];
             foreach ($resultados as $cirugia) {
                 $idsCirugias[] = $cirugia['id'];
                 $idsPaciente[] = $cirugia['idPaciente'];
@@ -47,6 +47,7 @@ class EstadisticasController
                 $idsUnidadFuncional[] = $cirugia['idUnidadFuncional'];
             }
 
+
             $idsDiagnosticos = [];
             $idsSecundario = [];
             foreach ($idsCirugias as $idCirugia) {
@@ -57,19 +58,23 @@ class EstadisticasController
 
             }
 
-            list($especialidad, $especialidades) = $this->obtenerEspQuirurgica($idsUnidadFuncional);
+            list($especialidades, $especialidad) = $this->obtenerEspQuirurgica($idsUnidadFuncional);
             list($pacientes, $paciente) = $this->obtenerPaciente($idsPaciente);
             list($cirujanosDo, $idCirugia, $cirujano) = $this->obtenerCirujanos($idsCirugias);
             list($anestesistasDo, $idCirugia, $anestesista) = $this->obtenerAnestesista($idsCirugias);
             list($instrumentadoresDo, $idCirugia, $instrumentador) = $this->obtenerInstrumentadores($idsCirugias);
             list($tecnicoDo, $idCirugia, $tecnico) = $this->obtenerTecnicos($idsCirugias);
+           list($primerAyudanteDo, $primer) = $this->obtenerPrimerAyudante($idsCirugias);
+           list($segundoAyudanteDo, $segundo) = $this->obtenerSegundoAyudante($idsCirugias);
+            list($neonatologoDo,$idCirugia) = $this->obtenerNeonatologo($idsCirugias);
+            list($circulanteDo, $idCirugia) = $this->obtenerCirculante($idsCirugias);
             list($idsCirugiasNombres, $cirugiaNombre) = $this->obtenerNombreCirugia($idsCirugiaNombre);
             list($idsTipoCirugias, $tipoCirugia) = $this->obtenerTipoCirugia($idsTipoCirugia);
             list($idsTiposDeAnestesias, $idTipoAnestesia) = $this->obtenerTipoDeAnestesia($idsTipoDeAnestesias);
             list($idsSitiosAnatomicos, $idsSitioAnatomico) = $this->obtenerSitioAnatomico($idsSitioAnatomico);
-            list($idsUnidadesFuncionales, $idUnidadFucnal) = $this->obtenerUnidadFuncional($idsUnidadFuncional);
-
-
+            list($idsUnidadesFuncionales, $idUnidadFucional) = $this->obtenerUnidadFuncional($idsUnidadFuncional);
+            list($lugaresProvieneDo, $idLugar) = $this->obtenerLugarProviene($idsCirugias);
+            list($lugarEgresaDo, $idLugar) = $this->obtenerLugarEgresa($idsCirugias);
             $data = [];
             foreach ($resultados as $cirugia) {
 
@@ -92,7 +97,17 @@ class EstadisticasController
                 $instrumentador = isset($instrumentadoresDo[$idCirugia][0]['nombre']) ? $instrumentadoresDo[$idCirugia][0]['nombre'] . $instrumentadoresDo[$idCirugia][0]['apellido'] : 'N/A';
                 $tecnico = isset($tecnicoDo[$idCirugia][0]['nombre']) ? $tecnicoDo[$idCirugia][0]['nombre'] . $tecnicoDo[$idCirugia][0]['apellido'] : 'N/A';
 
+              $primerAyudante  = isset($primerAyudanteDo[$idCirugia][0]['nombre']) ? $primerAyudanteDo[$idCirugia][0]['nombre'] . $primerAyudanteDo[$idCirugia][0]['apellido'] : 'N/A';
+                $segundoAyudante  = isset($segundoAyudanteDo[$idCirugia][0]['nombre']) ? $segundoAyudanteDo[$idCirugia][0]['nombre'] . $segundoAyudanteDo[$idCirugia][0]['apellido'] : 'N/A';
+
+                $neonatologo = isset($neonatologoDo[$idCirugia][0]['nombre']) ? $neonatologoDo[$idCirugia][0]['nombre'] . $neonatologoDo[$idCirugia][0]['apellido'] : 'N/A';
+                $circulante = isset($circulanteDo[$idCirugia][0]['nombre']) ? $circulanteDo[$idCirugia][0]['nombre'] . $circulanteDo[$idCirugia][0]['apellido'] : 'N/A';
+
+                //Lugar proviene
+                $lugaresProviene = isset($lugaresProvieneDo[$idCirugia][0]['nombre']) ? $lugaresProvieneDo[$idCirugia][0]['nombre'] : 'N/A';
+                $lugaresEgresan = isset($lugarEgresaDo[$idCirugia][0]['nombre']) ? $lugarEgresaDo[$idCirugia][0]['nombre'] : 'N/A';
                 //tipo cirugia
+
                 $tipoCirugia = isset($idsTipoCirugias[$cirugia['idTipoDeCirugia']]) ? $idsTipoCirugias[$cirugia['idTipoDeCirugia']] : 'N/A';
                 $tipoCirugiaName = $tipoCirugia['0']['nombre'];
 
@@ -103,7 +118,8 @@ class EstadisticasController
                 $sitioAnatomicoName = $sitioAnatomico['0']['nombre'];
 
                 $unidadFuncional = isset($idsUnidadesFuncionales[$cirugia['idUnidadFuncional']]) ? $idsUnidadesFuncionales[$cirugia['idUnidadFuncional']] : 'N/A';
-                $unidadFuncionalName = $unidadFuncional['0']['nombre'];
+                $unidadFuncionalName = $unidadFuncional['nombre'];
+
 
                 $data[] = [
                     'id' => $cirugia['id'],
@@ -125,18 +141,18 @@ class EstadisticasController
                     // caja quirurgica
                     'sitioAnatomico' => $sitioAnatomicoName,
                     'unidadFuncional' => $unidadFuncionalName,
-                    //asa
-                    // primer ayudante
-                    // segundo ayudante
-                    // neonatologo
-                    // circulante
-                    // lugar proviene
-                    // lugar egresa
-                    // conteo
-                    // radiografia
-                    // hemoterapia
-                    // cultivo
-                    // anatomia
+                 //   'asa' => $cirugia['asa'],
+                    'primerAyudante' => $primerAyudante,
+                   'segundoAyudante' => $segundoAyudante,
+                    'neonatologo' => $neonatologo,
+                    'circulante' => $circulante,
+                    'proviene' => $lugaresProviene,
+                    'egresa' => $lugaresEgresan,
+                 //   'conteo' => $cirugia['conteo'],
+                  //  'radiografia' => $cirugia['radiografia'],
+                   // 'hemoterapia' => $cirugia['hemoterapia'],
+                    //'cultivo' => $cirugia['cultivo'],
+                    //'anatomia' => $cirugia['anatomia'],
                     // codigo de practicas
                     // material protesico
                     // cantidad mp
@@ -168,6 +184,25 @@ class EstadisticasController
         return array($cirujanosDo, $idCirugia, $cirujano);
     }
 
+    private function obtenerPrimerAyudante(array $idsCirugias): array
+    {
+        $primerAyudanteDo = [];
+        foreach ($idsCirugias as $idCirugia) {
+            $primerAyudante = $this->model->obtenerProfesionalPrimerAyudante($idCirugia);
+            $primerAyudanteDo[$idCirugia] = $primerAyudante;
+        }
+        return array($primerAyudanteDo, $primerAyudante);
+    }
+
+    private function obtenerSegundoAyudante(array $idsCirugias): array
+    {
+        $segundoAyudanteDo = [];
+        foreach ($idsCirugias as $idCirugia) {
+            $segundoAyudante = $this->model->obtenerProfesionalSegundoAyudante($idCirugia);
+            $segundoAyudanteDo[$idCirugia] = $segundoAyudante;
+        }
+        return array($segundoAyudanteDo, $segundoAyudante);
+    }
     private function obtenerAnestesista(array $idsCirugias): array
     {
         $anestesistas = [];
@@ -186,6 +221,26 @@ class EstadisticasController
             $instrumentadores[$idCirugia] = $instrumentador;
         }
         return array($instrumentadores, $idCirugia, $instrumentador);
+
+    }
+    private function obtenerNeonatologo(array $idsCirugias): array
+    {
+        $neonatologos = [];
+        foreach ($idsCirugias as $idCirugia) {
+            $neonatologo = $this->model->obtenerProfesionalNeonatologo($idCirugia);
+            $neonatologos[$idCirugia] = $neonatologo;
+        }
+        return array($neonatologos, $idCirugia);
+
+    }
+    private function obtenerCirculante(array $idsCirugias): array
+    {
+        $circulantes = [];
+        foreach ($idsCirugias as $idCirugia) {
+            $circulante = $this->model->obtenerProfesionalCirculante($idCirugia);
+            $circulantes[$idCirugia] = $circulante;
+        }
+        return array($circulantes, $idCirugia);
 
     }
 
@@ -232,7 +287,7 @@ class EstadisticasController
             $especialidad = $this->model->obtenerEspecialidadQuirurgica($idUnidadFuncional);
             $especialidades[$idUnidadFuncional] = $especialidad;
         }
-        return array($especialidad, $especialidades);
+        return array($especialidades, $especialidad);
 
     }
     private function obtenerTipoCirugia(array $idsCirugiasTipoCirugia): array
@@ -269,10 +324,29 @@ class EstadisticasController
     {
         $unidadesFuncionales = [];
         foreach ($idsUnidadFuncional as $idUnidadFuncional) {
-            $unidadFuncional = $this->model->obtenerUnidadFuncional($idsUnidadFuncional);
+            $unidadFuncional = $this->model->obtenerUnidadFuncional($idUnidadFuncional);
             $unidadesFuncionales[$idUnidadFuncional] = $unidadFuncional;
         }
         return array( $unidadesFuncionales, $unidadFuncional);
+    }
+
+    private function obtenerLugarProviene(array $idCirugias): array
+    {
+        $lugarProvienen = [];
+        foreach ($idCirugias as $idCirugia) {
+            $lugarProviene = $this->model->obtenerLugarProviene($idCirugia);
+            $lugarProvienen[$idCirugia] = $lugarProviene;
+        }
+        return array($lugarProvienen, $lugarProvienen);
+    }
+    private function obtenerLugarEgresa(array $idCirugias): array
+    {
+        $lugarEgresan = [];
+        foreach ($idCirugias as $idCirugia) {
+            $lugarEgresa = $this->model->obtenerLugarEgresa($idCirugia);
+            $lugarEgresan[$idCirugia] = $lugarEgresa;
+        }
+        return array($lugarEgresan, $lugarEgresa);
     }
 
 

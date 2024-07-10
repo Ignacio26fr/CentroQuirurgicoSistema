@@ -313,18 +313,41 @@ class QuirurgicoModel
 
     public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional, $asa, $conteo, $nroQuirofanoUsado, $radiografiaControl, $hemoterapia, $cultivo, $anatomiaPatologica, $horaIngresoCentroQuirurgico, $horaEgresoCentroQuirurgico, $horaDeNacimiento) {
 
-        $query = "INSERT INTO cirugia (observacion, horaInicio, horaFin, fecha, idNombreCirugia, idTipoDeAnestesia, idTipoDeCirugia, idDiagnostico, idCajaQuirurgica, idPaciente, idSitioAnatomico, idUnidadFuncional, asa, conteo, nroQuirofanoUsado,
-                 radiografiaControl, hemoterapia, cultivo, anatomiaPatologica, horaIngresoCentroQuirurgico, horaEgresoCentroQuirurgico, horaDeNacimiento) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Verifica el número de columnas y valores
+        $query = "INSERT INTO cirugia (
+        observacion,
+        horaInicio,
+        horaFin,
+        fecha,
+        idNombreCirugia,
+        idTipoDeAnestesia,
+        idTipoDeCirugia,
+        idDiagnostico,
+        idCajaQuirurgica,
+        idPaciente,
+        idSitioAnatomico,
+        idUnidadFuncional,
+        asa,
+        conteo,
+        nroQuirofanoUsado,
+        radiografiaControl,
+        hemoterapia,
+        cultivo,
+        anatomiaPatologica,
+        horaIngresoCentroQuirurgico,
+        horaEgresoCentroQuirurgico,
+        horaDeNacimiento
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
 
         if (!$stmt) {
-            throw new Exception("Error al preparar la consulta: " . $this->database->error);
+            throw new Exception("Error al preparar la consulta: " . $this->database->getError());
         }
 
-        // Aquí se realiza el bind de los parámetros
-        $stmt->bind_param("sssssssssssssssssssss",
+        // Realiza el bind de los parámetros
+        $stmt->bind_param(
+            "ssssssssssssisssiiiiiss",
             $observacion,
             $horaInicio,
             $horaFin,
@@ -346,16 +369,19 @@ class QuirurgicoModel
             $anatomiaPatologica,
             $horaIngresoCentroQuirurgico,
             $horaEgresoCentroQuirurgico,
-            $horaDeNacimiento);
+            $horaDeNacimiento
+        );
 
         if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         }
-$idCirugia = $stmt->insert_id;
+        $idCirugia = $stmt->insert_id;
         $stmt->close();
 
         return $idCirugia;
     }
+
+
 
 
     public function insertCirugiaPersona($idCirugia, $idPersona, $idRolCirugia)
