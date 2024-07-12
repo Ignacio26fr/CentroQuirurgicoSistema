@@ -488,9 +488,9 @@ class EstadisticasModel
     public function obtenerLugarProviene($idCirugia)
     {
         $query = "SELECT l.nombre FROM lugar l
-                  INNER JOIN lugarcirugia lc ON l.id = lc.idLugar
+                  INNER JOIN cirugialugar lc ON l.id = lc.idLugar
                   inner join tipolugar tl on tl.id = lc.idTipolugar
-                  WHERE lc.idCirugia = ? and tl.nombre = 'Lugar Proviene'";
+                  WHERE lc.idCirugia = ? and tl.id = 1";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -513,9 +513,9 @@ class EstadisticasModel
     public function obtenerLugarEgresa($idCirugia)
     {
         $query = "SELECT l.nombre FROM lugar l
-                  INNER JOIN lugarcirugia lc ON l.id = lc.idLugar
+                  INNER JOIN cirugialugar lc ON l.id = lc.idLugar
                   inner join tipolugar tl on tl.id = lc.idTipolugar
-                  WHERE lc.idCirugia = ? and tl.nombre = 'Lugar Egresa'";
+                  WHERE lc.idCirugia = ? and tl.id = 2";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);

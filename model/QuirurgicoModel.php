@@ -311,7 +311,11 @@ class QuirurgicoModel
 
 
 
-    public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia, $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico, $idUnidadFuncional, $asa, $conteo, $nroQuirofanoUsado, $radiografiaControl, $hemoterapia, $cultivo, $anatomiaPatologica, $horaIngresoCentroQuirurgico, $horaEgresoCentroQuirurgico, $horaDeNacimiento) {
+    public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idNombreCirugia, $idTipoDeAnestesia,
+                                  $idTipoDeCirugia, $idDiagnostico, $idCajaQuirurgica, $idPaciente, $idSitioAnatomico,
+                                  $idUnidadFuncional, $asa, $nroQuirofanoUsado, $horaIngresoCentroQuirurgico,
+                                  $horaEgresoCentroQuirurgico, $horaDeNacimiento, $conteo, $radiografia, $hemoterapia,
+                                    $cultivo, $anatomiaPatologica) {
 
         // Verifica el número de columnas y valores
         $query = "INSERT INTO cirugia (
@@ -328,16 +332,16 @@ class QuirurgicoModel
         idSitioAnatomico,
         idUnidadFuncional,
         asa,
-        conteo,
         nroQuirofanoUsado,
+        horaIngresoCentroQuirurgico,
+        horaEgresoCentroQuirurgico,
+        horaDeNacimiento,
+        conteo,
         radiografiaControl,
         hemoterapia,
         cultivo,
-        anatomiaPatologica,
-        horaIngresoCentroQuirurgico,
-        horaEgresoCentroQuirurgico,
-        horaDeNacimiento
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        anatomiaPatologica
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
 
@@ -347,7 +351,7 @@ class QuirurgicoModel
 
         // Realiza el bind de los parámetros
         $stmt->bind_param(
-            "ssssssssssssisssiiiiiss",
+            "ssssssssssssiisssiiiii",
             $observacion,
             $horaInicio,
             $horaFin,
@@ -361,15 +365,15 @@ class QuirurgicoModel
             $idSitioAnatomico,
             $idUnidadFuncional,
             $asa,
-            $conteo,
             $nroQuirofanoUsado,
-            $radiografiaControl,
-            $hemoterapia,
-            $cultivo,
-            $anatomiaPatologica,
             $horaIngresoCentroQuirurgico,
             $horaEgresoCentroQuirurgico,
-            $horaDeNacimiento
+            $horaDeNacimiento,
+               $conteo,
+          $radiografia,
+          $hemoterapia,
+         $cultivo,
+         $anatomiaPatologica
         );
 
         if (!$stmt->execute()) {
@@ -380,7 +384,6 @@ class QuirurgicoModel
 
         return $idCirugia;
     }
-
 
 
 
@@ -433,6 +436,25 @@ class QuirurgicoModel
         $stmt->execute();
         $stmt->close();
     }
+
+    public function insertMaterialProtesico($idMaterial, $idCirugia, $tipo, $cantidad)
+    {
+        $query = "INSERT INTO materialprotesicocirugia(idMaterialProtesico, idCirugia, tipo, cantidad) VALUES (?, ?, ?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sssi", $idMaterial, $idCirugia, $tipo, $cantidad);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function insertarTecnologiaCirugia($idCirugia, $idTecnologia)
+    {
+        $query = "INSERT INTO tecnologiacirugia(idTecnologia, idCirugia) VALUES (?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("ss", $idCirugia, $idTecnologia);
+        $stmt->execute();
+        $stmt->close();
+
+     }
 }
 
 

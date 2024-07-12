@@ -104,8 +104,10 @@ class EstadisticasController
                 $circulante = isset($circulanteDo[$idCirugia][0]['nombre']) ? $circulanteDo[$idCirugia][0]['nombre'] . $circulanteDo[$idCirugia][0]['apellido'] : 'N/A';
 
                 //Lugar proviene
+
                 $lugaresProviene = isset($lugaresProvieneDo[$idCirugia][0]['nombre']) ? $lugaresProvieneDo[$idCirugia][0]['nombre'] : 'N/A';
                 $lugaresEgresan = isset($lugarEgresaDo[$idCirugia][0]['nombre']) ? $lugarEgresaDo[$idCirugia][0]['nombre'] : 'N/A';
+
                 //tipo cirugia
 
                 $tipoCirugia = isset($idsTipoCirugias[$cirugia['idTipoDeCirugia']]) ? $idsTipoCirugias[$cirugia['idTipoDeCirugia']] : 'N/A';
@@ -120,6 +122,7 @@ class EstadisticasController
                 $unidadFuncional = isset($idsUnidadesFuncionales[$cirugia['idUnidadFuncional']]) ? $idsUnidadesFuncionales[$cirugia['idUnidadFuncional']] : 'N/A';
                 $unidadFuncionalName = $unidadFuncional['nombre'];
 
+                $conteoDo = $cirugia['conteo'] ;
 
                 $data[] = [
                     'id' => $cirugia['id'],
@@ -141,18 +144,18 @@ class EstadisticasController
                     // caja quirurgica
                     'sitioAnatomico' => $sitioAnatomicoName,
                     'unidadFuncional' => $unidadFuncionalName,
-                 //   'asa' => $cirugia['asa'],
+                      'asa' => $cirugia['asa'],
                     'primerAyudante' => $primerAyudante,
                    'segundoAyudante' => $segundoAyudante,
                     'neonatologo' => $neonatologo,
                     'circulante' => $circulante,
                     'proviene' => $lugaresProviene,
                     'egresa' => $lugaresEgresan,
-                 //   'conteo' => $cirugia['conteo'],
-                  //  'radiografia' => $cirugia['radiografia'],
-                   // 'hemoterapia' => $cirugia['hemoterapia'],
-                    //'cultivo' => $cirugia['cultivo'],
-                    //'anatomia' => $cirugia['anatomia'],
+                      'conteo' => $cirugia['conteo'] == 1 ? 'SI' : 'NO',
+                   'radiografia' => $cirugia['radiografia'] == 1 ? 'SI' : 'NO',
+                    'hemoterapia' => $cirugia['hemoterapia'] == 1 ? 'SI' : 'NO',
+                    'cultivo' => $cirugia['cultivo'] == 1 ? 'SI' : 'NO',
+                    'anatomia' => $cirugia['anatomia'] == 1 ? 'SI' : 'NO',
                     // codigo de practicas
                     // material protesico
                     // cantidad mp

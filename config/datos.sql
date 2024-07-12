@@ -136,6 +136,8 @@ create table if not exists `materialProtesicoCirugia`
         id INT PRIMARY KEY AUTO_INCREMENT,
         `idMaterialProtesico` INT,
         `idCirugia` INT,
+        `tipo` varchar(50),
+        `cantidad` int,
 
         FOREIGN KEY (`idMaterialProtesico`) REFERENCES materialProtesico(`id`),
         FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`)

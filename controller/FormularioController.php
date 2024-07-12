@@ -217,16 +217,18 @@ class FormularioController
                 $data['sitioAnatomico'],
                 $data['unidadFuncional'],
                 $data['asa'],
-                $data['conteo'],
                 $data['numeroQuirofano'],
-                $data['radiograma'],
-                $data['hemoterapia'],
-                $data['cultivo'],
-                $data['anatomiaPatologica'],
                 $data['horaIngresoAlCentroQuirurgico'],
                 $data['horaEgreso'],
-                $data['horaNac']
+                $data['horaNac'],
+                  $data['conteo'],
+                  $data['radiograma'],
+                 $data['hemoterapia'],
+               $data['cultivo'],
+                 $data['anatomiaPatologica']
             );
+
+
 
             $this->model->insertDiagnosticoCirugia($result, $data['primario'], 'PRIMARIO');
             if($data['secundario'] != null) {
@@ -242,18 +244,24 @@ class FormularioController
             }
 
             $this->model->insertCirugiaPersona($result, $data['anestesista'], 4);
-            $this->model->insertCirugiaPersona($result, $data['neonatologo'], 5);
+            if($data['neonatologo'] != null) {
+                $this->model->insertCirugiaPersona($result, $data['neonatologo'], 5);
+            }
 
-            if(!empty($tecnologiaUsadas)){
+
+
                 foreach($data['tecnologiaUsada'] as $tecnologia){
-                    var_dump($tecnologia); // Debug: verifica el valor
-                    $this->model->insertCirugiaTecnologia($result, $tecnologia);
-                }
+
+                    $this->model->insertarTecnologiaCirugia($tecnologia, $result);
+
             }
 
             $this->model->insertCodigoCirugia($result, $data['codigo']);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
+            $this->model->insertMaterialProtesico($data['materialProtesico'], $result, "PRIMARIO", $data['cantidadDeMaterialPrimario']);
+
+
 
             header('Location: /quirurgico');
         }
@@ -266,7 +274,7 @@ class FormularioController
             'fecha' => $_POST['fechaCirugia'],
             'primario' => $_POST['primario'],
             'secundario' => $_POST['secundario'],
-            'asa' => $_POST['asa'], // este va con cirugia
+            'asa' => $_POST['asa'],
             'espquirurgica' => $_POST['espQuirurgica'],
             'unidadFuncional' => $_POST['idUnidadFuncionalSeleccionada'],
             'sitioAnatomico' => $_POST['idSitioAnatomicoSeleccionada'],
@@ -284,19 +292,20 @@ class FormularioController
             'lugarEgreso' => $_POST['lugarEgreso'],
             'cajaQuirurgica' => $_POST['idCajaQuirurgica'],
             'tipoCirugia' => $_POST['tipoCirugia'],
-            'tecnologiaUsada' => $_POST['tecnologiasUsadas'], // n a n
-            'codigo' => $_POST['codigosSeleccionado'], // n a n
-            'materialProtesico' => $_POST['materialProtesicoPrimario'], // n a n
+            'tecnologiaUsada' => $_POST['tecnologiasUsadas'],
+            'codigo' => $_POST['codigosSeleccionado'],
+            'materialProtesico' => $_POST['materialProtesicoPrimario'],
             'observacion' => $_POST['detalle'],
             'conteo' => $_POST['conteo'],
             'numeroQuirofano' => $_POST['numeroQuirofano'],
-            'radiograma' => $_POST['radiograma'],
+           'radiograma' => $_POST['radiograma'],
             'hemoterapia' => $_POST['hemoterapia'],
-            'cultivo' => $_POST['cultivo'],
+           'cultivo' => $_POST['cultivo'],
             'anatomiaPatologica' => $_POST['anatomiaPatologica'],
             'horaIngresoAlCentroQuirurgico' => $_POST['horaIngresoAlCentroQuirurgico'],
             'horaEgreso' => $_POST['horaEgreso'],
             'horaNac' => $_POST['horaNac'],
+            'cantidadDeMaterialPrimario' => $_POST['cantidadDeMaterialPrimario']
         ];
         return $data;
     }

@@ -19,7 +19,7 @@ class LoginModel {
 
     public function buscarUsuario($usuario, $password)
     {
-        $query = "SELECT * FROM persona where usuario = '$usuario' and contrasenia = '$password'";
+        $query = "SELECT * FROM persona where matricula = '$usuario' and contrasenia = '$password'";
         echo "Consulta SQL: $query<br>";
         return $this->database->executeAndReturn($query);
 
