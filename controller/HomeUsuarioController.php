@@ -15,8 +15,9 @@ class HomeUsuarioController
     public function get()
     {
         session_start();
-        $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["name"]);
+        $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
         if($nombreUsuario) {
+            //como lo guardo en la sesion
             $this->presenter->render("view/home.mustache");
         }else{
             header("Location:/login");

@@ -1,17 +1,17 @@
 <div class="container">
 
     <h1>Formulario Quirúrgico</h1>
-    <a href="/homeUsuario" class="btn btn-warning">Volver</a>
+    <a href="/homeUsuario" class="btn btn-warning mb-3">Volver</a>
     <form action="/formulario/insertarDatos" method="post" enctype="multipart/form-data">
         {{#data}}
             <input type="hidden" name="paciente" value="{{paciente}}">
             <div class="form-group">
-                <label for="fechaCirugia">Fecha de Cirugía:</label>
+                <label for="fechaCirugia" style="background: yellow">Fecha de Cirugía:</label>
                 <input type="date" class="form-control" id="fechaCirugia" name="fechaCirugia" required>
             </div>
             <div class="form-group">
-                <label for="diagnostico">Diagnóstico Primario</label>
-                <input type="text" id="filtroPrimario" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
+                <label for="diagnostico" style="background: yellow">Diagnóstico Primario</label>
+                <input type="text" id="filtroPrimario" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off" required>
                 <div id="opcionesPrimario" class="opciones-primario">
 
                 </div>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group">
-                <label for="espQuirurgica">Especialidad quirúrgica</label>
+                <label for="espQuirurgica" style="background: yellow">Especialidad quirúrgica</label>
                 <select class="form-control" id="espQuirurgica" name="espQuirurgica" required>
                     <option value="0">Seleccionar</option>
                     {{#espquirurgica}}
@@ -52,7 +52,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="unidadFuncional">Unidad funcional</label>
+                <label for="unidadFuncional" style="background: yellow">Unidad funcional</label>
                 <select class="form-control" id="unidadFuncional" name="idUnidadFuncional" required>
                     <option value="0">Seleccionar</option>
                 </select>
@@ -60,15 +60,41 @@
             </div>
 
             <div class="mb-3">
-                <label for="sitioAnatomico">Sitio Anatomico</label>
+                <label for="sitioAnatomico" style="background: yellow">Sitio Anatomico</label>
                 <select class="form-control" id="sitioAnatomico" name="idSitioAnatomico" required>
                     <option value="0">Seleccionar</option>
                 </select>
                     <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="idSitioAnatomicoSeleccionada">
 
             </div>
+
+            <div id="extra-fields-1" class="extra-fields" style="display:none;">
+                <label for="espQuirurgica" >Especialidad quirúrgica 2 </label>
+                <select class="form-control" id="espQuirurgica" name="espQuirurgica2" required>
+                    <option value="0">Seleccionar</option>
+                    {{#espquirurgica}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/espquirurgica}}
+                </select>
+            </div>
+            <div id="extra-fields-2" class="extra-fields" style="display:none;">
+                <label for="unidadFuncional" >Unidad funcional 2</label>
+                <select class="form-control" id="unidadFuncional" name="idUnidadFuncional2" required>
+                    <option value="0">Seleccionar</option>
+                </select>
+                <input type="hidden" id="idUnidadFuncionalSeleccionada2" name="idUnidadFuncionalSeleccionada2" >
+            </div>
+            <div id="extra-fields-3" class="extra-fields" style="display:none;">
+                <label for="sitioAnatomico" >Sitio Anatomico 2</label>
+                <select class="form-control" id="sitioAnatomico" name="idSitioAnatomico2" required>
+                    <option value="0">Seleccionar</option>
+                </select>
+                <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="idSitioAnatomicoSeleccionada">
+
+            </div>
+
             <div class="mb-3">
-                <label for="actoQuirurgicoPrincipal">Acto quirurgico principal</label>
+                <label for="actoQuirurgicoPrincipal" style="background: yellow">Acto quirurgico principal</label>
                 <select class="form-control" id="actoQuirurgicoPrincipal" name="actoQuirurgicoPrincipal" required>
                     <option value="0">Seleccionar</option>
                 </select>
@@ -83,9 +109,9 @@
 
 
 
-            <div class="form-group">
-                <label for="cirujano">Cirujano</label>
-                <input type="text" id="filtroCirujano" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+            <div class="form-group" >
+                <label for="cirujano" style="background: yellow">Cirujano</label>
+                <input type="text" id="filtroCirujano" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
                 <div id="opcionesCirujano" class="opcion-cirujano">
 
                 </div>
@@ -95,14 +121,14 @@
 
             <div class="form-group">
                 <label for="ayudante1">Primer ayudante</label>
-                <input type="text" id="filtroPrimer" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+                <input type="text" id="filtroPrimer" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                 <div id="opcionesPrimer" class="opcion-primer"></div>
                 <input type="hidden" id="primerSeleccionado" name="primerSeleccionado">
             </div>
 
             <div class="form-group">
                 <label for="ayudante2">Segundo ayudante</label>
-                <input type="text" id="filtroSegundo" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+                <input type="text" id="filtroSegundo" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                 <div id="opcionesSegundo" class="opcion-segundo"></div>
                 <input type="hidden" id="segundoSeleccionado" name="segundoSeleccionado">
 
@@ -110,45 +136,45 @@
             </div>
             </article>
             <div class="form-group">
-                <label for="anestesista">Anestesista</label>
-                <input type="text" id="filtroAnestesista" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
-                <div id="opcionesAnestesista" class="opcion-anestesista"></div>
-                <input type="hidden" id="anestesistaSeleccionado" name="anestesistaSeleccionado">
+                <label for="anestesista" style="background: yellow">Anestesista</label>
+                <input type="text" id="filtroAnestesista" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
+                <div id="opcionesAnestesista" class="opcion-anestesista" ></div>
+                <input type="hidden" id="anestesistaSeleccionado" name="anestesistaSeleccionado" >
             </div>
 
             <div class="form-group">
             <label for="neonatologo">Neonatólogo</label>
-            <input type="text" id="filtroNeo" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+            <input type="text" id="filtroNeo" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
             <div id="opcionesNeo" class="opcion-neo"></div>
-            <input type="hidden" id="neoSeleccionado" name="neoSeleccionado">
+            <input type="hidden" id="neoSeleccionado" name="neoSeleccionado" autocomplete="off">
         </div>
 
             <div class="form-group">
                 <label for="instrumentador">Instrumentador Quirúrgico</label>
-                <select class="form-control" name="instrumentador" id="instrumentador" >
+                <select class="form-control" name="instrumentador" id="instrumentador" autocomplete="off" >
                     <option value="">Seleccionar</option>
 
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="circulante">Circulante</label>
-                <select class="form-control" name="circulante" id="circulante" >
+            <div class="form-group" >
+                <label for="circulante" >Circulante</label>
+                <select class="form-control" name="circulante" id="circulante" autocomplete="off">
                     <option value="">Seleccionar</option>
 
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="anestesiaTecnico">Técnico en Anestesia</label>
-                <input type="text" id="filtroTecnico" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+            <div class="form-group" >
+                <label for="anestesiaTecnico" style="background: yellow">Técnico en Anestesia</label>
+                <input type="text" id="filtroTecnico" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
                 <div id="opcionesTecnico" class="opcion-tecnico"></div>
-                <input type="hidden" id="tecnicoSeleccionado" name="tecnicoSeleccionado" >
+                <input type="hidden" id="tecnicoSeleccionado" name="tecnicoSeleccionado"  >
             </div>
 
             <div class="form-group">
-                <label for="anestesia">Tipo de Anestesia</label>
-                <select class="form-control" name="idTipoDeAnestesia" id="anestesia" required>
+                <label for="anestesia" style="background: yellow" >Tipo de Anestesia</label>
+                <select class="form-control" name="idTipoDeAnestesia" id="anestesia">
                     <option value="">Seleccionar</option>
                     {{#tipoAnestesia}}
                         <option value="{{id}}">{{nombre}}</option>
@@ -156,21 +182,21 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="horaIngresoQuirurgico">Hora de ingreso al centro quirurgico</label>
+                <label for="horaIngresoQuirurgico" style="background: yellow">Hora de ingreso al centro quirurgico</label>
                 <input type="time" class="form-control" name="horaIngresoAlCentroQuirurgico" id="horaIngresoAlCentroQuirurgico"
                        required>
             </div>
             <div class="form-group">
-                <label for="horaInicioCirugia">Hora de inicio cirugia</label>
+                <label for="horaInicioCirugia" style="background: yellow">Hora de inicio cirugia</label>
                 <input type="time" class="form-control" name="horaInicio" id="horaInicioCirugia" required>
             </div>
             <div class="form-group">
-                <label for="horaFinalizacion">Hora de finalizacion cirugia</label>
+                <label for="horaFinalizacion" style="background: yellow">Hora de finalizacion cirugia</label>
                 <input type="time" class="form-control" name="horaFin" id="horaFinalizacionCirugia"
                        required>
             </div>
             <div class="form-group">
-                <label for="horaEgreso">Hora de egreso del centro quirurgico</label>
+                <label for="horaEgreso" style="background: yellow">Hora de egreso del centro quirurgico</label>
                 <input type="time" class="form-control" name="horaEgreso" id="horaEgreso" required>
             </div>
             <div class="form-group">
@@ -178,7 +204,7 @@
                 <input type="time" class="form-control" name="horaNac" id="horaNacimiento">
             </div>
             <div class="form-group">
-                <label for="proviene">Lugar de donde provino el paciente</label>
+                <label for="proviene" style="background: yellow">Lugar de donde provino el paciente</label>
                 <select class="form-control"  id="proviene" name="lugarProviene" required>
                     <option value="0"> Seleccionar</option>
                     {{#lugar}}
@@ -187,7 +213,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="egreso">Lugar a donde egreso el paciente</label>
+                <label for="egreso" style="background: yellow">Lugar a donde egreso el paciente</label>
                 <select class="form-control" name="lugarEgreso" id="lugarEgreso" required>
                     <option value=""> Seleccionar</option>
                     {{#lugar}}
@@ -196,14 +222,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="caja">Caja quirurgica usada</label>
-                <input type="text" id="filtroCaja" class="form-control" placeholder="Escribe y te van apareciendo opciones">
+                <label for="caja" >Caja quirurgica usada</label>
+                <input type="text" id="filtroCaja" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                 <div id="opcionesCaja" class="opcion-caja"></div>
                 <input type="hidden" id="cajaSeleccionado" name="idCajaQuirurgica">
             </div>
 
             <div class="form-group">
-                <label for="nQuirofano">N° quirofano usada</label>
+                <label for="nQuirofano" style="background: yellow">N° quirofano usado</label>
                 <select class="form-control" name="numeroQuirofano" id="numeroQuirofano" required>
                     <option value="">Seleccionar</option>
                     <option value="1"> 1</option>
@@ -215,15 +241,15 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="conteo">Se realizo conteo?</label>
-                <select class="form-control" name="conteo" id="conteo">
+                <label for="conteo" style="background: yellow">Se realizo conteo?</label>
+                <select class="form-control" name="conteo" id="conteo" required>
                     <option value="">Seleccionar</option>
                     <option value="1"> Si</option>
                     <option value="0">No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="radio">Radiografia control?</label>
+                <label for="radio" style="background: yellow">Radiografia control?</label>
                 <select class="form-control" name="radiograma" id="radio">
                     <option value="">Seleccionar</option>
                     <option value="1"> Si</option>
@@ -231,15 +257,15 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="conteo">Hemoterapia?</label>
-                <select class="form-control" name="hemoterapia" id="conteo"
+                <label for="conteo" style="background: yellow">Hemoterapia?</label>
+                <select class="form-control" name="hemoterapia" id="conteo">
                     <option value="">Seleccionar</option>
                     <option value="1"> Si</option>
                     <option value="0">No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="cultivo">Cultivo?</label>
+                <label for="cultivo" style="background: yellow">Cultivo?</label>
                 <select class="form-control" name="cultivo" id="cultivo">
                     <option value="">Seleccionar</option>
                     <option value="1"> Si</option>
@@ -247,7 +273,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="patagonico">Anatomia patoglogica?</label>
+                <label for="patagonico" style="background: yellow">Anatomia patoglogica?</label>
                 <select class="form-control" name="anatomiaPatologica" id="patagonico">
                     <option value="">Seleccionar</option>
                     <option value="1"> Si</option>
@@ -255,14 +281,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="codigo">Codigo de práctica anestésica segun AAARBA</label>
-                <input type="text" id="filtroCodigo" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+                <label for="codigo" style="background: yellow">Codigo de práctica anestésica segun AAARBA</label>
+                <input type="text" id="filtroCodigo" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
                 <div id="opcionesCodigo" class="opciones-codigo"></div>
                 <input type="hidden" id="codigosSeleccionado" name="codigosSeleccionado">
             </div>
 
             <div class="form-group">
-                <label for="tipoCirugia">Tipo de cirugia</label>
+                <label for="tipoCirugia" style="background: yellow">Tipo de cirugia</label>
                 <select class="form-control" name="tipoCirugia" id="tipoCirugia"  required>
                     <option value="">Seleccionar</option>
                     {{#tipoCirugia}}
@@ -272,9 +298,9 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="tipoCirugia">Material protesico primario implantado usado</label>
+                <label for="tipoCirugia" style="background: yellow">Material protesico primario implantado usado</label>
 
-                <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required>
+                <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
                 <div id="opcionesMaterial" class="opcion-material custom-select-option"></div>
                 <input type="hidden" id="materialSeleccionado" name="materialProtesicoPrimario" >
             </div>
@@ -285,7 +311,7 @@
             </div>
 
         <div id="tecnologiasCheckboxContainer" >
-            <h5>Tecnologias usadas</h5>
+            <h5 style="background: yellow">Tecnologias usadas</h5>
 
                 <div>
                     {{#tecnologiaUsada}}
@@ -306,4 +332,14 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/public/js/funciones.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date();
+        var day = String(today.getDate()).padStart(2, '0');
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+        var year = today.getFullYear();
+        var todayDate = year + '-' + month + '-' + day;
+        document.getElementById('fechaCirugia').value = todayDate;
+    });
+</script>
 

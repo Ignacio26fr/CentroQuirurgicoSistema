@@ -22,7 +22,7 @@
                 <span>Estadisticas</span>
             </a>
 
-            <a href="">
+            <a href="/opciones">
                 <i class="fas fa-box fa-2x"></i>
                 <span>Opciones</span>
             </a>
@@ -38,30 +38,15 @@
         </div>
 
 
+
+
         <div class="logo-container">
 
             <img src="/img/Logo_HCANK_violeta.png" alt="Logo HCANK" class="logo-image">
         </div>
     </section>
+
 </main>
-<script th:inline="javascript">
-    document.addEventListener('DOMContentLoaded', function() {
 
-        var header = document.querySelector('header');
-        var headerTextElement = document.getElementById('headerText');
-        var originalText = 'Registro institucional de actos quirurgicos';
-
-        headerTextElement.innerText = originalText;
-
-
-        header.addEventListener('mouseover', function() {
-            headerTextElement.innerText = header.getAttribute('data-hover-text');
-        });
-
-        header.addEventListener('mouseout', function() {
-            headerTextElement.innerText = originalText;
-        });
-    });
-</script>
 </body>
 </html>

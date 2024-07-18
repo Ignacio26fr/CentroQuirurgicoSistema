@@ -30,7 +30,7 @@ class LoginController
 
 
         $resultado = $this->model->iniciarSesion($usuario, $password);
-
+        $this->guardarEnSession($resultado, $usuario);
         $this->redirigirResultadoLogin($resultado);
 
     }
@@ -39,6 +39,7 @@ class LoginController
     private function redirigirResultadoLogin($resultado)
     {
         if($resultado == 1) {
+
             header("Location:/homeUsuario");
         } else {
             header("Location:/login");
@@ -46,8 +47,17 @@ class LoginController
         exit();
     }
 
-
-
+    /**
+     * @param $resultado
+     * @param $usuario
+     * @return void
+     */
+    public function guardarEnSession($resultado, $usuario)
+    {
+        if ($resultado) {
+            $_SESSION['usuario'] = $usuario;
+        }
+    }
 
 
 }

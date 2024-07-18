@@ -5,6 +5,7 @@ include_once("controller/LoginController.php");
 include_once ("controller/QuirurgicoController.php");
 include_once("controller/FormularioController.php");
 include_once ("controller/EstadisticasController.php");
+include_once ("controller/OpcionesController.php");
 
 include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
@@ -53,6 +54,11 @@ public static function getFormularioController()
 public static function getEstadisticasController()
 {
     return new EstadisticasController(self::getEstadisticasModel(), self::getPresenter());
+}
+
+public static function getOpcionesController()
+{
+    return new OpcionesController(self::getPresenter());
 }
 
 //Models

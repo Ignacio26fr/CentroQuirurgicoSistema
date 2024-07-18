@@ -535,6 +535,81 @@ class EstadisticasModel
             return [];
         }
     }
+
+    public function obtenerCodigoDePracticas($idCirugia)
+    {
+        $query = "SELECT c.nombre FROM codigopractica c
+                  INNER JOIN codigopracticacirugia lc ON c.id = lc.idCodigoPractica
+                  WHERE lc.idCirugia = ?";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $codigo = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $codigo[] = $row;
+            }
+
+            return $codigo;
+        } else {
+            return [];
+        }
+    }
+
+    public function obtenerMaterialProtesico($idCirugia)
+    {
+        $query = "SELECT m.nombre FROM materialprotesico m
+                  INNER JOIN materialprotesicocirugia lc ON m.id = lc.idMaterialProtesico
+                  WHERE lc.idCirugia = ?";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $material = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $material[] = $row;
+            }
+
+            return $material;
+        } else {
+            return [];
+        }
+    }
+
+    public function obtenerTecnologia($idCirugia)
+    {
+        $query = "SELECT m.nombre FROM tecnologia m
+                  INNER JOIN tecnologiacirugia lc ON m.id = lc.idTecnologia
+                  WHERE lc.idCirugia = ?";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $tecnologia = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $tecnologia[] = $row;
+            }
+
+            return $tecnologia;
+        } else {
+            return [];
+        }
+    }
     private function obtenerNombreYApellidoDelProfesional($idProfesional)
     {
         $query = "SELECT nombre, apellido FROM persona WHERE id = ?";

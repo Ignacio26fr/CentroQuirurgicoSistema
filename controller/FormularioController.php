@@ -201,7 +201,12 @@ class FormularioController
     public function insertarDatos(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $data = $this->obtenerDatosDelPost();
-
+            var_dump($data['cajaQuirurgica']);
+            //como hago si caja quirurgica esta vacio que sea null
+            if($data['cajaQuirurgica'] == '0' || $data['cajaQuirurgica'] == null){
+                $data['cajaQuirurgica'] = null;
+            }
+            var_dump($data['cajaQuirurgica']);
 
             $result = $this->model->insertCirugia(
                 $data['observacion'],
