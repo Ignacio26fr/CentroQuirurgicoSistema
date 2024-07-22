@@ -23,6 +23,7 @@ class FormularioController
         $lugar = $this->model->obtenerLugar();
         $tipoCirugia = $this->model->obtenerTipoDeCirugia();
         $tecnologiaUsada = $this->model->obtenerTecnologiaUsada();
+        $moduloAnestesia = $this->model->obtenerModuloAnestesia();
 
         $data = [
             "primario" => $primario,
@@ -31,7 +32,8 @@ class FormularioController
             "lugar" => $lugar,
             "tipoCirugia" => $tipoCirugia,
             "tecnologiaUsada" => $tecnologiaUsada,
-            "paciente" => $paciente
+            "paciente" => $paciente,
+            "moduloAnestesia" => $moduloAnestesia
 
         ];
 
@@ -84,7 +86,7 @@ class FormularioController
         }
     }
 
-    public function obtenerActosQuirurgicoPrincipales()
+    public function obtenerActosQuirurgico()
     {
         header('Content-Type: application/json');
         if (isset($_GET['idSitioAnatomico'])) {
@@ -201,26 +203,36 @@ class FormularioController
     public function insertarDatos(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $data = $this->obtenerDatosDelPost();
-            var_dump($data['cajaQuirurgica']);
-            //como hago si caja quirurgica esta vacio que sea null
+
+            var_dump($data['espquirurgica']);
+            var_dump($data['espquirurgica1']);
+            var_dump($data['espquirurgica2']);
+            var_dump($data['unidadFuncional']);
+            var_dump($data['unidadFuncional1']);
+            var_dump($data['unidadFuncional2']);
+            var_dump($data['sitioAnatomico']);
+            var_dump($data['sitioAnatomico1']);
+            var_dump($data['unidadFuncional']);
+            var_dump($data['unidadFuncional1']);
+            var_dump($data['unidadFuncional2']);
+            var_dump($data['actoQuirurgico']);
+            var_dump($data['actoQuirurgico1']);
+            var_dump($data['actoQuirurgico2']);
+
             if($data['cajaQuirurgica'] == '0' || $data['cajaQuirurgica'] == null){
                 $data['cajaQuirurgica'] = null;
             }
-            var_dump($data['cajaQuirurgica']);
+
 
             $result = $this->model->insertCirugia(
                 $data['observacion'],
                 $data['horaInicio'],
                 $data['horaFin'],
                 $data['fecha'],
-                $data['actoQuirurgico'],
                 $data['tipoAnestesia'],
                 $data['tipoCirugia'],
-                $data['espquirurgica'],
                 $data['cajaQuirurgica'],
                 $data['paciente'],
-                $data['sitioAnatomico'],
-                $data['unidadFuncional'],
                 $data['asa'],
                 $data['numeroQuirofano'],
                 $data['horaIngresoAlCentroQuirurgico'],
@@ -235,18 +247,20 @@ class FormularioController
 
 
 
-            $this->model->insertDiagnosticoCirugia($result, $data['primario'], 'PRIMARIO');
+            $this->model->insertDiagnosticoCirugia($result, $data['primario'], 1);
             if($data['secundario'] != null) {
-                $this->model->insertDiagnosticoCirugia($result, $data['secundario'], 'SECUNDARIO');
+                $this->model->insertDiagnosticoCirugia($result, $data['secundario'], 2);
             }
 
-            $this->model->insertCirugiaPersona($result, $data['cirujano'], 1);
+            $this->model->insertCirugiaPersonaCirujano($result, $data['cirujano'], 1, 1);
             if($data['primerAyudante'] != null) {
-                $this->model->insertCirugiaPersona($result, $data['primerAyudante'], 2);
+                $this->model->insertCirugiaPersonaCirujano($result, $data['primerAyudante'], 2, 1);
             }
             if($data['segundoAyudante'] != null) {
-                $this->model->insertCirugiaPersona($result, $data['segundoAyudante'], 3);
+                $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante'], 3, 1);
             }
+
+
 
             $this->model->insertCirugiaPersona($result, $data['anestesista'], 4);
             if($data['neonatologo'] != null) {
@@ -261,10 +275,45 @@ class FormularioController
 
             }
 
+            $this->model->insertEspQuirurgica($result, $data['espquirurgica'], 1);
+
+                if($data['espquirurgica1'] != null) {
+                    $this->model->insertEspQuirurgica($result, $data['espquirurgica1'], 2);
+                }
+            if($data['espquirurgica2'] != null) {
+                $this->model->insertEspQuirurgica($result, $data['espquirurgica2'], 3);
+            }
+
+            $this->model->insertCirugiaUnidadFuncional($result, $data['unidadFuncional'], 1);
+             if($data['unidadFuncional1'] != null) {
+                 $this->model->insertCirugiaUnidadFuncional($result, $data['unidadFuncional1'], 2);
+             }
+             if($data['unidadFuncional2'] != null) {
+                 $this->model->insertCirugiaUnidadFuncional($result, $data['unidadFuncional2'], 3);
+             }
+          $this->model->insertCirugiaSitioAnatomico($result, $data['sitioAnatomico'], 1);
+            if($data['sitioAnatomico1'] != null) {
+                $this->model->insertCirugiaSitioAnatomico($result, $data['sitioAnatomico1'], 2);
+            }
+            if($data['sitioAnatomico2'] != null) {
+                $this->model->insertCirugiaSitioAnatomico($result, $data['sitioAnatomico2'], 3);
+            }
+
+            $this->model->insertActoQuirurgico($result, $data['actoQuirurgico'], 1);
+            if($data['actoQuirurgico1'] != null) {
+                $this->model->insertActoQuirurgico($result, $data['actoQuirurgico1'], 2);
+            }
+            if($data['actoQuirurgico2'] != null) {
+                $this->model->insertActoQuirurgico($result, $data['actoQuirurgico2'], 3);
+            }
+
             $this->model->insertCodigoCirugia($result, $data['codigo']);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
-            $this->model->insertMaterialProtesico($data['materialProtesico'], $result, "PRIMARIO", $data['cantidadDeMaterialPrimario']);
+            if($data['materialProtesico' != null]){
+                $this->model->insertMaterialProtesico($data['materialProtesico'], $result, 1, $data['cantidadDeMaterialPrimario']);
+            }
+
 
 
 
@@ -280,10 +329,18 @@ class FormularioController
             'primario' => $_POST['primario'],
             'secundario' => $_POST['secundario'],
             'asa' => $_POST['asa'],
-            'espquirurgica' => $_POST['espQuirurgica'],
-            'unidadFuncional' => $_POST['idUnidadFuncionalSeleccionada'],
-            'sitioAnatomico' => $_POST['idSitioAnatomicoSeleccionada'],
-            'actoQuirurgico' => $_POST['idActoQuirurgicoPrincipalSeleccionado'],
+            'espquirurgica' => $_POST['espQuirurgica_0'],
+            'espquirurgica1' => $_POST['espQuirurgica_1'],
+            'espquirurgica2' => $_POST['espQuirurgica_2'],
+            'unidadFuncional' => $_POST['idUnidadFuncionalSeleccionada_0'],
+            'unidadFuncional1' => $_POST['idUnidadFuncionalSeleccionada_1'],
+            'unidadFuncional2' => $_POST['idUnidadFuncionalSeleccionada_2'],
+            'sitioAnatomico' => $_POST['idSitioAnatomicoSeleccionada_0'],
+            'sitioAnatomico1' => $_POST['idSitioAnatomicoSeleccionada_1'],
+            'sitioAnatomico2' => $_POST['idSitioAnatomicoSeleccionada_2'],
+            'actoQuirurgico' => $_POST['idActoQuirurgicoSeleccionado_0'],
+            'actoQuirurgico1' => $_POST['idActoQuirurgicoSeleccionado_1'],
+            'actoQuirurgico2' => $_POST['idActoQuirurgicoSeleccionado_2'],
             'cirujano' => $_POST['cirujanoSeleccionado'],
             'primerAyudante' => $_POST['primerSeleccionado'],
             'segundoAyudante' => $_POST['segundoSeleccionado'],

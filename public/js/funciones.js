@@ -51,279 +51,327 @@ $(document).ready(function() {
                 console.error(error);
             }
         });
+
+    $('#opcionesSecundario').on('click', '.opcion-diagnostico', function() {
+        var nombreDiagnostico = $(this).text();
+        var idDiagnostico = $(this).data('id');
+        $('#filtroSecundario').val(nombreDiagnostico);
+        $('#secundarioSeleccionado').val(idDiagnostico);
+        $('#opcionesSecundario').empty();
+    });
+
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('#opcionesSecundario').length && !$(event.target).is('#filtroSecundario')) {
+            $('#opcionesSecundario').empty();
+        }
     });
 });
-    $(document).ready(function() {
-        function checkAndShowExtraFields() {
-            // Verificar si los campos están completados
-            if ($('#espQuirurgica').val() !== '0' &&
-                $('#unidadFuncional').val() !== '0' &&
-                $('#sitioAnatomico').val() !== '0') {
+});
+$(document).ready(function() {
+    let fieldIndex = 1;
+    const maxFields = 3;
 
-                // Mostrar el primer conjunto oculto
-                $('#extra-fields-1').show();
-
-                // Luego, verificar el primer conjunto para mostrar el segundo
-                if ($('#extra-fields-1 select').filter(function() { return $(this).val() === '0'; }).length === 0) {
-                    $('#extra-fields-2').show();
-                }
-
-                // Luego, verificar el segundo conjunto para mostrar el tercero
-                if ($('#extra-fields-2 select').filter(function() { return $(this).val() === '0'; }).length === 0) {
-                    $('#extra-fields-3').show();
-                }
+    function checkAndShowExtraFields() {
+        if ($('.espQuirurgica').last().val() !== '0' &&
+            $('.unidadFuncional').last().val() !== '0' &&
+            $('.sitioAnatomico').last().val() !== '0' &&
+            $('.cirugiaNombre').last().val !== '0') {
+            if (fieldIndex < maxFields) {
+                addNewFields();
             }
         }
+    }
 
-        $('#espQuirurgica').change(function() {
-            var idEspQuirurgica = $(this).val();
-            console.log(idEspQuirurgica);
-            $.ajax({
-                url: '/formulario/obtenerUnidadesFuncionales',
-                method: 'GET',
-                data: { idEspQuirurgica: idEspQuirurgica },
-                success: function(data) {
-                    $('#unidadFuncional').empty();
-                    $('#unidadFuncional').append($('<option>', {
-                        value: '0',
-                        text: 'Seleccionar'
-                    }));
-                    $.each(data, function(index, unidad) {
-                        $('#unidadFuncional').append($('<option>', {
-                            value: unidad.id,
-                            text: unidad.nombre
-                        }));
-                    });
-                    checkAndShowExtraFields();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-
-        $('#unidadFuncional').change(function() {
-            var idUnidadFuncional = $(this).val();
-            console.log(idUnidadFuncional);
-            $('#idUnidadFuncionalSeleccionada').val(idUnidadFuncional);
-            $.ajax({
-                url: '/formulario/obtenerSitiosAnatomicos',
-                method: 'GET',
-                data: { idUnidadFuncional: idUnidadFuncional },
-                success: function(data) {
-                    $('#sitioAnatomico').empty();
-                    $('#sitioAnatomico').append($('<option>', {
-                        value: '0',
-                        text: 'Seleccionar'
-                    }));
-                    $.each(data, function(index, sitio) {
-                        $('#sitioAnatomico').append($('<option>', {
-                            value: sitio.id,
-                            text: sitio.nombre
-                        }));
-                    });
-                    checkAndShowExtraFields();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-
-        $('#sitioAnatomico').change(function() {
-            var idSitioAnatomico = $(this).val();
-            console.log(idSitioAnatomico);
-            $('#idSitioAnatomicoSeleccionada').val(idSitioAnatomico);
-            $.ajax({
-                url: '/formulario/obtenerActosQuirurgicoPrincipales',
-                method: 'GET',
-                data: { idSitioAnatomico: idSitioAnatomico },
-                success: function(data) {
-                    $('#actoQuirurgicoPrincipal').empty();
-                    $('#actoQuirurgicoPrincipal').append($('<option>', {
-                        value: '0',
-                        text: 'Seleccionar'
-                    }));
-                    $.each(data, function(index, acto) {
-                        $('#actoQuirurgicoPrincipal').append($('<option>', {
-                            value: acto.id,
-                            text: acto.nombre
-                        }));
-                    });
-                    checkAndShowExtraFields();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    console.log(this.data);
-                }
-            });
-        });
-
-        // Check for changes in extra fields as well
-        $('.extra-fields select').change(function() {
-            checkAndShowExtraFields();
-        });
-    });
-
-$(document).ready(function() {
-    $('#sitioAnatomico').change(function() {
-        var idSitioAnatomico = $(this).val();
-        console.log(idSitioAnatomico);
+    function fetchUnits(idEspQuirurgica, $unitSelect, callback) {
         $.ajax({
-            url: '/formulario/obtenerActosQuirurgicoPrincipales',
+            url: '/formulario/obtenerUnidadesFuncionales',
             method: 'GET',
-            data: { idSitioAnatomico: idSitioAnatomico },
+            data: { idEspQuirurgica: idEspQuirurgica },
             success: function(data) {
-                $('#actoQuirurgicoPrincipal').empty();
-
-                $('#actoQuirurgicoPrincipal').append($('<option>', {
-                    value: '',
-                    text: 'Seleccionar'
-                }));
-
-                $.each(data, function(index, acto) {
-                    $('#actoQuirurgicoPrincipal').append($('<option>', {
-                        value: acto.id,
-                        text: acto.nombre
-                    }));
+                $unitSelect.empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+                $.each(data, function(index, unidad) {
+                    $unitSelect.append($('<option>', { value: unidad.id, text: unidad.nombre }));
                 });
+                callback();
             },
             error: function(xhr, status, error) {
                 console.error(error);
-                console.log(this.data);
             }
         });
-    });
-    $('#actoQuirurgicoPrincipal').change(function() {
-        var idActoQuirurgicoPrincipal = $(this).val();
-        console.log(idActoQuirurgicoPrincipal);
-        $('#idActoQuirurgicoPrincipalSeleccionado').val(idActoQuirurgicoPrincipal);
-    });
+    }
+
+    function fetchSites(idUnidadFuncional, $siteSelect, callback) {
+        $.ajax({
+            url: '/formulario/obtenerSitiosAnatomicos',
+            method: 'GET',
+            data: { idUnidadFuncional: idUnidadFuncional },
+            success: function(data) {
+                $siteSelect.empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+                $.each(data, function(index, sitio) {
+                    $siteSelect.append($('<option>', { value: sitio.id, text: sitio.nombre }));
+                });
+                callback();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    function fetchActo(idSitioAnatomico, $actoSelect, callback) {
+        $.ajax({
+            url: '/formulario/obtenerActosQuirurgico',
+            method: 'GET',
+            data: {idSitioAnatomico: idSitioAnatomico},
+            success: function (data) {
+                $actoSelect.empty().append($('<option>', {value: '0', text: 'Seleccionar'}));
+                $.each(data, function (index, acto) {
+                    $actoSelect.append($('<option>', {value: acto.id, text: acto.nombre }))
+                });
+                callback();
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+
+        });
+    }
+
+    function setupFieldEvents($container) {
+        $container.find('.espQuirurgica').change(function() {
+            var idEspQuirurgica = $(this).val();
+            var $unitSelect = $container.find('.unidadFuncional');
+            fetchUnits(idEspQuirurgica, $unitSelect, checkAndShowExtraFields);
+        });
+
+        $container.find('.unidadFuncional').change(function() {
+            var idUnidadFuncional = $(this).val();
+            $container.find('.idUnidadFuncionalSeleccionada').val(idUnidadFuncional);
+            var $siteSelect = $container.find('.sitioAnatomico');
+            fetchSites(idUnidadFuncional, $siteSelect, checkAndShowExtraFields);
+        });
+
+        $container.find('.sitioAnatomico').change(function() {
+            var idSitioAnatomico = $(this).val();
+            $container.find('.idSitioAnatomicoSeleccionada').val(idSitioAnatomico);
+            var $actoSelect = $container.find('.actoQuirurgico');
+            fetchActo(idSitioAnatomico, $actoSelect, checkAndShowExtraFields);
+            checkAndShowExtraFields();
+        });
+
+        $container.find('.actoQuirurgico').change(function() {
+            var idActoQuirurgico = $(this).val();
+            $container.find('.idActoQuirurgicoSeleccionado').val(idActoQuirurgico);
+            checkAndShowExtraFields();
+        });
+    }
+
+    function addNewFields() {
+        var $newFields = $('#field-container').clone();
+        $newFields.find('select, input[type="hidden"]').each(function() {
+            var newId = $(this).attr('id').replace('_0', '_' + fieldIndex);
+            var newName = $(this).attr('name').replace('_0', '_' + fieldIndex);
+            $(this).attr('id', newId).attr('name', newName).val('0');
+            $(this).attr('id', newId).attr('name', newName).val('0').removeAttr('required');
+        });
+
+        $newFields.find('.espQuirurgicaLabel').text('Especialidad quirúrgica ' + (fieldIndex + 1)).css('background', 'white');
+        $newFields.find('.unidadFuncionalLabel').text('Unidad funcional ' + (fieldIndex + 1)).css('background', 'white');
+        $newFields.find('.sitioAnatomicoLabel').text('Sitio Anatomico ' + (fieldIndex + 1)).css('background', 'white');
+        $newFields.find('.actoQuirurgicoLabel').text('Acto Quirúrgico ' + (fieldIndex + 1)).css('background', 'white');
+
+        $newFields.addClass('field-container')
+
+        $('#additional-fields').append($newFields);
+        setupFieldEvents($newFields);
+
+        fieldIndex++;
+    }
+
+    setupFieldEvents($('#field-container'));
 });
+
+
 
 
 //Cirujanos
-
 $(document).ready(function() {
-    $('#filtroCirujano').on('input', function () {
-        var filtroCirujano = $(this).val();
-        console.log(filtroCirujano);
-        $.ajax({
-            url: '/formulario/obtenerCirujano',
-            method: 'GET',
-            data: { filtroCirujano: filtroCirujano},
-            success: function (data) {
-                $('#opcionesCirujano').empty();
-                $.each(data, function (index, option) {
-                    var $opcion = $('<div class="opcion-cirujano select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
-                    $('#opcionesCirujano').append($opcion);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
+    let fieldIndex = 1;
+    const maxFields = 3;
+
+    function checkAndShowExtraFields() {
+        if ($('.filtroCirujano').last().val() !== '' &&
+            $('.filtroPrimer').last().val() !== '' &&
+            $('.filtroSegundo').last().val() !== '') {
+            if (fieldIndex < maxFields) {
+                addNewFields();
+            }
+        }
+    }
+
+    function setupFieldEvents($container) {
+        $container.find('.filtroCirujano, .filtroPrimer, .filtroSegundo').on('input', function() {
+            checkAndShowExtraFields();
+        });
+
+        // Autocomplete events for Cirujano
+        $container.find('.filtroCirujano').on('input', function () {
+            var filtroCirujano = $(this).val();
+            var $opcionesCirujano = $(this).next('.opcion-cirujano');
+            $.ajax({
+                url: '/formulario/obtenerCirujano',
+                method: 'GET',
+                data: { filtroCirujano: filtroCirujano },
+                success: function (data) {
+                    $opcionesCirujano.empty();
+                    $.each(data, function (index, option) {
+                        var $opcion = $('<div class="opcion-cirujano select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
+                        $opcionesCirujano.append($opcion);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $container.find('.opcion-cirujano').on('click', '.opcion-cirujano', function () {
+            var nombreCirujano = $(this).text();
+            var idCirujano = $(this).data('id');
+            var $filtroCirujano = $(this).closest('.form-group').find('.filtroCirujano');
+            var $cirujanoSeleccionado = $(this).closest('.form-group').find('input[type="hidden"]');
+            $filtroCirujano.val(nombreCirujano);
+            $cirujanoSeleccionado.val(idCirujano);
+            $(this).parent().empty();
+        });
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.opcion-cirujano').length && !$(event.target).is('.filtroCirujano')) {
+                $('.opcion-cirujano').empty();
             }
         });
-    });
 
 
-    $('#opcionesCirujano').on('click', '.opcion-cirujano', function () {
-        var nombreCirujano = $(this).text();
-        var idCirujano = $(this).data('id');
-        console.log(idCirujano);
-        $('#filtroCirujano').val(nombreCirujano);
-        $('#cirujanoSeleccionado').val(idCirujano);
-        $('#opcionesCirujano').empty();
-    });
+        $container.find('.filtroPrimer').on('input', function () {
+            var filtroPrimer = $(this).val();
+            var $opcionesPrimer = $(this).next('.opcion-primer');
+            $.ajax({
+                url: '/formulario/obtenerPrimerAyudante',
+                method: 'GET',
+                data: { filtroPrimer: filtroPrimer },
+                success: function (data) {
+                    $opcionesPrimer.empty();
+                    $.each(data, function (index, option) {
+                        var $opcion = $('<div class="opcion-primer select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
+                        $opcionesPrimer.append($opcion);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
 
-    $(document).on('click', function (event) {
-        if (!$(event.target).closest('#opcionesCirujano').length && !$(event.target).is('#filtroCirujano')) {
-            $('#opcionesCirujano').empty();
-        }
-    });
+        $container.find('.opcion-primer').on('click', '.opcion-primer', function () {
+            var nombrePrimer = $(this).text();
+            var idPrimerAyudante = $(this).data('id');
+            var $filtroPrimer = $(this).closest('.form-group').find('.filtroPrimer');
+            var $primerSeleccionado = $(this).closest('.form-group').find('input[type="hidden"]');
+            $filtroPrimer.val(nombrePrimer);
+            $primerSeleccionado.val(idPrimerAyudante);
+            $(this).parent().empty();
+        });
 
-});
-
-
-// Primer ayudandante
-
-$(document).ready(function() {
-    $('#filtroPrimer').on('input', function () {
-        var filtroPrimer = $(this).val();
-        console.log(filtroPrimer);
-        $.ajax({
-            url: '/formulario/obtenerPrimerAyudante',
-            method: 'GET',
-            data: { filtroPrimer: filtroPrimer},
-            success: function (data) {
-                $('#opcionesPrimer').empty();
-                $.each(data, function (index, option) {
-                    var $opcion = $('<div class="opcion-primer select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
-                    $('#opcionesPrimer').append($opcion);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.opcion-primer').length && !$(event.target).is('.filtroPrimer')) {
+                $('.opcion-primer').empty();
             }
         });
-    });
 
+        // Autocomplete events for Segundo Ayudante
+        $container.find('.filtroSegundo').on('input', function () {
+            var filtroSegundo = $(this).val();
+            var $opcionesSegundo = $(this).next('.opcion-segundo');
+            $.ajax({
+                url: '/formulario/obtenerSegundoAyudante',
+                method: 'GET',
+                data: { filtroSegundo: filtroSegundo },
+                success: function (data) {
+                    $opcionesSegundo.empty();
+                    $.each(data, function (index, option) {
+                        var $opcion = $('<div class="opcion-segundo select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
+                        $opcionesSegundo.append($opcion);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
 
-    $('#opcionesPrimer').on('click', '.opcion-primer', function () {
-        var nombrePrimer = $(this).text();
-        var idPrimerAyudante = $(this).data('id');
-        $('#filtroPrimer').val(nombrePrimer);
-        $('#primerSeleccionado').val(idPrimerAyudante);
-        $('#opcionesPrimer').empty();
-    });
+        $container.find('.opcion-segundo').on('click', '.opcion-segundo', function () {
+            var nombreSegundo = $(this).text();
+            var idSegundoAyudante = $(this).data('id');
+            var $filtroSegundo = $(this).closest('.form-group').find('.filtroSegundo');
+            var $segundoSeleccionado = $(this).closest('.form-group').find('input[type="hidden"]');
+            $filtroSegundo.val(nombreSegundo);
+            $segundoSeleccionado.val(idSegundoAyudante);
+            $(this).parent().empty();
+        });
 
-    $(document).on('click', function (event) {
-        if (!$(event.target).closest('#opcionesPrimer').length && !$(event.target).is('#filtroPrimer')) {
-            $('#opcionesPrimer').empty();
-        }
-    });
-
-});
-
-//Segundo ayudante
-
-$(document).ready(function() {
-    $('#filtroSegundo').on('input', function () {
-        var filtroSegundo = $(this).val();
-        console.log(filtroSegundo);
-        $.ajax({
-            url: '/formulario/obtenerSegundoAyudante',
-            method: 'GET',
-            data: { filtroSegundo: filtroSegundo},
-            success: function (data) {
-                $('#opcionesSegundo').empty();
-                $.each(data, function (index, option) {
-                    var $opcion = $('<div class="opcion-segundo select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
-                    $('#opcionesSegundo').append($opcion);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.opcion-segundo').length && !$(event.target).is('.filtroSegundo')) {
+                $('.opcion-segundo').empty();
             }
         });
-    });
+    }
+
+    function addNewFields() {
+        var $newFields = $('#field-container-cirujanos').clone();
+        $newFields.attr('id', 'field-container-cirujanos-' + fieldIndex);
+
+        // Iterate through inputs and other elements
+        $newFields.find('input[type="text"], input[type="hidden"], div[class*="opcion"]').each(function() {
+            var $this = $(this);
+            var id = $this.attr('id');
+            var name = $this.attr('name');
+
+            // Ensure id and name exist before attempting to replace
+            if (id) {
+                var newId = id.replace('_0', '_' + fieldIndex);
+                $this.attr('id', newId);
+            } else {
+                console.warn('ID attribute is missing on:', this);
+            }
+
+            if (name) {
+                var newName = name.replace('_0', '_' + fieldIndex);
+                $this.attr('name', newName);
+            } else {
+                console.warn('Name attribute is missing on:', this);
+            }
+
+            // Clear the value
+            $this.val('');
+        });
+
+        // Update labels
+        $newFields.find('.cirujanoLabel').text('Cirujano ' + (fieldIndex + 1)).css('background', 'white');
+        $newFields.find('.primerAyudanteLabel').text('Primer ayudante ' + (fieldIndex + 1)).css('background', 'white');
+        $newFields.find('.segundoAyudanteLabel').text('Segundo ayudante ' + (fieldIndex + 1)).css('background', 'white');
+
+        // Remove 'required' attribute
+        $newFields.find('input[type="text"]').removeAttr('required');
+
+        // Append new fields
+        $('#additional-fields-cirujanos').append($newFields);
+        setupFieldEvents($newFields);
+
+        fieldIndex++;
+    }
 
 
-    $('#opcionesSegundo').on('click', '.opcion-segundo', function () {
-        var nombreSegundo = $(this).text();
-        var idSegundoAyudante = $(this).data('id');
-        $('#filtroSegundo').val(nombreSegundo);
-        $('#segundoSeleccionado').val(idSegundoAyudante);
-        $('#opcionesSegundo').empty();
-    });
-
-    $(document).on('click', function (event) {
-        if (!$(event.target).closest('#opcionesSegundo').length && !$(event.target).is('#filtroSegundo')) {
-            $('#opcionesSegundo').empty();
-        }
-    });
-
+    setupFieldEvents($('#field-container-cirujanos'));
 });
-
 
 //Anestesista
 

@@ -27,10 +27,6 @@
                 <input type="hidden" id="secundarioSeleccionado" name="secundario">
             </div>
 
-
-
-
-
             <div class="form-group">
                 <label for="asa">Asa</label>
                 <select class="form-control" id="asa" name="asa">
@@ -39,102 +35,89 @@
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
                 </select>
             </div>
+
+            <div id="field-container" class="field-container mt-3">
+                <div class="form-group">
+                    <label for="espQuirurgica_0" class="espQuirurgicaLabel" style="background: yellow" >Especialidad quirúrgica 1</label>
+                    <select class="form-control espQuirurgica" id="espQuirurgica_0" name="espQuirurgica_0" required>
+                        <option value="0">Seleccionar</option>
+                        {{#espquirurgica}}
+                            <option value="{{id}}">{{nombre}}</option>
+                        {{/espquirurgica}}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="unidadFuncional_0" class="unidadFuncionalLabel" style="background: yellow">Unidad funcional 1</label>
+                    <select class="form-control unidadFuncional" id="unidadFuncional_0" name="idUnidadFuncional_0" required>
+                        <option value="0">Seleccionar</option>
+                    </select>
+                    <input type="hidden" class="idUnidadFuncionalSeleccionada" id="idUnidadFuncionalSeleccionada_0" name="idUnidadFuncionalSeleccionada_0">
+                </div>
+                <div class="mb-3">
+                    <label for="sitioAnatomico_0" class="sitioAnatomicoLabel" style="background: yellow">Sitio Anatomico 1</label>
+                    <select class="form-control sitioAnatomico" id="sitioAnatomico_0" name="idSitioAnatomico_0" required>
+                        <option value="0">Seleccionar</option>
+                    </select>
+                    <input type="hidden" class="idSitioAnatomicoSeleccionada" id="idSitioAnatomicoSeleccionada_0" name="idSitioAnatomicoSeleccionada_0" value="">
+                </div>
 
             <div class="form-group">
-                <label for="espQuirurgica" style="background: yellow">Especialidad quirúrgica</label>
-                <select class="form-control" id="espQuirurgica" name="espQuirurgica" required>
-                    <option value="0">Seleccionar</option>
-                    {{#espquirurgica}}
-                        <option value="{{id}}">{{nombre}}</option>
-                    {{/espquirurgica}}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="unidadFuncional" style="background: yellow">Unidad funcional</label>
-                <select class="form-control" id="unidadFuncional" name="idUnidadFuncional" required>
+                <label for="actoQuirurgico_0" class="actoQuirurgicoLabel" style="background: yellow">Acto Quirúrgico 1</label>
+                <select class="form-control actoQuirurgico" id="actoQuirurgico_0" name="actoQuirurgico_0" required>
                     <option value="0">Seleccionar</option>
                 </select>
-                <input type="hidden" id="idUnidadFuncionalSeleccionada" name="idUnidadFuncionalSeleccionada" >
+                <input type="hidden" class="idActoQuirurgicoSeleccionado" id="idActoQuirurgicoSeleccionado_0" name="idActoQuirurgicoSeleccionado_0">
             </div>
-
-            <div class="mb-3">
-                <label for="sitioAnatomico" style="background: yellow">Sitio Anatomico</label>
-                <select class="form-control" id="sitioAnatomico" name="idSitioAnatomico" required>
-                    <option value="0">Seleccionar</option>
-                </select>
-                    <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="idSitioAnatomicoSeleccionada">
-
             </div>
-
-            <div id="extra-fields-1" class="extra-fields" style="display:none;">
-                <label for="espQuirurgica" >Especialidad quirúrgica 2 </label>
-                <select class="form-control" id="espQuirurgica" name="espQuirurgica2" required>
-                    <option value="0">Seleccionar</option>
-                    {{#espquirurgica}}
-                        <option value="{{id}}">{{nombre}}</option>
-                    {{/espquirurgica}}
-                </select>
-            </div>
-            <div id="extra-fields-2" class="extra-fields" style="display:none;">
-                <label for="unidadFuncional" >Unidad funcional 2</label>
-                <select class="form-control" id="unidadFuncional" name="idUnidadFuncional2" required>
-                    <option value="0">Seleccionar</option>
-                </select>
-                <input type="hidden" id="idUnidadFuncionalSeleccionada2" name="idUnidadFuncionalSeleccionada2" >
-            </div>
-            <div id="extra-fields-3" class="extra-fields" style="display:none;">
-                <label for="sitioAnatomico" >Sitio Anatomico 2</label>
-                <select class="form-control" id="sitioAnatomico" name="idSitioAnatomico2" required>
-                    <option value="0">Seleccionar</option>
-                </select>
-                <input type="hidden" id="idSitioAnatomicoSeleccionada" name="idSitioAnatomicoSeleccionada" value="idSitioAnatomicoSeleccionada">
-
-            </div>
-
-            <div class="mb-3">
-                <label for="actoQuirurgicoPrincipal" style="background: yellow">Acto quirurgico principal</label>
-                <select class="form-control" id="actoQuirurgicoPrincipal" name="actoQuirurgicoPrincipal" required>
-                    <option value="0">Seleccionar</option>
-                </select>
-                <input type="hidden" id="idActoQuirurgicoPrincipalSeleccionado" name="idActoQuirurgicoPrincipalSeleccionado" >
-            </div>
+        <style>
+            .field-container {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            }
+            .additional-fields form-group label {
+                background: white;
+            }
+        </style>
+            <div id="additional-fields"></div>
 
 
-            <div class="form-group">
+            <div class="form-group ">
                 <label for="detalleCirugia">Observación de la cirugia:</label>
                 <textarea class="form-control" id="detalle" name="detalle" rows="4"></textarea>
             </div>
 
 
 
-            <div class="form-group" >
-                <label for="cirujano" style="background: yellow">Cirujano</label>
-                <input type="text" id="filtroCirujano" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
-                <div id="opcionesCirujano" class="opcion-cirujano">
-
+            <div id="field-container-cirujanos" class="field-container mt-3">
+                <div class="form-group">
+                    <label for="cirujano_0" class="cirujanoLabel" style="background: yellow">Cirujano</label>
+                    <input type="text" id="filtroCirujano_0" class="form-control filtroCirujano" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
+                    <div id="opcionesCirujano_0" class="opcion-cirujano"></div>
+                    <input type="hidden" id="cirujanoSeleccionado_0" name="cirujanoSeleccionado_0">
                 </div>
-                <input type="hidden" id="cirujanoSeleccionado" name="cirujanoSeleccionado">
+
+                <div class="form-group">
+                    <label for="ayudante1_0" class="primerAyudanteLabel" style="background: yellow">Primer ayudante</label>
+                    <input type="text" id="filtroPrimer_0" class="form-control filtroPrimer" placeholder="Escribe y te van apareciendo opciones" autocomplete="off" required>
+                    <div id="opcionesPrimer_0" class="opcion-primer"></div>
+                    <input type="hidden" id="primerSeleccionado_0" name="primerSeleccionado_0">
+                </div>
+
+                <div class="form-group">
+                    <label for="ayudante2_0" class="segundoAyudanteLabel" style="background: yellow">Segundo ayudante</label>
+                    <input type="text" id="filtroSegundo_0" class="form-control filtroSegundo" placeholder="Escribe y te van apareciendo opciones" autocomplete="off" required>
+                    <div id="opcionesSegundo_0" class="opcion-segundo"></div>
+                    <input type="hidden" id="segundoSeleccionado_0" name="segundoSeleccionado_0">
+                </div>
             </div>
+            <div id="additional-fields-cirujanos"></div>
 
-
-            <div class="form-group">
-                <label for="ayudante1">Primer ayudante</label>
-                <input type="text" id="filtroPrimer" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
-                <div id="opcionesPrimer" class="opcion-primer"></div>
-                <input type="hidden" id="primerSeleccionado" name="primerSeleccionado">
-            </div>
-
-            <div class="form-group">
-                <label for="ayudante2">Segundo ayudante</label>
-                <input type="text" id="filtroSegundo" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
-                <div id="opcionesSegundo" class="opcion-segundo"></div>
-                <input type="hidden" id="segundoSeleccionado" name="segundoSeleccionado">
-
-                </select>
-            </div>
-            </article>
             <div class="form-group">
                 <label for="anestesista" style="background: yellow">Anestesista</label>
                 <input type="text" id="filtroAnestesista" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
@@ -229,7 +212,7 @@
             </div>
 
             <div class="form-group">
-                <label for="nQuirofano" style="background: yellow">N° quirofano usado</label>
+                <label for="nQuirofano" style="background: yellow" >N° quirofano usado</label>
                 <select class="form-control" name="numeroQuirofano" id="numeroQuirofano" required>
                     <option value="">Seleccionar</option>
                     <option value="1"> 1</option>
@@ -298,7 +281,17 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="tipoCirugia" style="background: yellow">Material protesico primario implantado usado</label>
+                <label for="tipoCirugia">Código módulo anestesia HCANK</label>
+                <select class="form-control" name="moduloAnestesia" id="moduloAnestesia"  required>
+                    <option value="">Seleccionar</option>
+                    {{#moduloAnestesia}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/moduloAnestesia}}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipoCirugia">Material protesico primario implantado usado</label>
 
                 <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
                 <div id="opcionesMaterial" class="opcion-material custom-select-option"></div>
