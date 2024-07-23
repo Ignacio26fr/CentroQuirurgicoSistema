@@ -391,7 +391,7 @@ class QuirurgicoModel
     }
 public function insertCirugiaPersonaCirujano($idCirugia, $idPersona, $idRolCirugia, $idTipo)
 {
-    $query = "INSERT INTO cirugiapersona (idCirugia, idPersona, idRolCirugia) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO cirugiapersona (idCirugia, idPersona, idRolCirugia, idTipo) VALUES (?, ?, ?, ?)";
     $stmt = $this->database->prepare($query);
     $stmt->bind_param("ssss", $idCirugia, $idPersona, $idRolCirugia, $idTipo);
 

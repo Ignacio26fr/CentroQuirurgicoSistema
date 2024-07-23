@@ -372,6 +372,8 @@ $(document).ready(function() {
 
     setupFieldEvents($('#field-container-cirujanos'));
 });
+//VERIFICAR QUE AL GUARDAR SE PASEN LOS DATOS
+
 
 //Anestesista
 

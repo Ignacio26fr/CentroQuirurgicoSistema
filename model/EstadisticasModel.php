@@ -294,26 +294,76 @@ class EstadisticasModel
         $stmt->close();
     }
 
-    public function obtenerEspecialidadQuirurgica($idUnidadFuncional)
+    public function obtenerEspecialidadQuirurgica($idCirugia)
     {
-        $query = "SELECT e.nombre from unidadFuncional up 
-                  INNER JOIN especialidadquirurgica e ON up.idEspQuirurgica = e.id
-                  WHERE up.id = ?";
+        $query = "SELECT e.nombre from cirugiaespquirurgica ep 
+                  INNER JOIN especialidadquirurgica e ON ep.idEspQuirurgica = e.id
+                  WHERE ep.idCirugia = ? AND ep.idTipo = 1";
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param('i', $idUnidadFuncional);
+        $stmt->bind_param('i', $idCirugia);
         $stmt->execute();
 
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            $unidadFuncional = [];
+            $espQuirurgica = [];
 
             while ($row = $result->fetch_assoc()) {
-                $unidadFuncional[] = $row;
+                $espQuirurgica[] = $row;
             }
 
-            return $unidadFuncional;
+            return $espQuirurgica;
+        } else {
+            return [];
+        }
+
+    }
+    public function obtenerEspecialidadQuirurgicaSecundario($idCirugia)
+    {
+        $query = "SELECT e.nombre from cirugiaespquirurgica ep 
+                  INNER JOIN especialidadquirurgica e ON ep.idEspQuirurgica = e.id
+                  WHERE ep.idCirugia = ? AND ep.idTipo = 2";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $espQuirurgica = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $espQuirurgica[] = $row;
+            }
+
+            return $espQuirurgica;
+        } else {
+            return [];
+        }
+
+    }
+    public function obtenerEspecialidadQuirurgicaTerciario($idCirugia)
+    {
+        $query = "SELECT e.nombre from cirugiaespquirurgica ep 
+                  INNER JOIN especialidadquirurgica e ON ep.idEspQuirurgica = e.id
+                  WHERE ep.idCirugia = ? AND ep.idTipo = 3";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $espQuirurgica = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $espQuirurgica[] = $row;
+            }
+
+            return $espQuirurgica;
         } else {
             return [];
         }
@@ -347,7 +397,7 @@ class EstadisticasModel
     {
         $query = "SELECT d.nombre FROM diagnostico d
                   INNER JOIN diagnosticocirugia dc ON d.id = dc.idDiagnostico
-                  WHERE dc.idCirugia = ? and dc.tipo = 'PRIMARIO'" ;
+                  WHERE dc.idCirugia = ? and dc.idTipo = 1" ;
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -372,7 +422,7 @@ class EstadisticasModel
     {
         $query = "SELECT d.nombre FROM diagnostico d
                   INNER JOIN diagnosticocirugia dc ON d.id = dc.idDiagnostico
-                  WHERE dc.idCirugia = ? and dc.tipo = 'SECUNDARIO'" ;
+                  WHERE dc.idCirugia = ? and dc.idTipo = 2" ;
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -393,12 +443,13 @@ class EstadisticasModel
         }
 
     }
-     public function obtenerActoPrincipal($idCirugiaNombre)
+     public function obtenerActoPrincipal($idCirugia)
      {
-         $query = "SELECT nc.nombre from cirugia c 
-                    inner join nombrecirugia nc on c.idNombreCirugia = nc.id where nc.id = ?";
+         $query = "SELECT nc.nombre from cirugianombrecirugia c 
+                    inner join nombrecirugia nc on c.idNombreCirugia = nc.id 
+                 where c.idCirugia = ? and c.idTipo = 1";
          $stmt = $this->database->prepare($query);
-         $stmt->bind_param('i', $idCirugiaNombre);
+         $stmt->bind_param('i', $idCirugia);
          $stmt->execute();
 
          $result = $stmt->get_result();
@@ -413,6 +464,48 @@ class EstadisticasModel
              return [];
          }
      }
+    public function obtenerActoSecundario($idCirugia)
+    {
+        $query = "SELECT nc.nombre from cirugianombrecirugia c 
+                    inner join nombrecirugia nc on c.idNombreCirugia = nc.id 
+                 where c.idCirugia = ? and c.idTipo = 2";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+
+            }
+            return $cirugias;
+        } else {
+            return [];
+        }
+    }
+    public function obtenerActoTerciario($idCirugia)
+    {
+        $query = "SELECT nc.nombre from cirugianombrecirugia c 
+                    inner join nombrecirugia nc on c.idNombreCirugia = nc.id 
+                 where c.idCirugia = ? and c.idTipo = 3";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+
+            }
+            return $cirugias;
+        } else {
+            return [];
+        }
+    }
 
 
 
@@ -456,7 +549,7 @@ class EstadisticasModel
     public function obtenerSitioAnatomico($idSitioAnatomico)
     {
         $query = "Select s.nombre from sitioAnatomico s inner join 
-                  cirugia c on c.idSitioAnatomico = s.id where s.id = ?";
+                  cirugiasitioanatomico c on c.idSitioAnatomico = s.id where c.idCirugia = ? AND c.idTipo = 1";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idSitioAnatomico);
         $stmt->execute();
@@ -469,17 +562,82 @@ class EstadisticasModel
             return $cirugias;
         }
     }
-    public function obtenerUnidadFuncional($idUnidadFuncional)
+    public function obtenerSitioAnatomicoSecundario($idSitioAnatomico)
     {
-        $query = "Select s.nombre from unidadFuncional s where s.id = ?";
+        $query = "Select s.nombre from sitioAnatomico s inner join 
+                  cirugiasitioanatomico c on c.idSitioAnatomico = s.id where c.idCirugia = ? AND c.idTipo = 2";
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param('i', $idUnidadFuncional);
+        $stmt->bind_param('i', $idSitioAnatomico);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+            }
+            return $cirugias;
+        }
+    }
+    public function obtenerSitioAnatomicoTerciario($idSitioAnatomico)
+    {
+        $query = "Select s.nombre from sitioAnatomico s inner join 
+                  cirugiasitioanatomico c on c.idSitioAnatomico = s.id where c.idCirugia = ? AND c.idTipo = 3";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idSitioAnatomico);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+            }
+            return $cirugias;
+        }
+    }
+    public function obtenerUnidadFuncional($idCirugia)
+    {
+        $query = "Select s.nombre from unidadFuncional s INNER JOIN
+                    cirugiaunidadfuncional c on c.idUnidadFuncional = s.id where c.idCirugia = ? AND c.idTipo = 1";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $unidadesFuncionales = [];
             while ($row = $result->fetch_assoc()) {
-                $unidadesFuncionales = $row;
+                $unidadesFuncionales[] = $row;
+            }
+            return $unidadesFuncionales;
+        }
+    }
+    public function obtenerUnidadFuncionalSecundario($idCirugia)
+    {
+        $query = "Select s.nombre from unidadFuncional s INNER JOIN
+                    cirugiaunidadfuncional c on c.idUnidadFuncional = s.id where c.idCirugia = ? AND c.idTipo = 2";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $unidadesFuncionales = [];
+            while ($row = $result->fetch_assoc()) {
+                $unidadesFuncionales[] = $row;
+            }
+            return $unidadesFuncionales;
+        }
+    }
+    public function obtenerUnidadFuncionalTerciario($idCirugia)
+    {
+        $query = "Select s.nombre from unidadFuncional s INNER JOIN
+                    cirugiaunidadfuncional c on c.idUnidadFuncional = s.id where c.idCirugia = ? AND c.idTipo = 3";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $unidadesFuncionales = [];
+            while ($row = $result->fetch_assoc()) {
+                $unidadesFuncionales[] = $row;
             }
             return $unidadesFuncionales;
         }
