@@ -27,7 +27,11 @@
         <th><input type="text" class="form-control" id="filtroPrimario" name="filtroPrimario" placeholder="Filtrar por Diagnóstico primario">Diag primario</th>
         <th><input type="text" class="form-control" id="filtroSecundario" name="filtroSecundario" placeholder="Filtrar por Diagnóstico secundario">Diag secundario</th>
         <th><input type="text" class="form-control" id="filtroEsp" name="filtroEsp" placeholder="Filtrar por Especialidad quirúrgica">Esp quirurgico</th>
+        <th style="display: none">Especialidad secundaria</th>
+        <th style="display: none">Especialidad Terciaria</th>
         <th><input type="text" class="form-control" id="filtroActoQuirurgico" name="filtroActoQuirurgico" placeholder="Filtrar por Acto quirúrgico principal">Acto principal</th>
+        <th style="display: none">Acto secundario</th>
+        <th style="display: none">Acto terciario</th>
         <th><input type="text" class="form-control" id="filtroCirujano" name="filtroCirujano" placeholder="Filtrar por Cirujano">Cirujano</th>
         <th><input type="text" class="form-control" id="filtroAnestesista" name="filtroAnestesista" placeholder="Filtrar por Anestesista">Anestesia</th>
         <th><input type="text" class="form-control" id="filtroInstrumentador" name="filtroInstrumentador" placeholder="Filtrar por Instrumentador quirúrgico">Instrumentador</th>
@@ -39,7 +43,11 @@
         <th style="display: none">TipoDeAnestesia</th>
         <th style="display: none">TipoDeCirugia</th>
         <th style="display: none">SitioAnatomico</th>
+        <th style="display: none">SitioAnatomico sec</th>
+        <th style="display: none">SitioAnatomico ter</th>
         <th style="display: none">UnidadFuncional</th>
+        <th style="display: none">UnidadFuncional sec</th>
+        <th style="display: none">UnidadFuncional ter</th>
         <th style="display: none">Neonatologo</th>
         <th style="display: none">Circulante</th>
         <th style="display: none">Primer ayudante</th>
@@ -72,7 +80,11 @@
             <td>{{primario}}</td>
             <td>{{secundario}}</td>
             <td>{{especialidad}}</td>
+            <td style="display: none">{{especialidad2}}</td>
+            <td style="display: none">{{especialidad3}}</td>
             <td>{{nombreCirugia}}</td>
+            <td style="display: none">{{nombreCirugia2}}</td>
+            <td style="display: none">{{nombreCirugia3}}</td>
             <td>{{nombreCirujano}}</td>
             <td>{{anestesista}}</td>
             <td>{{instrumentador}}</td>
@@ -84,7 +96,11 @@
             <td style="display: none">{{tipoDeAnestesia}}</td>
             <td style="display: none">{{tipoDeCirugia}}</td>
             <td style="display: none">{{sitioAnatomico}}</td>
+            <td style="display: none">{{sitioAnatomico2}}</td>
+            <td style="display: none">{{sitioAnatomico3}}</td>
             <td style="display: none">{{unidadFuncional}}</td>
+            <td style="display: none">{{unidadFuncional2}}</td>
+            <td style="display: none">{{unidadFuncional3}}</td>
             <td style="display: none">{{neonatologo}}</td>
             <td style="display: none">{{circulante}}</td>
             <td style="display: none">{{primerAyudante}}</td>

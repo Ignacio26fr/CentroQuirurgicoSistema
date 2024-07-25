@@ -258,16 +258,12 @@ class FormularioController
             $this->insertEspQuirurgica($result, $data);
             $this->insertUnidadFuncional($result, $data);
             $this->insertSitioAnatomico($result, $data);
-
             $this->insertActoQuirurgico($result, $data);
-
             $this->model->insertCodigoCirugia($result, $data['codigo']);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
-            if($data['materialProtesico' != null]){
-                $this->model->insertMaterialProtesico($data['materialProtesico'], $result, 1, $data['cantidadDeMaterialPrimario']);
-            }
 
+            $this->insertMaterialProtesico($data, $result);
 
 
 
@@ -316,7 +312,9 @@ class FormularioController
             'tipoCirugia' => $_POST['tipoCirugia'],
             'tecnologiaUsada' => $_POST['tecnologiasUsadas'],
             'codigo' => $_POST['codigosSeleccionado'],
-            'materialProtesico' => $_POST['materialProtesicoPrimario'],
+            'materialProtesico' => $_POST['materialProtesico_0'] ?? null,
+            'materialProtesico2' => $_POST['materialProtesico_1'] ?? null,
+            'materialProtesico3' => $_POST['materialProtesico_2'] ?? null,
             'observacion' => $_POST['detalle'],
             'conteo' => $_POST['conteo'],
             'numeroQuirofano' => $_POST['numeroQuirofano'],
@@ -327,7 +325,9 @@ class FormularioController
             'horaIngresoAlCentroQuirurgico' => $_POST['horaIngresoAlCentroQuirurgico'],
             'horaEgreso' => $_POST['horaEgreso'],
             'horaNac' => $_POST['horaNac'],
-            'cantidadDeMaterialPrimario' => $_POST['cantidadDeMaterialPrimario']
+            'cantidadDeMaterial' => $_POST['cantidadMaterial_0'] ?? null,
+            'cantidadDeMaterial2' => $_POST['cantidadMaterial_1'] ?? null,
+            'cantidadDeMaterial3' => $_POST['cantidadMaterial_2'] ?? null
         ];
         return $data;
     }
@@ -394,12 +394,8 @@ class FormularioController
         }
     }
 
-    /**
-     * @param $result
-     * @param array $data
-     * @return void
-     */
-    public function insertActoQuirurgico($result, array $data)
+
+    private function insertActoQuirurgico($result, array $data)
     {
         $this->model->insertActoQuirurgico($result, $data['actoQuirurgico'], 1);
         if ($data['actoQuirurgico1'] != null) {
@@ -407,6 +403,20 @@ class FormularioController
         }
         if ($data['actoQuirurgico2'] != null) {
             $this->model->insertActoQuirurgico($result, $data['actoQuirurgico2'], 3);
+        }
+    }
+
+
+    private function insertMaterialProtesico(array $data, $result)
+    {
+        if ($data['materialProtesico' != null]) {
+            $this->model->insertMaterialProtesico($data['materialProtesico'], $result, 1, $data['cantidadDeMaterial']);
+        }
+        if ($data['materialProtesico2' != null]) {
+            $this->model->insertMaterialProtesico($data['materialProtesico2'], $result, 2, $data['cantidadDeMaterial2']);
+        }
+        if ($data['materialProtesico3' != null]) {
+            $this->model->insertMaterialProtesico($data['materialProtesico3'], $result, 3, $data['cantidadDeMaterial3']);
         }
     }
 }

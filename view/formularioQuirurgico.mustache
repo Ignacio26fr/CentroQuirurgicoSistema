@@ -103,15 +103,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="ayudante1_0" class="primerAyudanteLabel" style="background: yellow">Primer ayudante</label>
-                    <input type="text" id="filtroPrimer_0" class="form-control filtroPrimer" placeholder="Escribe y te van apareciendo opciones" autocomplete="off" required>
+                    <label for="ayudante1_0" class="primerAyudanteLabel">Primer ayudante</label>
+                    <input type="text" id="filtroPrimer_0" class="form-control filtroPrimer" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                     <div id="opcionesPrimer_0" class="opcion-primer"></div>
                     <input type="hidden" id="primerSeleccionado_0" name="primerSeleccionado_0">
                 </div>
 
                 <div class="form-group">
-                    <label for="ayudante2_0" class="segundoAyudanteLabel" style="background: yellow">Segundo ayudante</label>
-                    <input type="text" id="filtroSegundo_0" class="form-control filtroSegundo" placeholder="Escribe y te van apareciendo opciones" autocomplete="off" required>
+                    <label for="ayudante2_0" class="segundoAyudanteLabel">Segundo ayudante</label>
+                    <input type="text" id="filtroSegundo_0" class="form-control filtroSegundo" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
                     <div id="opcionesSegundo_0" class="opcion-segundo"></div>
                     <input type="hidden" id="segundoSeleccionado_0" name="segundoSeleccionado_0">
                 </div>
@@ -256,7 +256,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="patagonico" style="background: yellow">Anatomia patoglogica?</label>
+                <label for="patagonico" style="background: yellow">Anatomia patologica?</label>
                 <select class="form-control" name="anatomiaPatologica" id="patagonico">
                     <option value="">Seleccionar</option>
                     <option value="1"> Si</option>
@@ -281,7 +281,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="tipoCirugia">Código módulo anestesia HCANK</label>
+                <label for="tipoCirugia" style="background: yellow">Código módulo anestesia HCANK</label>
                 <select class="form-control" name="moduloAnestesia" id="moduloAnestesia"  required>
                     <option value="">Seleccionar</option>
                     {{#moduloAnestesia}}
@@ -290,19 +290,19 @@
 
                 </select>
             </div>
-            <div class="form-group">
-                <label for="tipoCirugia">Material protesico primario implantado usado</label>
-
-                <input type="text" id="filtroMaterial" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
-                <div id="opcionesMaterial" class="opcion-material custom-select-option"></div>
-                <input type="hidden" id="materialSeleccionado" name="materialProtesicoPrimario" >
+            <div id="field-container-material" class="field-container mt-3">
+                <div class="form-group">
+                    <label for="opcionMaterial_0" class="materialLabel">Material protésico implantado usado</label>
+                    <input type="text" id="filtroMaterial_0" class="form-control filtroMaterial" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
+                    <div id="opcionesMaterial_0" class="opcion-material custom-select-option"></div>
+                    <input type="hidden" id="materialSeleccionado_0" name="materialProtesico_0">
+                </div>
+                <div class="form-group">
+                    <label for="cantidadMaterial_0" class="cantidadMaterialLabel">Cantidad de material protésico:</label>
+                    <input type="number" class="form-control" id="cantidadMaterial_0" name="cantidadMaterial_0" required>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="cantidadMaterialPrimario">Cantidad de material protesico primario:</label>
-                <input type="number" class="form-control" id="cantidadDeMaterialPrimario" name="cantidadDeMaterialPrimario" required>
-            </div>
-
+            <div id="additional-fields-material"></div>
         <div id="tecnologiasCheckboxContainer" >
             <h5 style="background: yellow">Tecnologias usadas</h5>
 

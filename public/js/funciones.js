@@ -72,10 +72,11 @@ $(document).ready(function() {
     const maxFields = 3;
 
     function checkAndShowExtraFields() {
+
         if ($('.espQuirurgica').last().val() !== '0' &&
             $('.unidadFuncional').last().val() !== '0' &&
             $('.sitioAnatomico').last().val() !== '0' &&
-            $('.cirugiaNombre').last().val !== '0') {
+            $('.actoQuirurgico').last().val() !== '0') {
             if (fieldIndex < maxFields) {
                 addNewFields();
             }
@@ -199,9 +200,7 @@ $(document).ready(function() {
     const maxFields = 3;
 
     function checkAndShowExtraFields() {
-        if ($('.filtroCirujano').last().val() !== '' &&
-            $('.filtroPrimer').last().val() !== '' &&
-            $('.filtroSegundo').last().val() !== '') {
+        if ($('.filtroCirujano').last().val() !== '') {
             if (fieldIndex < maxFields) {
                 addNewFields();
             }
@@ -573,45 +572,100 @@ $(document).ready(function() {
 
 });
 //Material protesico primario
+
+
 $(document).ready(function() {
-    $('#filtroMaterial').on('input', function () {
-        var filtroMaterial = $(this).val();
-        console.log(filtroMaterial);
-        $.ajax({
-            url: '/formulario/obtenerMaterialProtesico',
-            method: 'GET',
-            data: {filtroMaterial: filtroMaterial},
-            success: function (data) {
-                $('#opcionesMaterial').empty();
-                $.each(data, function (index, option) {
-                    var $opcion = $('<div class="opcion-material select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
-                    $('#opcionesMaterial').append($opcion);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-                console.log(this.data)
+    let fieldIndex = 1;
+    const maxFields = 3;
+
+    function checkAndShowExtraFields() {
+        if ($('.filtroMaterial').last().val() !== '') {
+            if (fieldIndex < maxFields) {
+                addNewFields();
+            }
+        }
+    }
+
+    function setupFieldEvents($container) {
+        $container.find('.filtroMaterial').on('input', function () {
+            checkAndShowExtraFields();
+        });
+
+        $container.find('.filtroMaterial').on('input', function () {
+            var filtroMaterial = $(this).val();
+            var $opcionesMaterial = $(this).next('.opcion-material');
+
+            $.ajax({
+                url: '/formulario/obtenerMaterialProtesico',
+                method: 'GET',
+                data: { filtroMaterial: filtroMaterial },
+                success: function (data) {
+                    $opcionesMaterial.empty();
+                    $.each(data, function (index, option) {
+                        var $opcion = $('<div class="opcion-material select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
+                        $opcionesMaterial.append($opcion);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $container.on('click', '.opcion-material .select-option', function () {
+            var nombreMaterial = $(this).text();
+            var idMaterial = $(this).data('id');
+            var $filtroMaterial = $(this).closest('.form-group').find('.filtroMaterial');
+            var $materialSeleccionado = $(this).closest('.form-group').find('input[type="hidden"]');
+            $filtroMaterial.val(nombreMaterial);
+            $materialSeleccionado.val(idMaterial);
+            $(this).parent().empty();
+        });
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.opcion-material').length && !$(event.target).is('.filtroMaterial')) {
+                $('.opcion-material').empty();
             }
         });
-    });
+    }
 
+    function addNewFields() {
+        var $newFields = $('#field-container-material').clone();
+        $newFields.attr('id', 'field-container-material-' + fieldIndex);
 
-    $('#opcionesMaterial').on('click', '.opcion-material', function () {
-        var nombreMaterial = $(this).text();
-        var idMaterial = $(this).data('id');
-        console.log(idMaterial);
-        $('#filtroMaterial').val(nombreMaterial);
-        $('#materialSeleccionado').val(idMaterial);
-        $('#opcionesMaterial').empty();
-    });
+        // Iterate through inputs and other elements
+        $newFields.find('input[type="text"], input[type="hidden"], input[type="number"], div[class*="opcion"]').each(function () {
+            var $this = $(this);
+            var id = $this.attr('id');
+            var name = $this.attr('name');
 
-    $(document).on('click', function (event) {
-        if (!$(event.target).closest('#opcionesMaterial').length && !$(event.target).is('#filtroMaterial')) {
-            $('#opcionesMaterial').empty();
-        }
-    });
+            if (id) {
+                var newId = id.replace('_0', '_' + fieldIndex);
+                $this.attr('id', newId);
+            }
 
+            if (name) {
+                var newName = name.replace('_0', '_' + fieldIndex);
+                $this.attr('name', newName);
+            }
+
+            $this.val('');
+        });
+
+        // Update labels
+        $newFields.find('.materialLabel').text('Material Protesico Implementado ' + (fieldIndex + 1)).css('background', 'white');
+        $newFields.find('.cantidadMaterialLabel').text('Cantidad material implementdo ' + (fieldIndex +1))
+        $('#additional-fields-material').append($newFields);
+        setupFieldEvents($newFields);
+
+        fieldIndex++;
+    }
+    //Falta que guarde esto en bd
+
+    setupFieldEvents($('#field-container-material'));
 });
+
+
 
 
 
