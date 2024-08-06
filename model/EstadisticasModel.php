@@ -31,12 +31,11 @@ class EstadisticasModel
         return $cirugias;
 
     }
-    public function obtenerCirugiasPaginadas($fechaInicio, $fechaFin, $inicio, $paginas )
+    public function obtenerCirugia($idCirugia)
     {
-        $query = "SELECT * FROM cirugia WHERE fecha BETWEEN ? AND ? LIMIT ?, ?";
-
+        $query = "SELECT * FROM cirugia WHERE id = ?";
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param('ssii', $fechaInicio, $fechaFin, $inicio, $paginas);
+        $stmt->bind_param('i', $idCirugia);
         $stmt->execute();
 
         $result =  $stmt->get_result();
@@ -47,6 +46,30 @@ class EstadisticasModel
         }
 
         return $cirugias;
+    }
+
+    public function obtenerCirugiasPaginadas($fechaInicio, $fechaFin, $inicio, $paginas )
+    {
+        $query = "SELECT * FROM cirugia WHERE fecha BETWEEN ? AND ? LIMIT ?, ?";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('ssii', $fechaInicio, $fechaFin, $inicio, $paginas);
+        $stmt->execute();
+
+        $result =  $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $cirugia = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $cirugia[] = $row;
+            }
+
+            return $cirugia;
+        } else {
+            return [];
+        }
+
 
     }
 
@@ -79,6 +102,64 @@ class EstadisticasModel
 
         $stmt->close();
     }
+    public function obtenerProfesionalCirujanoSecundario($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' and rc.nombre = 'SECUNDARIO'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+
+    public function obtenerProfesionalCirujanoTerciario($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' and rc.nombre = 'TERCIARIO'";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+
 
     public function contarCirugias($fechaInicio, $fechaFin)
     {

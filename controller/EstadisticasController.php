@@ -158,7 +158,6 @@ class EstadisticasController
                     'observacion' => $cirugia['observacion'],
                     'tipoDeAnestesia' => $tipoDeAnestesiasName,
                     'tipoDeCirugia' => $tipoCirugiaName,
-                    // caja quirurgica
                 'sitioAnatomico' => $sitioAnatomico,
                     'sitioAnatomico2' => $sitioAnatomico2,
                     'sitioAnatomico3' => $sitioAnatomico3,
@@ -201,10 +200,57 @@ class EstadisticasController
         }
     }
 
-    public function verDetalle ($idCirugia) {
+    public function verDetalle ()
+    {
 
-}
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['idCirugia'])) {
+            $idCirugia = $_GET['idCirugia'];
+            $paciente = $this->model->obtenerCirugia($idCirugia);
+            $primario = $this->model->obtenerDiagnosticoPrimario($idCirugia);
+            $secundario = $this->model->obtenerDiagnosticoSecundario($idCirugia);
+            $especialidad = $this->model->obtenerEspecialidadQuirurgica($idCirugia);
+            $especialidadSecundaria = $this->model->obtenerEspecialidadQuirurgicaSecundario($idCirugia);
+            $especialidadTerciaria = $this->model->obtenerEspecialidadQuirurgicaTerciario($idCirugia);
+            $acto = $this->model->obtenerActoPrincipal($idCirugia);
+            $actoSecundario = $this->model->obtenerActoSecundario($idCirugia);
+            $actoTerciario = $this->model->obtenerActoTerciario($idCirugia);
+            $cirujano =$this->model->obtenerProfesionalCirujano($idCirugia);
+            $cirujano2 = $this->model->obtenerProfesionalCirujanoSecundario($idCirugia);
+            var_dump($cirujano2);
 
+            $this->presenter->render("view/detalleEstadisticas.mustache", [
+                "fecha" => $paciente[0]['fecha'],
+                "paciente" => $paciente[0]['idPaciente'],
+                "horaInicio" => $paciente[0]['horaInicio'],
+                "horaFin" => $paciente[0]['horaFin'],
+                "asa" => $paciente[0]['asa'],
+                "horaEgreso" => $paciente[0]['horaEgresoCentroQuirurgico'],
+                "horaDeNacimiento" => $paciente[0]['horaDeNacimiento'],
+                "anatomia" => $paciente[0]['anatomiaPatologica'] == 1 ? 'SI' : 'NO',
+                "hemoterapia" => $paciente[0]['hemoterapia'] == 1 ? 'SI' : 'NO',
+                "cultivo" => $paciente[0]['cultivo'] == 1 ? 'SI' : 'NO',
+                "conteo" => $paciente[0]['conteo'] == 1 ? 'SI' : 'NO',
+                "radiograma" => $paciente[0]['radiografiaControl'] == 1 ? 'SI' : 'NO',
+                "nroQuirofano" => $paciente[0]['nroQuirofanoUsado'],
+                "observacion" => $paciente[0]['observacion'],
+                "primario" => $primario[0]['nombre'],
+                "secundario" => !empty($secundario[0]['nombre']) ? $secundario[0]['nombre'] : 'N/A',
+                "especialidad" => $especialidad[0]['nombre'],
+                "especialidad2" => !empty($especialidadSecundaria[0]['nombre']) ? $especialidadSecundaria[0]['nombre'] : 'N/A',
+                "especialidad3" => !empty($especialidadTerciaria[0]['nombre']) ? $especialidadTerciaria[0]['nombre'] : 'N/A',
+                "acto" => $acto[0]['nombre'],
+                "acto2" => !empty($actoSecundario[0]['nombre']) ? $actoSecundario[0]['nombre'] : 'N/A',
+                "acto3" => !empty($actoTerciario[0]['nombre']) ? $actoTerciario[0]['nombre'] : 'N/A',
+
+
+
+
+
+            ]);
+        } else {
+            header("Location: /home");
+        }
+    }
 
 
     private function obtenerCirujanos(array $idsCirugias): array

@@ -368,6 +368,7 @@ class FormularioController
             $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante'], 3, 1);
         }
     }
+
     private function insertarCirujanoPrimerYSegSecundario($result, array $data)
     {
 
@@ -380,6 +381,19 @@ class FormularioController
         }
         if ($data['segundoAyudante1'] != null) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante1'], 3, 2);
+        }
+    }
+    private function insertarCirujanoPrimerYSegTerciario($result, array $data)
+    {
+        if($data['cirujano2'] != null) {
+            $this->model->insertCirugiaPersonaCirujano($result, $data['cirujano2'], 1, 3);
+        }
+
+        if ($data['primerAyudante2'] != null) {
+            $this->model->insertCirugiaPersonaCirujano($result, $data['primerAyudante2'], 2, 3);
+        }
+        if ($data['segundoAyudante2'] != null) {
+            $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante2'], 3, 3);
         }
     }
 
