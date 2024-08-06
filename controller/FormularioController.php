@@ -142,6 +142,28 @@ class FormularioController
         }
 
     }
+    public function obtenerInstrumentador()
+    {
+        header('Content-Type: application/json');
+        if (isset($_GET['filtroInstrumentador'])) {
+            $filtroInstrumentador = $_GET['filtroInstrumentador'];
+            $resultados = $this->model->obtenerInstrumentador($filtroInstrumentador);
+
+            echo json_encode($resultados);
+        }
+
+    }
+    public function obtenerCirculante()
+    {
+        header('Content-Type: application/json');
+        if (isset($_GET['filtroCirculante'])) {
+            $filtroCirculante = $_GET['filtroCirculante'];
+            $resultados = $this->model->obtenerInstrumentador($filtroCirculante);
+
+            echo json_encode($resultados);
+        }
+
+    }
     public function obtenerNeonatologo()
     {
         header('Content-Type: application/json');
@@ -205,10 +227,6 @@ class FormularioController
             $data = $this->obtenerDatosDelPost();
 
 
-            if($data['cajaQuirurgica'] == '0' || $data['cajaQuirurgica'] == null){
-                $data['cajaQuirurgica'] = null;
-            }
-
 
             $result = $this->model->insertCirugia(
                 $data['observacion'],
@@ -217,7 +235,6 @@ class FormularioController
                 $data['fecha'],
                 $data['tipoAnestesia'],
                 $data['tipoCirugia'],
-                $data['cajaQuirurgica'],
                 $data['paciente'],
                 $data['asa'],
                 $data['numeroQuirofano'],
@@ -241,13 +258,13 @@ class FormularioController
             $this->insertarCirujanoPrimerYSegPrimario($result, $data);
             $this->insertarCirujanoPrimerYSegSecundario($result, $data);
 
-
-
+            $this->insertCajaQuirurgica($result, $data);
 
             $this->model->insertCirugiaPersona($result, $data['anestesista'], 4);
-            if($data['neonatologo'] != null) {
-                $this->model->insertCirugiaPersona($result, $data['neonatologo'], 5);
-            }
+            $this->insertNeonatologo($data['neonatologo'], $result);
+            $this->model->insertCirugiaPersona($result, $data['circulante'], 7);
+            $this->insertInstrumentador($data['instrumentador'], $result);
+            $this->model->insertCirugiaPersona($result, $data['tecnico'], 8);
 
                 foreach($data['tecnologiaUsada'] as $tecnologia){
 
@@ -259,7 +276,8 @@ class FormularioController
             $this->insertUnidadFuncional($result, $data);
             $this->insertSitioAnatomico($result, $data);
             $this->insertActoQuirurgico($result, $data);
-            $this->model->insertCodigoCirugia($result, $data['codigo']);
+            $this->insertCodigo($result, $data);
+
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
 
@@ -301,6 +319,7 @@ class FormularioController
             'segundoAyudante1' => $_POST['segundoSeleccionado_1'] ?? null,
             'segundoAyudante2' => $_POST['segundoSeleccionado_2'] ?? null,
             'anestesista' => $_POST['anestesistaSeleccionado'],
+            'circulante' => $_POST['circulanteSeleccionado'],
             'neonatologo' => $_POST['neoSeleccionado'],
             'tecnico' => $_POST['tecnicoSeleccionado'],
             'tipoAnestesia' => $_POST['idTipoDeAnestesia'],
@@ -308,10 +327,15 @@ class FormularioController
             'horaFin' => $_POST['horaFin'],
             'lugarProviene' => $_POST['lugarProviene'],
             'lugarEgreso' => $_POST['lugarEgreso'],
-            'cajaQuirurgica' => $_POST['idCajaQuirurgica'],
+            'cajaQuirurgica' => $_POST['idCajaQuirurgica_0'] ?? null,
+            'cajaQuirurgica2' => $_POST['idCajaQuirurgica_1'] ?? null,
+            'cajaQuirurgica3' => $_POST['idCajaQuirurgica_2'] ?? null,
+            'cajaQuirurgica4' => $_POST['idCajaQuirurgica_3'] ?? null,
             'tipoCirugia' => $_POST['tipoCirugia'],
             'tecnologiaUsada' => $_POST['tecnologiasUsadas'],
-            'codigo' => $_POST['codigosSeleccionado'],
+            'codigo' => $_POST['idCodigoSeleccionado_0'] ?? null,
+            'codigo1' => $_POST['idCodigoSeleccionado_1'] ?? null,
+            'codigo2' => $_POST['idCodigoSeleccionado_2'] ?? null,
             'materialProtesico' => $_POST['materialProtesico_0'] ?? null,
             'materialProtesico2' => $_POST['materialProtesico_1'] ?? null,
             'materialProtesico3' => $_POST['materialProtesico_2'] ?? null,
@@ -328,6 +352,7 @@ class FormularioController
             'cantidadDeMaterial' => $_POST['cantidadMaterial_0'] ?? null,
             'cantidadDeMaterial2' => $_POST['cantidadMaterial_1'] ?? null,
             'cantidadDeMaterial3' => $_POST['cantidadMaterial_2'] ?? null
+
         ];
         return $data;
     }
@@ -417,6 +442,53 @@ class FormularioController
         }
         if ($data['materialProtesico3' != null]) {
             $this->model->insertMaterialProtesico($data['materialProtesico3'], $result, 3, $data['cantidadDeMaterial3']);
+        }
+    }
+
+
+    private function insertCodigo($result, array $data)
+    {
+        $this->model->insertCodigoCirugia($result, $data['codigo'], 1);
+        if ($data['codigo1'] !== 0) {
+            $this->model->insertCodigoCirugia($result, $data['codigo1'], 2);
+        }
+        if ($data['codigo2'] !== 0) {
+            $this->model->insertCodigoCirugia($result, $data['codigo2'], 3);
+        }
+    }
+
+    /**
+     * @param $instrumentador
+     * @param $result
+     * @return void
+     */
+    private function insertInstrumentador($instrumentador, $result)
+    {
+        if ($instrumentador != null) {
+            $this->model->insertCirugiaPersona($result, $instrumentador, 6);
+        }
+    }
+
+
+    private function insertNeonatologo($neonatologo, $result)
+    {
+        if ($neonatologo != null) {
+            $this->model->insertCirugiaPersona($result, $neonatologo, 5);
+        }
+    }
+
+
+    private function insertCajaQuirurgica($result, array $data)
+    {
+        $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica'], 1);
+        if ($data['cajaQuirurgica2'] != null) {
+            $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica2'], 2);
+        }
+        if ($data['cajaQuirurgica3'] != null) {
+            $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica3'], 3);
+        }
+        if ($data['cajaQuirurgica4'] != null) {
+            $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica4'], 4);
         }
     }
 }

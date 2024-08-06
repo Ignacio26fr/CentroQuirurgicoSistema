@@ -698,7 +698,7 @@ class EstadisticasModel
     {
         $query = "SELECT c.nombre FROM codigopractica c
                   INNER JOIN codigopracticacirugia lc ON c.id = lc.idCodigoPractica
-                  WHERE lc.idCirugia = ?";
+                  WHERE lc.idCirugia = ? AND lc.tipo = 1";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -718,6 +718,55 @@ class EstadisticasModel
             return [];
         }
     }
+    public function obtenerCodigoDePracticasSecundario($idCirugia)
+    {
+        $query = "SELECT c.nombre FROM codigopractica c
+                  INNER JOIN codigopracticacirugia lc ON c.id = lc.idCodigoPractica
+                  WHERE lc.idCirugia = ? AND lc.tipo = 2";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $codigo = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $codigo[] = $row;
+            }
+
+            return $codigo;
+        } else {
+            return [];
+        }
+    }
+    public function obtenerCodigoDePracticasTerciario($idCirugia)
+    {
+        $query = "SELECT c.nombre FROM codigopractica c
+                  INNER JOIN codigopracticacirugia lc ON c.id = lc.idCodigoPractica
+                  WHERE lc.idCirugia = ? AND lc.tipo = 3";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $codigo = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $codigo[] = $row;
+            }
+
+            return $codigo;
+        } else {
+            return [];
+        }
+    }
+
 
     public function obtenerMaterialProtesico($idCirugia)
     {
@@ -764,6 +813,99 @@ class EstadisticasModel
             }
 
             return $tecnologia;
+        } else {
+            return [];
+        }
+    }
+
+    public function obtenerCajaQuirurgica($idCirugia)
+    {
+        $query = "SELECT c.nombre from cajaquirurgica c 
+                   INNER JOIN cirugiacajaquirurgica lc on c.id = lc.idCaja where 
+                    lc.idCirugia = ? and lc.idTipo = 1";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $caja = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $caja[] = $row;
+            }
+
+            return $caja;
+        } else {
+            return [];
+        }
+    }
+    public function obtenerCajaQuirurgicaSecundaria($idCirugia)
+    {
+        $query = "SELECT c.nombre from cajaquirurgica c 
+                   INNER JOIN cirugiacajaquirurgica lc on c.id = lc.idCaja where 
+                    lc.idCirugia = ? and lc.idTipo = 2";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $caja = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $caja[] = $row;
+            }
+
+            return $caja;
+        } else {
+            return [];
+        }
+    }
+    public function obtenerCajaQuirurgicaTerciaria($idCirugia)
+    {
+        $query = "SELECT c.nombre from cajaquirurgica c 
+                   INNER JOIN cirugiacajaquirurgica lc on c.id = lc.idCaja where 
+                    lc.idCirugia = ? and lc.idTipo = 3";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $caja = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $caja[] = $row;
+            }
+
+            return $caja;
+        } else {
+            return [];
+        }
+    }
+    public function obtenerCajaQuirurgicaCuarta($idCirugia)
+    {
+        $query = "SELECT c.nombre from cajaquirurgica c 
+                   INNER JOIN cirugiacajaquirurgica lc on c.id = lc.idCaja where 
+                    lc.idCirugia = ? and lc.idTipo = 4";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $caja = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $caja[] = $row;
+            }
+
+            return $caja;
         } else {
             return [];
         }

@@ -147,7 +147,24 @@ class QuirurgicoModel
 
     public function obtenerAnestesista($filtro)
     {
-        $query = "SELECT * FROM persona WHERE (nombre LIKE '%$filtro%' or apellido LIKE '%$filtro%' or matricula LIKE '%$filtro%') and idEspecialidad = 5 ";
+        $query = "SELECT * FROM persona WHERE (nombre LIKE '%$filtro%' or apellido LIKE '%$filtro%' or matricula LIKE '%$filtro%') and idEspecialidad = 5 or idEspecialidad = 7";
+        $resultados = $this->database->executeAndReturn($query);
+
+        $anestesistas = array();
+        while ($row = $resultados->fetch_assoc()) {
+            $anestesista = array(
+                'id' => $row['id'],
+                'nombre' => $row['nombre'],
+                'apellido' => $row['apellido'],
+                'matricula' => $row['matricula']
+            );
+            $anestesistas[] = $anestesista;
+        }
+        return $anestesistas;
+    }
+    public function obtenerInstrumentador($filtro)
+    {
+        $query = "SELECT * FROM persona WHERE (nombre LIKE '%$filtro%' or apellido LIKE '%$filtro%' or matricula LIKE '%$filtro%') and idEspecialidad = 6 or idEspecialidad = 7 ";
         $resultados = $this->database->executeAndReturn($query);
 
         $anestesistas = array();
@@ -183,7 +200,7 @@ class QuirurgicoModel
 
     public function obtenerTecnico($filtro)
     {
-        $query = "SELECT * FROM persona WHERE (nombre LIKE '%$filtro%' or apellido LIKE '%$filtro%' or matricula LIKE '%$filtro%') and idEspecialidad = 1 ";
+        $query = "SELECT * FROM persona WHERE (nombre LIKE '%$filtro%' or apellido LIKE '%$filtro%' or matricula LIKE '%$filtro%') and idEspecialidad = 1 or idEspecialidad = 7";
         $resultados = $this->database->executeAndReturn($query);
 
         $tecnicos = array();
@@ -296,6 +313,8 @@ class QuirurgicoModel
 
     }
 
+
+
     public function obtenerTecnologiaUsada()
     {
         $query = "SELECT * FROM tecnologia";
@@ -313,7 +332,7 @@ class QuirurgicoModel
 
 
     public function insertCirugia($observacion, $horaInicio, $horaFin, $fecha, $idTipoDeAnestesia,
-                                  $idTipoDeCirugia, $idCajaQuirurgica, $idPaciente,
+                                  $idTipoDeCirugia, $idPaciente,
                                   $asa, $nroQuirofanoUsado, $horaIngresoCentroQuirurgico,
                                   $horaEgresoCentroQuirurgico, $horaDeNacimiento, $conteo, $radiografia, $hemoterapia,
                                   $cultivo, $anatomiaPatologica)
@@ -327,7 +346,6 @@ class QuirurgicoModel
         fecha,
         idTipoDeAnestesia,
         idTipoDeCirugia,
-        idCajaQuirurgica,
         idPaciente,
         asa,
         nroQuirofanoUsado,
@@ -339,7 +357,7 @@ class QuirurgicoModel
         hemoterapia,
         cultivo,
         anatomiaPatologica
-    ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
 
@@ -349,14 +367,13 @@ class QuirurgicoModel
 
         // Realiza el bind de los parámetros
         $stmt->bind_param(
-            "ssssssssiisssiiiii",
+            "sssssssiisssiiiii",
             $observacion,
             $horaInicio,
             $horaFin,
             $fecha,
             $idTipoDeAnestesia,
             $idTipoDeCirugia,
-            $idCajaQuirurgica,
             $idPaciente,
             $asa,
             $nroQuirofanoUsado,
@@ -410,11 +427,11 @@ public function insertTecnologiaCirugia($idCirugia, $idTecnologia)
         $stmt->close();
     }
 
-    public function insertCodigoCirugia($idCirugia, $idCodigo)
+    public function insertCodigoCirugia($idCirugia, $idCodigo, $idTipo)
     {
-        $query = "INSERT INTO codigopracticacirugia (idCirugia, idCodigoPractica) VALUES (?, ?)";
+        $query = "INSERT INTO codigopracticacirugia (idCirugia, idCodigoPractica, tipo) VALUES (?, ?, ?)";
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("ss", $idCirugia, $idCodigo);
+        $stmt->bind_param("sss", $idCirugia, $idCodigo, $idTipo);
 
         $stmt->execute();
         $stmt->close();
@@ -490,6 +507,14 @@ public function insertTecnologiaCirugia($idCirugia, $idTecnologia)
         $query = "INSERT INTO cirugianombreCirugia(idCirugia, idNombreCirugia, idTipo) VALUES (?, ?, ?)";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("sss", $idCirugia, $idActoQuirurgico, $idTipo);
+        $stmt->execute();
+        $stmt->close();
+    }
+    public function insertCajaQuirurgica($idCirugia, $idCajaQuirurgica, $idTipo)
+    {
+        $query = "INSERT INTO cirugiacajaquirurgica(idCirugia, idCaja, idTipo) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sss", $idCirugia, $idCajaQuirurgica, $idTipo);
         $stmt->execute();
         $stmt->close();
     }

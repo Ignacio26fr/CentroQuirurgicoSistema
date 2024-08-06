@@ -54,13 +54,14 @@ class EstadisticasController
             list($idsTiposDeAnestesias) = $this->obtenerTipoDeAnestesia($idsTipoDeAnestesias);
             list($lugaresProvieneDo) = $this->obtenerLugarProviene($idsCirugias);
             list($lugarEgresaDo) = $this->obtenerLugarEgresa($idsCirugias);
-            list($codigoDePracticasDo) = $this->obtenerCodigoDePracticas($idsCirugias);
+            list($codigoDePracticasDo, $codigoDePracticasDo2, $codigoDePracticasDo3) = $this->obtenerCodigoDePracticas($idsCirugias);
             list($materialProtesicoDo) = $this->obtenerMaterialProtesico($idsCirugias);
             list($tecnologiaDo) = $this->obtenerTecnologia($idsCirugias);
             list($espQuirurgicaDo, $espQuirurgicaDo2, $espQuirurgicaDo3) = $this->obtenerEspQuirurgica($idsCirugias);
             list($actoQuirurgicoDo, $actoQuirurgicoDo2, $actoQuirurgicoDo3) = $this->obtenerNombreCirugia($idsCirugias);
             list($sitioAnatomicoDo, $sitioAnatomicoDo2, $sitioAnatomicoDo3) = $this->obtenerSitioAnatomico($idsCirugias);
             list($unidadFuncionalDo, $unidadFuncionalDo2, $unidadFuncionalDo3) = $this->obtenerUnidadFuncional($idsCirugias);
+            list($cajaDo, $cajaDo2, $cajaDo3, $cajaDo4) = $this->obtenerCaja($idsCirugias);
 
 
             $data = [];
@@ -119,10 +120,15 @@ class EstadisticasController
 
 
                 $codigoDePractica = isset($codigoDePracticasDo[$idCirugia][0]['nombre']) ? $codigoDePracticasDo[$idCirugia][0]['nombre'] : 'N/A';
+                $codigoDePractica2 = isset($codigoDePracticasDo2[$idCirugia][0]['nombre']) ? $codigoDePracticasDo2[$idCirugia][0]['nombre'] : 'N/A';
+                $codigoDePractica3 = isset($codigoDePracticasDo3[$idCirugia][0]['nombre']) ? $codigoDePracticasDo3[$idCirugia][0]['nombre'] : 'N/A';
                 $materialProtesico = isset($materialProtesicoDo[$idCirugia][0]['nombre']) ? $materialProtesicoDo[$idCirugia][0]['nombre'] : 'N/A';
                 $tecnologias = isset($tecnologiaDo[$idCirugia]) ? $tecnologiaDo[$idCirugia] : [];
                 $tecnologiasNombres = '';
-
+                $caja = isset($cajaDo[$idCirugia][0]['nombre']) ? $cajaDo[$idCirugia][0]['nombre'] : 'N/A';
+                $caja2 = isset($cajaDo2[$idCirugia][0]['nombre']) ? $cajaDo2[$idCirugia][0]['nombre'] : 'N/A';
+                $caja3 = isset($cajaDo3[$idCirugia][0]['nombre']) ? $cajaDo3[$idCirugia][0]['nombre'] : 'N/A';
+                $caja4 = isset($cajaDo4[$idCirugia][0]['nombre']) ? $cajaDo4[$idCirugia][0]['nombre'] : 'N/A';
                 if (!empty($tecnologias)) {
                     foreach ($tecnologias as $tecnologia) {
                         $tecnologiasNombres .= $tecnologia['nombre'] . " -/- ";
@@ -172,8 +178,14 @@ class EstadisticasController
                     'cultivo' => $cirugia['cultivo'] == 1 ? 'SI' : 'NO',
                     'anatomia' => $cirugia['anatomiaPatologica'] == 1 ? 'SI' : 'NO',
                     'codigo' => $codigoDePractica,
+                    'codigo2' => $codigoDePractica2,
+                    'codigo3' => $codigoDePractica3,
                     'material' => $materialProtesico,
-                    'tecnologia' => $tecnologiasNombres
+                    'tecnologia' => $tecnologiasNombres,
+                    'caja' => $caja,
+                    'caja2' =>$caja2,
+                    'caja3' =>$caja3,
+                    'caja4' =>$caja4,
 
                 ];
 
@@ -188,8 +200,10 @@ class EstadisticasController
             ]);
         }
     }
-    // FALTA AGREGAR EN EL EXCEL LOS CASOS NUEVOS QUE TOQUE
-    //Ademas falta Cirujano x3 + primerx3 y seg x3
+
+    public function verDetalle ($idCirugia) {
+
+}
 
 
 
@@ -396,11 +410,17 @@ class EstadisticasController
     private function obtenerCodigoDePracticas(array $idCirugias): array
 {
     $codigoPracticas = [];
+    $codigoPracticasSec = [];
+    $codigoPracticasTer = [];
     foreach($idCirugias as $idCirugia) {
         $codigo = $this->model->obtenerCodigoDePracticas($idCirugia);
+        $codigo2 = $this->model->obtenerCodigoDePracticasSecundario($idCirugia);
+        $codigo3 = $this->model->obtenerCodigoDePracticasTerciario($idCirugia);
         $codigoPracticas[$idCirugia] = $codigo;
+        $codigoPracticasSec[$idCirugia] = $codigo2;
+        $codigoPracticasTer[$idCirugia] = $codigo3;
 }
-    return array($codigoPracticas);
+    return array($codigoPracticas, $codigoPracticasSec, $codigoPracticasTer);
 }
     private function obtenerMaterialProtesico(array $idCirugias): array
     {
@@ -421,6 +441,24 @@ class EstadisticasController
 
         }
         return array($tecnologias);
+    }
+    private function obtenerCaja(array $idCirugias) : array
+    {
+        $cajas = [];
+        $cajassec = [];
+        $cajasTer = [];
+        $cajasCuarta = [];
+        foreach ($idCirugias as $idCirugia) {
+            $caja = $this->model->obtenerCajaQuirurgica($idCirugia);
+            $caja2 = $this->model->obtenerCajaQuirurgicaSecundaria($idCirugia);
+            $caja3 = $this->model->obtenerCajaQuirurgicaTerciaria($idCirugia);
+            $caja4 = $this->model->obtenerCajaQuirurgicaCuarta($idCirugia);
+            $cajas[$idCirugia] = $caja;
+            $cajassec[$idCirugia] = $caja2;
+            $cajasTer[$idCirugia] = $caja3;
+            $cajasCuarta[$idCirugia] = $caja4;
+        }
+        return array($cajas, $cajassec, $cajasTer, $cajasCuarta);
     }
 
 

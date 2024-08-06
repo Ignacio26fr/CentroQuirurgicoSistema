@@ -103,6 +103,18 @@ create table if not exists `cajaQuirurgica`
 
 );
 
+create table if not exists `cirugiaCajaQuirurgica`
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idCirugia INT,
+    idCaja INT,
+    idTipo INT,
+
+    FOREIGN KEY (`idCaja`) REFERENCES cajaQuirurgica(`id`),
+    FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (idTipo) REFERENCES tipo(id)
+);
+
 create table if not exists `codigoPractica`
 (
     `id` int primary key AUTO_INCREMENT,
@@ -117,9 +129,11 @@ create table if not exists `codigoPracticaCirugia`
         id INT PRIMARY KEY AUTO_INCREMENT,
         `idCodigoPractica` INT,
         `idCirugia` INT,
+        tipo INT,
 
         FOREIGN KEY (`idCodigoPractica`) REFERENCES codigoPractica(`id`),
-        FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`) ON DELETE CASCADE
+        FOREIGN KEY (`idCirugia`) REFERENCES cirugia(`id`) ON DELETE CASCADE,
+        FOREIGN KEY (tipo) REFERENCES tipo(id)
 
     );
 
@@ -307,7 +321,6 @@ create table if not exists `cirugia`
     fecha DATE,
     idTipoDeAnestesia INT NOT NULL,
     idTipoDeCirugia INT NOT NULL,
-    idCajaQuirurgica INT NOT NULL,
     idPaciente INT NOT NULL,
     asa INT,
     conteo BOOLEAN,
@@ -320,7 +333,6 @@ create table if not exists `cirugia`
 
     FOREIGN KEY (idTipoDeAnestesia) REFERENCES tipoDeAnestesia(id),
     FOREIGN KEY (idTipoDeCirugia) REFERENCES tipoDeCirugia(id),
-    FOREIGN KEY (idCajaQuirurgica) REFERENCES cajaQuirurgica(id),
     FOREIGN KEY (idPaciente) REFERENCES paciente(id)
 
 

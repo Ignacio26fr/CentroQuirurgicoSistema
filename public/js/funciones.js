@@ -490,20 +490,18 @@ $(document).ready(function() {
     });
 
 });
-
-//Cajas quirurgicas
 $(document).ready(function() {
-    $('#filtroCaja').on('input', function () {
-        var filtroCaja = $(this).val();
+    $('#filtroInstrumentador').on('input', function () {
+        var filtroInstrumentador = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerCajas',
+            url: '/formulario/obtenerInstrumentador',
             method: 'GET',
-            data: { filtroCaja: filtroCaja},
+            data: { filtroInstrumentador: filtroInstrumentador},
             success: function (data) {
-                $('#opcionesCaja').empty();
+                $('#opcionesInstrumentador').empty();
                 $.each(data, function (index, option) {
-                    var $opcion = $('<div class="opcion-caja select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
-                    $('#opcionesCaja').append($opcion);
+                    var $opcion = $('<div class="opcion-instrumentador select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
+                    $('#opcionesInstrumentador').append($opcion);
                 });
             },
             error: function (xhr, status, error) {
@@ -513,63 +511,242 @@ $(document).ready(function() {
     });
 
 
-    $('#opcionesCaja').on('click', '.opcion-caja', function () {
-        var nombreCaja = $(this).text();
-        var idCaja = $(this).data('id');
-        console.log(idCaja);
-        $('#filtroCaja').val(nombreCaja);
-        $('#cajaSeleccionado').val(idCaja);
-        $('#opcionesCaja').empty();
+    $('#opcionesInstrumentador').on('click', '.opcion-instrumentador', function () {
+        var nombreInst = $(this).text();
+        var idInst = $(this).data('id');
+        $('#filtroInstrumentador').val(nombreInst);
+        $('#instrumentadorSeleccionado').val(idInst);
+        $('#opcionesInstrumentador').empty();
     });
 
     $(document).on('click', function (event) {
-        if (!$(event.target).closest('#opcionesCaja').length && !$(event.target).is('#filtroCaja')) {
-            $('#opcionesCaja').empty();
+        if (!$(event.target).closest('#opcionesInstrumentador').length && !$(event.target).is('#filtroInstrumentador')) {
+            $('#opcionesInstrumentador').empty();
         }
     });
 
 });
 
-//Codigo de practicas
-
 $(document).ready(function() {
-    $('#filtroCodigo').on('input', function () {
-        var filtroCodigo = $(this).val();
-        console.log(filtroCodigo);
+    $('#filtroCirculante').on('input', function () {
+        var filtroCirculante = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerCodigos',
+            url: '/formulario/obtenerCirculante',
             method: 'GET',
-            data: { filtroCodigo: filtroCodigo },
+            data: { filtroCirculante: filtroCirculante},
             success: function (data) {
-                $('#opcionesCodigo').empty();
+                $('#opcionesCirculante').empty();
                 $.each(data, function (index, option) {
-                    var $opcion = $('<div class="opcion-codigo select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
-                    $('#opcionesCodigo').append($opcion);
+                    var $opcion = $('<div class="opcion-circulante select-option" data-id="' + option.id + '">' + option.nombre + ' ' + option.apellido + ' ' + option.matricula + '</div>');
+                    $('#opcionesCirculante').append($opcion);
                 });
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                console.log(this.data)
             }
         });
     });
 
 
-    $('#opcionesCodigo').on('click', '.opcion-codigo', function () {
-        var nombreCodigo = $(this).text();
-        var idCodigo = $(this).data('id');
-        console.log(idCodigo);
-        $('#filtroCodigo').val(nombreCodigo);
-        $('#codigosSeleccionado').val(idCodigo);
-        $('#opcionesCodigo').empty();
+    $('#opcionesCirculante').on('click', '.opcion-circulante', function () {
+        var nombreInst = $(this).text();
+        var idInst = $(this).data('id');
+        $('#filtroCirculante').val(nombreInst);
+        $('#circulanteSeleccionado').val(idInst);
+        $('#opcionesCirculante').empty();
     });
 
     $(document).on('click', function (event) {
-        if (!$(event.target).closest('#opcionesCodigo').length && !$(event.target).is('#filtroCodigo')) {
-            $('#opcionesCodigo').empty();
+        if (!$(event.target).closest('#opcionesCirculante').length && !$(event.target).is('#filtroCirculante')) {
+            $('#opcionesCirculante').empty();
         }
     });
 
+});
+
+//Cajas quirurgicas
+$(document).ready(function() {
+    let cajaFieldIndex = 1;
+    const maxCajaFields = 4;
+
+    function checkAndShowExtraCajaFields() {
+        if ($('.filtroCaja').last().val() !== '') {
+            if (cajaFieldIndex < maxCajaFields) {
+                addNewCajaFields();
+            }
+        }
+    }
+
+    function setupCajaFieldEvents($container) {
+        $container.find('.filtroCaja').on('input', function () {
+            checkAndShowExtraCajaFields();
+
+            var filtroCaja = $(this).val();
+            var $opcionesCaja = $container.find('.opcionesCaja');
+
+            $.ajax({
+                url: '/formulario/obtenerCajas',
+                method: 'GET',
+                data: { filtroCaja: filtroCaja },
+                success: function (data) {
+                    $opcionesCaja.empty();
+                    if (filtroCaja.trim() !== '') {
+                        $.each(data, function (index, option) {
+                            var $opcion = $('<div class="opcion-caja select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
+                            $opcionesCaja.append($opcion);
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $container.on('click', '.opcion-caja', function () {
+            var nombreCaja = $(this).text();
+            var idCaja = $(this).data('id');
+            $container.find('.filtroCaja').val(nombreCaja);
+            $container.find('.cajaSeleccionado').val(idCaja);
+            $container.find('.opcionesCaja').empty();
+        });
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest($container).length) {
+                $container.find('.opcionesCaja').empty();
+            }
+        });
+    }
+
+    function addNewCajaFields() {
+        var $newFields = $('#field-container-caja').clone();
+        $newFields.attr('id', 'field-container-caja-' + cajaFieldIndex);
+
+        $newFields.find('input[type="text"], input[type="hidden"], div[class*="opcion"]').each(function () {
+            var $this = $(this);
+            var id = $this.attr('id');
+            var name = $this.attr('name');
+
+            if (id) {
+                var newId = id.replace('_0', '_' + cajaFieldIndex);
+                $this.attr('id', newId);
+            }
+
+            if (name) {
+                var newName = name.replace('_0', '_' + cajaFieldIndex);
+                $this.attr('name', newName);
+            }
+
+            $this.val('');
+        });
+
+        $newFields.find('.cajaLabel').text('Código de Caja ' + (cajaFieldIndex + 1));
+        $newFields.find('.filtroCaja').attr('id', 'filtroCaja_' + cajaFieldIndex);
+        $newFields.find('.opcionesCaja').attr('id', 'opcionesCaja_' + cajaFieldIndex);
+        $newFields.find('.cajaSeleccionado').attr('id', 'cajaSeleccionado_' + cajaFieldIndex);
+
+        $('#additional-fields-caja').append($newFields);
+        setupCajaFieldEvents($newFields);
+
+        cajaFieldIndex++;
+    }
+
+    // Inicializar eventos en el campo inicial
+    setupCajaFieldEvents($('#field-container-caja'));
+});
+
+
+
+//Codigo de practicas
+
+$(document).ready(function() {
+    let codigoFieldIndex = 1;
+    const maxCodigoFields = 4;
+
+    function checkAndShowExtraCodigoFields() {
+        if ($('.filtroCodigo').last().val() !== '') {
+            if (codigoFieldIndex < maxCodigoFields) {
+                addNewCodigoFields();
+            }
+        }
+    }
+
+    function setupCodigoFieldEvents($container) {
+        $container.find('.filtroCodigo').on('input', function () {
+            checkAndShowExtraCodigoFields();
+
+            var filtroCodigo = $(this).val();
+            var $opcionesCodigo = $container.find('.opcionesCodigo');
+
+            $.ajax({
+                url: '/formulario/obtenerCodigos',
+                method: 'GET',
+                data: { filtroCodigo: filtroCodigo },
+                success: function (data) {
+                    $opcionesCodigo.empty();
+                    if (filtroCodigo.trim() !== '') {
+                        $.each(data, function (index, option) {
+                            var $opcion = $('<div class="opcion-codigo select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
+                            $opcionesCodigo.append($opcion);
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $container.on('click', '.opcion-codigo', function () {
+            var nombreCodigo = $(this).text();
+            var idCodigo = $(this).data('id');
+            $container.find('.filtroCodigo').val(nombreCodigo);
+            $container.find('.codigoSeleccionado').val(idCodigo);
+            $container.find('.opcionesCodigo').empty();
+        });
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest($container).length) {
+                $container.find('.opcionesCodigo').empty();
+            }
+        });
+    }
+
+    function addNewCodigoFields() {
+        var $newFields = $('#field-container-codigo').clone();
+        $newFields.attr('id', 'field-container-codigo-' + codigoFieldIndex);
+
+        $newFields.find('input[type="text"], input[type="hidden"], div[class*="opcion"]').each(function () {
+            var $this = $(this);
+            var id = $this.attr('id');
+            var name = $this.attr('name');
+
+            if (id) {
+                var newId = id.replace('_0', '_' + codigoFieldIndex);
+                $this.attr('id', newId);
+            }
+
+            if (name) {
+                var newName = name.replace('_0', '_' + codigoFieldIndex);
+                $this.attr('name', newName);
+            }
+
+            $this.val('');
+        });
+
+        $newFields.find('.codigoLabel').text('Codigo de práctica anestésica segun SPA ' + (codigoFieldIndex + 1));
+        $newFields.find('.filtroCodigo').attr('id', 'filtroCodigo_' + codigoFieldIndex);
+        $newFields.find('.opcionesCodigo').attr('id', 'opcionesCodigo_' + codigoFieldIndex);
+        $newFields.find('.codigoSeleccionado').attr('id', 'codigoSeleccionado_' + codigoFieldIndex);
+
+        $('#additional-fields-codigo').append($newFields);
+        setupCodigoFieldEvents($newFields);
+
+        codigoFieldIndex++;
+    }
+
+    // Inicializar eventos en el campo inicial
+    setupCodigoFieldEvents($('#field-container-codigo'));
 });
 //Material protesico primario
 
@@ -660,7 +837,7 @@ $(document).ready(function() {
 
         fieldIndex++;
     }
-    //Falta que guarde esto en bd
+
 
     setupFieldEvents($('#field-container-material'));
 });

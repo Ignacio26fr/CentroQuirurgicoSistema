@@ -133,17 +133,17 @@
         </div>
 
             <div class="form-group">
-                <label for="instrumentador">Instrumentador Quirúrgico</label>
-                <select class="form-control" name="instrumentador" id="instrumentador" autocomplete="off" >
-                    <option value="">Seleccionar</option>
-
-                </select>
+                <label for="instrumentador">Instrumentador</label>
+                <input type="text" id="filtroInstrumentador" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
+                <div id="opcionesInstrumentador" class="opcion-instrumentador"></div>
+                <input type="hidden" id="instrumentadorSeleccionado" name="instrumentadorSeleccionado" autocomplete="off">
             </div>
 
             <div class="form-group" >
-                <label for="circulante" >Circulante</label>
-                <select class="form-control" name="circulante" id="circulante" autocomplete="off">
-                    <option value="">Seleccionar</option>
+                <label for="circulante" style="background: yellow">Circulante</label>
+                <input type="text" id="filtroCirculante" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off" required>
+                <div id="opcionesCirculante" class="opcion-circulante"></div>
+                <input type="hidden" id="circulanteSeleccionado" name="circulanteSeleccionado" autocomplete="off">
 
                 </select>
             </div>
@@ -204,11 +204,13 @@
                     {{/lugar}}
                 </select>
             </div>
-            <div class="form-group">
-                <label for="caja" >Caja quirurgica usada</label>
-                <input type="text" id="filtroCaja" class="form-control" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
-                <div id="opcionesCaja" class="opcion-caja"></div>
-                <input type="hidden" id="cajaSeleccionado" name="idCajaQuirurgica">
+            <div id="additional-fields-caja">
+                <div class="form-group" id="field-container-caja">
+                    <label for="filtroCaja_0" class="cajaLabel">Código de Caja usada 1</label>
+                    <input type="text" id="filtroCaja_0" name="filtroCaja_0" class="form-control filtroCaja" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
+                    <div id="opcionesCaja_0" class="opcionesCaja"></div>
+                    <input type="hidden" id="cajaSeleccionado_0" name="idCajaQuirurgica_0" class="cajaSeleccionado">
+                </div>
             </div>
 
             <div class="form-group">
@@ -263,12 +265,15 @@
                     <option value="0">No</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="codigo" style="background: yellow">Codigo de práctica anestésica segun SPA</label>
-                <input type="text" id="filtroCodigo" class="form-control" placeholder="Escribe y te van apareciendo opciones" required autocomplete="off">
-                <div id="opcionesCodigo" class="opciones-codigo"></div>
-                <input type="hidden" id="codigosSeleccionado" name="codigosSeleccionado">
+            <div id="additional-fields-codigo">
+                <div class="form-group" id="field-container-codigo">
+                    <label for="filtroCodigo_0" class="codigoLabel">Codigo de práctica anestésica segun SPA 1</label>
+                    <input type="text" id="filtroCodigo_0" name="filtroCodigo_0" class="form-control filtroCodigo" placeholder="Escribe y te van apareciendo opciones" autocomplete="off">
+                    <div id="opcionesCodigo_0" class="opcionesCodigo"></div>
+                    <input type="hidden" id="codigoSeleccionado_0" name="idCodigoSeleccionado_0" class="codigoSeleccionado">
+                </div>
             </div>
+
 
             <div class="form-group">
                 <label for="tipoCirugia" style="background: yellow">Tipo de cirugia</label>
@@ -299,7 +304,7 @@
                 </div>
                 <div class="form-group">
                     <label for="cantidadMaterial_0" class="cantidadMaterialLabel">Cantidad de material protésico:</label>
-                    <input type="number" class="form-control" id="cantidadMaterial_0" name="cantidadMaterial_0" required>
+                    <input type="number" class="form-control" id="cantidadMaterial_0" name="cantidadMaterial_0">
                 </div>
             </div>
             <div id="additional-fields-material"></div>
