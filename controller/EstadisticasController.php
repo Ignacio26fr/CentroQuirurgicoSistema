@@ -206,6 +206,7 @@ class EstadisticasController
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['idCirugia'])) {
             $idCirugia = $_GET['idCirugia'];
             $paciente = $this->model->obtenerCirugia($idCirugia);
+            $nombreYApellidoPac = $this->model->obtenerNombreYApellidoDelPaciente($idCirugia);
             $primario = $this->model->obtenerDiagnosticoPrimario($idCirugia);
             $secundario = $this->model->obtenerDiagnosticoSecundario($idCirugia);
             $especialidad = $this->model->obtenerEspecialidadQuirurgica($idCirugia);
@@ -216,11 +217,54 @@ class EstadisticasController
             $actoTerciario = $this->model->obtenerActoTerciario($idCirugia);
             $cirujano =$this->model->obtenerProfesionalCirujano($idCirugia);
             $cirujano2 = $this->model->obtenerProfesionalCirujanoSecundario($idCirugia);
-            var_dump($cirujano2);
+            $cirujano3 = $this->model->obtenerProfesionalCirujanoTerciario($idCirugia);
+            $primerAyudante = $this->model->obtenerProfesionalPrimerAyudante($idCirugia);
+            $segundoAyudante = $this->model->obtenerProfesionalSegundoAyudante($idCirugia);
+            $primerAyudante2 = $this->model->obtenerProfesionalPrimerAyudanteSecundario($idCirugia);
+            $primerAyudante3 = $this->model->obtenerProfesionalPrimerAyudanteTerciario($idCirugia);
+            $segundoAyudante2 = $this->model->obtenerProfesionalSegundoAyudanteSecundario($idCirugia);
+            $segundoAyudante3 = $this->model->obtenerProfesionalSegundoAyudanteTerciario($idCirugia);
+            $anestesista = $this->model->obtenerProfesionalAnestesista($idCirugia);
+            $instrumentador = $this->model->obtenerProfesionalInstrumentador($idCirugia);
+            $tecnico = $this->model->obtenerProfesionalTecnico($idCirugia);
+            $neonatologo = $this->model->obtenerProfesionalNeonatologo($idCirugia);
+            $circulante = $this->model->obtenerProfesionalCirculante($idCirugia);
+            $tipoAnestesia = $this->model->obtenerTipoDeAnestesia($paciente[0]['idTipoDeAnestesia']);
+            $tipoCirugia = $this->model->obtenerTipoCirugia($paciente[0]['idTipoDeCirugia']);
+            $sitioAnatomico = $this->model->obtenerSitioAnatomico($idCirugia);
+            $sitioAnatomico2 = $this->model->obtenerSitioAnatomicoSecundario($idCirugia);
+            $sitioAnatomico3 = $this->model->obtenerSitioAnatomicoTerciario($idCirugia);
+            $unidadFuncional = $this->model->obtenerUnidadFuncional($idCirugia);
+            $unidadFuncional2 = $this->model->obtenerUnidadFuncionalSecundario($idCirugia);
+            $unidadFuncional3 = $this->model->obtenerUnidadFuncionalTerciario($idCirugia);
+            $materialProtesico = $this->model->obtenerMaterialProtesico($idCirugia);
+            $codigoDePracticas = $this->model->obtenerCodigoDePracticas($idCirugia);
+            $codigoDePracticas2 = $this->model->obtenerCodigoDePracticasSecundario($idCirugia);
+            $codigoDePracticas3= $this->model->obtenerCodigoDePracticasTerciario($idCirugia);
+            $caja = $this->model->obtenerCajaQuirurgica($idCirugia);
+            $caja2 = $this->model->obtenerCajaQuirurgicaSecundaria($idCirugia);
+            $caja3 = $this->model->obtenerCajaQuirurgicaTerciaria($idCirugia);
+            $caja4 = $this->model->obtenerCajaQuirurgicaCuarta($idCirugia);
+
+
+            $tecnologia = $this->model->obtenerTecnologia($idCirugia);
+
+            $nombreTecnologia = '';
+            foreach ($tecnologia as $tec) {
+                $nombreTecnologia .= $tec['nombre'] . ' -';
+            }
+
+
+
+         //   $cantidadMaterialProtesico = $this->model->obtenerCantidadMaterialProtesico($idCirugia);
+
+
 
             $this->presenter->render("view/detalleEstadisticas.mustache", [
+                "id" => $idCirugia,
                 "fecha" => $paciente[0]['fecha'],
-                "paciente" => $paciente[0]['idPaciente'],
+                "paciente" => $nombreYApellidoPac[0]['nombre'] . ' ' . $nombreYApellidoPac[0]['apellido'],
+                "dni" => $nombreYApellidoPac[0]['dni'],
                 "horaInicio" => $paciente[0]['horaInicio'],
                 "horaFin" => $paciente[0]['horaFin'],
                 "asa" => $paciente[0]['asa'],
@@ -241,8 +285,37 @@ class EstadisticasController
                 "acto" => $acto[0]['nombre'],
                 "acto2" => !empty($actoSecundario[0]['nombre']) ? $actoSecundario[0]['nombre'] : 'N/A',
                 "acto3" => !empty($actoTerciario[0]['nombre']) ? $actoTerciario[0]['nombre'] : 'N/A',
-
-
+                "cirujano" => $cirujano[0]['nombre'] . $cirujano[0]['apellido'],
+                "cirujano2" => !empty($cirujano2[0]['nombre']) ? $cirujano2[0]['nombre'] . $cirujano2[0]['apellido'] : 'N/A',
+                "cirujano3" => !empty($cirujano3[0]['nombre']) ? $cirujano3[0]['nombre'] . $cirujano3[0]['apellido']: 'N/A',
+                "primerAyudante" => !empty($primerAyudante[0]['nombre']) ? $primerAyudante[0]['nombre'] . $primerAyudante[0]['apellido'] : 'N/A',
+                "primerAyudante2" => !empty($primerAyudante2[0]['nombre']) ? $primerAyudante2[0]['nombre'] . $primerAyudante2[0]['apellido'] : 'N/A',
+                "primerAyudante3" => !empty($primerAyudante3[0]['nombre']) ? $primerAyudante3[0]['nombre'] . $primerAyudante3[0]['apellido'] : 'N/A',
+                "segundoAyudante" => !empty($segundoAyudante[0]['nombre']) ? $segundoAyudante[0]['nombre'] . $segundoAyudante[0]['apellido'] : 'N/A',
+                "segundoAyudante2" => !empty($segundoAyudante2[0]['nombre']) ? $segundoAyudante2[0]['nombre'] . $segundoAyudante2[0]['apellido'] : 'N/A',
+                "segundoAyudante3" => !empty($segundoAyudante3[0]['nombre']) ? $segundoAyudante3[0]['nombre'] . $segundoAyudante3[0]['apellido'] : 'N/A',
+                "anestesista" => $anestesista[0]['nombre'] . $anestesista[0]['apellido'],
+                "instrumentador" => !empty($instrumentador[0]['nombre']) ? $instrumentador[0]['nombre'] . $instrumentador[0]['apellido']: 'N/A',
+                "tecnico" => $tecnico[0]['nombre'] . $tecnico[0]['apellido'],
+                "neonatologo" => !empty($neonatologo[0]['nombre']) ? $neonatologo[0]['nombre'] . $neonatologo[0]['apellido']: 'N/A',
+                "circulante" => $circulante[0]['nombre'] . $circulante[0]['apellido'],
+                "tipoAnestesia" =>$tipoAnestesia[0]['nombre'],
+                "tipoCirugia" => $tipoCirugia[0]['nombre'],
+                "sitioAnatomico" => $sitioAnatomico[0]['nombre'],
+                "sitioAnatomico2" => !empty($sitioAnatomico2[0]['nombre']) ? $sitioAnatomico2[0]['nombre'] : 'N/A',
+                "sitioAnatomico3" => !empty($sitioAnatomico3[0]['nombre']) ? $sitioAnatomico3[0]['nombre'] : 'N/A',
+                "unidadFuncional" => $unidadFuncional[0]['nombre'],
+                "unidadFuncional2" => !empty($unidadFuncional2[0]['nombre']) ? $unidadFuncional2[0]['nombre'] : 'N/A',
+                "unidadFuncional3" => !empty($unidadFuncional3[0]['nombre']) ? $unidadFuncional3[0]['nombre'] : 'N/A',
+                "materialProtesico" => !empty($materialProtesico[0]['nombre']) ? $materialProtesico[0]['nombre'] : 'N/A',
+                "tecnologia" => $nombreTecnologia,
+                "codigoPractica" => !empty($codigoDePracticas[0]['nombre']) ? $codigoDePracticas[0]['nombre'] : 'N/A',
+                "codigoPractica2" => !empty($codigoDePracticas2[0]['nombre']) ? $codigoDePracticas2[0]['nombre'] : 'N/A',
+                "codigoPractica3" => !empty($codigoDePracticas3[0]['nombre']) ? $codigoDePracticas3[0]['nombre'] : 'N/A',
+                "caja" => !empty($caja[0]['nombre']) ? $caja[0]['nombre'] : 'N/A',
+                "caja2" => !empty($caja2[0]['nombre']) ? $caja2[0]['nombre'] : 'N/A',
+                "caja3" => !empty($caja3[0]['nombre']) ? $caja3[0]['nombre'] : 'N/A',
+                "caja4" => !empty($caja4[0]['nombre']) ? $caja4[0]['nombre'] : 'N/A',
 
 
 

@@ -257,12 +257,14 @@ class FormularioController
 
             $this->insertarCirujanoPrimerYSegPrimario($result, $data);
             $this->insertarCirujanoPrimerYSegSecundario($result, $data);
+            $this->insertarCirujanoPrimerYSegTerciario($result, $data);
 
             $this->insertCajaQuirurgica($result, $data);
 
             $this->model->insertCirugiaPersona($result, $data['anestesista'], 4);
             $this->insertNeonatologo($data['neonatologo'], $result);
             $this->model->insertCirugiaPersona($result, $data['circulante'], 7);
+
             $this->insertInstrumentador($data['instrumentador'], $result);
             $this->model->insertCirugiaPersona($result, $data['tecnico'], 8);
 
@@ -322,6 +324,7 @@ class FormularioController
             'circulante' => $_POST['circulanteSeleccionado'],
             'neonatologo' => $_POST['neoSeleccionado'],
             'tecnico' => $_POST['tecnicoSeleccionado'],
+            'instrumentador' => $_POST['instrumentadorSeleccionado'],
             'tipoAnestesia' => $_POST['idTipoDeAnestesia'],
             'horaInicio' => $_POST['horaInicio'],
             'horaFin' => $_POST['horaFin'],
@@ -471,11 +474,7 @@ class FormularioController
         }
     }
 
-    /**
-     * @param $instrumentador
-     * @param $result
-     * @return void
-     */
+
     private function insertInstrumentador($instrumentador, $result)
     {
         if ($instrumentador != null) {

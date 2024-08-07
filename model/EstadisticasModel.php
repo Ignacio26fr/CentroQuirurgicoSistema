@@ -80,7 +80,7 @@ class EstadisticasModel
               FROM persona p 
               INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
               INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
-              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO'";
+              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' AND cp.idTipo = 1";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -108,7 +108,7 @@ class EstadisticasModel
               FROM persona p 
               INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
               INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
-              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' and rc.nombre = 'SECUNDARIO'";
+              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' and cp.idTipo = 2";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -137,7 +137,7 @@ class EstadisticasModel
               FROM persona p 
               INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
               INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
-              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' and rc.nombre = 'TERCIARIO'";
+              WHERE cp.idCirugia = ? AND rc.nombre = 'CIRUJANO' and cp.idTipo = 3";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -265,7 +265,63 @@ class EstadisticasModel
               FROM persona p 
               INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
               INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
-              WHERE cp.idCirugia = ? AND rc.nombre = 'PRIMER AYUDANTE'";
+              WHERE cp.idCirugia = ? AND rc.nombre = 'PRIMER AYUDANTE' and cp.idTipo = 1";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+    public function obtenerProfesionalPrimerAyudanteSecundario($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'PRIMER AYUDANTE' and cp.idTipo = 2";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+    public function obtenerProfesionalPrimerAyudanteTerciario($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'PRIMER AYUDANTE' and cp.idTipo = 3";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -293,7 +349,63 @@ class EstadisticasModel
               FROM persona p 
               INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
               INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
-              WHERE cp.idCirugia = ? AND rc.nombre = 'SEGUNDO AYUDANTE'";
+              WHERE cp.idCirugia = ? AND rc.nombre = 'SEGUNDO AYUDANTE' and cp.idTipo = 1";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+    public function obtenerProfesionalSegundoAyudanteSecundario($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'SEGUNDO AYUDANTE' and cp.idTipo = 2";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $profesionales = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $profesionales[] = $row;
+            }
+
+            return $profesionales;
+        } else {
+            return [];
+        }
+
+        $stmt->close();
+    }
+    public function obtenerProfesionalSegundoAyudanteTerciario($idCirugia)
+    {
+        $query = "SELECT p.nombre, p.apellido 
+              FROM persona p 
+              INNER JOIN cirugiapersona cp ON p.id = cp.idPersona
+              INNER JOIN rolcirugia rc ON cp.idRolCirugia = rc.id                               
+              WHERE cp.idCirugia = ? AND rc.nombre = 'SEGUNDO AYUDANTE' and cp.idTipo = 3 ";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -593,7 +705,7 @@ class EstadisticasModel
     public function obtenerTipoCirugia($idTipoCirugia)
     {
         $query = "SELECT t.nombre from tipodecirugia t inner join
-                    cirugia c on c.idTipoDeCirugia = t.id where t.id = ? ";
+                    cirugia c on c.idTipoDeCirugia = t.id where c.id = ? ";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idTipoCirugia);
         $stmt->execute();

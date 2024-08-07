@@ -10,10 +10,10 @@
     <div class="row">
         <div class="col-md-6 detalle">
             <h4>Información General</h4>
-            <p><strong>ID Quirúrgico:</strong> </p>
+            <p><strong>ID Quirúrgico: {{id}}</strong> </p>
             <p><strong>Fecha de Cirugía: {{fecha}}</strong> </p>
             <p><strong>Paciente: {{paciente}}</strong> </p>
-            <p><strong>DNI:</strong> </p>
+            <p><strong>DNI: {{dni}}</strong> </p>
         </div>
         <div class="col-md-6 detalle">
             <h4>Diagnósticos</h4>
@@ -40,14 +40,20 @@
     <div class="row mt-4">
         <div class="col-md-6 detalle">
             <h4>Equipo Médico</h4>
-            <p><strong>Cirujano:</strong> </p>
-            <p><strong>Anestesista:</strong> </p>
-            <p><strong>Instrumentador Quirúrgico:</strong> </p>
-            <p><strong>Técnico:</strong> </p>
-            <p><strong>Primer Ayudante:</strong> </p>
-            <p><strong>Segundo Ayudante:</strong> </p>
-            <p><strong>Neonatólogo:</strong> </p>
-            <p><strong>Circulante:</strong> </p>
+            <p><strong>Cirujano: {{cirujano}}</strong> </p>
+            <p><strong>Cirujano (2): {{cirujano2}}</strong> </p>
+            <p><strong>Cirujano (3): {{cirujano3}}</strong> </p>
+            <p><strong>Anestesista: {{anestesista}}</strong> </p>
+            <p><strong>Instrumentador Quirúrgico: {{instrumentador}}</strong> </p>
+            <p><strong>Técnico: {{tecnico}}</strong> </p>
+            <p><strong>Primer Ayudante: {{primerAyudante}}</strong> </p>
+            <p><strong>Segundo Ayudante: {{segundoAyudante}}</strong> </p>
+            <p><strong>Primer Ayudante (2): {{primerAyudante2}}</strong> </p>
+            <p><strong>Segundo Ayudante (2): {{segundoAyudante2}}</strong> </p>
+            <p><strong>Primer Ayudante (3): {{primerAyudante3}}</strong> </p>
+            <p><strong>Segundo Ayudante (3): {{segundoAyudante3}}</strong> </p>
+            <p><strong>Neonatólogo: {{neonatologo}}</strong> </p>
+            <p><strong>Circulante: {{circulante}}</strong> </p>
         </div>
         <div class="col-md-6 detalle">
             <h4>Horarios</h4>
@@ -62,18 +68,22 @@
         <div class="col-md-6 detalle">
             <h4>Detalles Adicionales</h4>
             <p><strong>Observación: {{observacion}}</strong> </p>
-            <p><strong>Tipo de Anestesia:</strong> </p>
-            <p><strong>Tipo de Cirugía:</strong> </p>
-            <p><strong>Sitio Anatómico Principal:</strong> </p>
-            <p><strong>Sitio Anatómico Secundario:</strong> </p>
-            <p><strong>Sitio Anatómico Terciario:</strong> </p>
+            <p><strong>Tipo de Anestesia: {{tipoAnestesia}}</strong> </p>
+            <p><strong>Tipo de Cirugía: {{tipoCirugia}}</strong> </p>
+            <p><strong>Sitio Anatómico Principal: {{sitioAnatomico}}</strong> </p>
+            <p><strong>Sitio Anatómico Secundario: {{sitioAnatomico2}}</strong> </p>
+            <p><strong>Sitio Anatómico Terciario: {{sitioAnatomico3}}</strong> </p>
             <p><strong>Numero de quirofano: {{nroQuirofano}}</strong> </p>
         </div>
         <div class="col-md-6 detalle">
-            <h4>Unidades Funcionales</h4>
-            <p><strong>Unidad Funcional Principal:</strong> </p>
-            <p><strong>Unidad Funcional Secundaria:</strong> </p>
-            <p><strong>Unidad Funcional Terciaria:</strong> </p>
+            <h4>Unidades Funcionales y Caja quirurgica</h4>
+            <p><strong>Unidad Funcional Principal: {{unidadFuncional}}</strong> </p>
+            <p><strong>Unidad Funcional Secundaria: {{unidadFuncional2}}</strong> </p>
+            <p><strong>Unidad Funcional Terciaria: {{unidadFuncional3}}</strong> </p>
+            <p><strong>Caja Quirúrgica Principal: {{caja}}</strong> </p>
+            <p><strong>Caja Quirúrgica Secundaria: {{caja2}}</strong> </p>
+            <p><strong>Caja Quirúrgica Terciaria: {{caja3}}</strong> </p>
+            <p><strong>Caja Quirúrgica Cuartaria: {{caja4}}</strong> </p>
         </div>
     </div>
 
@@ -81,11 +91,13 @@
         <div class="col-md-6 detalle">
             <h4>Materiales y Tecnología</h4>
             <p><strong>Material Protésico:</strong> </p>
-            <p><strong>Tecnología Usada:</strong> </p>
-            <p><strong>Caja Quirúrgica Principal:</strong> </p>
-            <p><strong>Caja Quirúrgica Secundaria:</strong> </p>
-            <p><strong>Caja Quirúrgica Terciaria:</strong> </p>
-            <p><strong>Caja Quirúrgica Cuartaria:</strong> </p>
+            <p><strong>Cantidad Material Protésico:</strong> </p>
+            <p><strong>Material Protésico (2):</strong> </p>
+            <p><strong>Cantidad Material Protésico (2):</strong> </p>
+            <p><strong>Material Protésico (3):</strong> </p>
+            <p><strong>Cantidad Material Protésico (3):</strong> </p>
+            <p><strong>Tecnología Usada: {{tecnologia}}</strong> </p>
+
         </div>
         <div class="col-md-6 detalle">
             <h4>Otros Detalles</h4>
@@ -97,9 +109,9 @@
             <p><strong>Hemoterapia: {{hemoterapia}}</strong> </p>
             <p><strong>Cultivo: {{cultivo}}</strong> </p>
             <p><strong>Anatomía Patológica: {{anatomia}}</strong> </p>
-            <p><strong>Código de Prácticas Principal:</strong> </p>
-            <p><strong>Código de Prácticas Secundario:</strong> </p>
-            <p><strong>Código de Prácticas Terciario:</strong> </p>
+            <p><strong>Código de Prácticas Principal: {{codigoPractica}}</strong> </p>
+            <p><strong>Código de Prácticas Secundario: {{codigoPractica2}}</strong> </p>
+            <p><strong>Código de Prácticas Terciario: {{codigoPractica3}}</strong> </p>
         </div>
     </div>
 
