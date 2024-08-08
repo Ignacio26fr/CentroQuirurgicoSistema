@@ -29,6 +29,17 @@ class QuirurgicoModel
         return $resulte;
     }
 
+    public function verificarSiHayUnaSessionIniciada($session){
+        return isset($session) ? $session : null;
+    }
+
+    public function verificarRolUsuario($idUsuario) {
+        $query = "SELECT rol FROM persona WHERE matricula = $idUsuario";
+        $result = $this->database->query($query);
+        return !empty($result) ? $result[0]['rol'] : null;
+
+    }
+
 
     public function obtenerPrimario()
     {
@@ -461,7 +472,7 @@ public function insertTecnologiaCirugia($idCirugia, $idTecnologia)
     {
         $query = "INSERT INTO materialprotesicocirugia(idMaterialProtesico, idCirugia, idTipo, cantidad) VALUES (?, ?, ?, ?)";
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("sssi", $idMaterial, $idCirugia, $idTipo, $cantidad);
+        $stmt->bind_param("ssss", $idMaterial, $idCirugia, $idTipo, $cantidad);
         $stmt->execute();
         $stmt->close();
     }

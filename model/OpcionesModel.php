@@ -1,19 +1,15 @@
 <?php
 
-class UsuarioModel{
+class OpcionesModel
+{
+
 
     private $database;
-    
+
 
     public function __construct($database)
     {
         $this->database = $database;
-    }
-
-    public function getUsuario()
-    {
-        return $this->database->query("Select * from persona");
-
     }
 
     public function verificarSiHayUnaSessionIniciada($session){
@@ -26,12 +22,5 @@ class UsuarioModel{
         return !empty($result) ? $result[0]['rol'] : null;
 
     }
-
-    public function obtenerUsuario($matricula){
-        $query = "SELECT id FROM persona WHERE matricula = $matricula";
-        $stmt = $this->database->prepare($query);
-        $stmt->execute();
-    }
-
 
 }

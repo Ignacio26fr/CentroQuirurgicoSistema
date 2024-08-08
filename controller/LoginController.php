@@ -47,15 +47,12 @@ class LoginController
         exit();
     }
 
-    /**
-     * @param $resultado
-     * @param $usuario
-     * @return void
-     */
-    public function guardarEnSession($resultado, $usuario)
+
+    private function guardarEnSession($resultado, $usuario)
     {
         if ($resultado) {
             $_SESSION['usuario'] = $usuario;
+            $_SESSION['id'] = $resultado;
         }
     }
 

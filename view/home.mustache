@@ -12,18 +12,18 @@
 <main>
     <section>
         <div class="menu">
-            <a href="/quirurgico">
+            <a href="/quirurgico" data-rol="ADMIN INSTRUMENTADOR ">
                 <i class="fas fa-arrow-down fa-2x" ></i>
                 <span>Registro De Cirugia</span>
             </a>
 
-            <a href="/estadisticas">
+            <a href="/estadisticas" data-rol="ADMIN INSTRUMENTADOR ANESTESISTA">
                 <i class="fas fa-arrow-up fa-2x"></i>
                 <span>Estadisticas</span>
             </a>
 
-            <a href="/opciones">
-                <i class="fas fa-box fa-2x"></i>
+            <a href="/opciones" data-rol="ADMIN">
+                <i class="fas fa-box fa-2x" ></i>
                 <span>Opciones</span>
             </a>
 
@@ -45,7 +45,22 @@
             <img src="/img/Logo_HCANK_violeta.png" alt="Logo HCANK" class="logo-image">
         </div>
     </section>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var rolesPermitidos = ["ADMIN","INSTRUMENTADOR","ANESTESISTA"];
+    var rolUsuario = "{{rol}}";
+    var elementosRol = document.querySelectorAll("[data-rol]");
 
+    elementosRol.forEach(function(elemento) {
+    var rolesElemento = elemento.getAttribute("data-rol").split(" ");
+    if (!rolesElemento.includes(rolUsuario)) {
+
+    elemento.style.display = "none";
+    }
+
+    });
+    });
+    </script>
 </main>
 
 </body>

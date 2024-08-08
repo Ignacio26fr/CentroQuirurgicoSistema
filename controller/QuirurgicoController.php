@@ -17,8 +17,18 @@ class QuirurgicoController
 
     public function get()
     {
-
-        $this->presenter->render("view/obtenerPaciente.mustache");
+        session_start();
+        if (!isset($_SESSION["usuario"])) {
+            header("Location:/login");
+            exit(); // Asegura que el script se detiene después de la redirección
+        }
+        $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
+        $rol = $this->model->verificarRolUsuario($nombreUsuario);
+        if($rol == 'ADMIN' || $rol == 'INSTRUMENTADOR') {
+            $this->presenter->render("view/obtenerPaciente.mustache" ,["rol" => $rol]);
+        } else {
+            header("Location: /homeUsuario");
+        }
     }
 
     public function getPaciente()
@@ -29,15 +39,26 @@ class QuirurgicoController
 
     public function buscarPorDni()
     {
-        if (isset($_POST['dni'])) {
-            $dni = $_POST['dni'];
-            $resultados = [];
-            $resultados = $this->model->buscarPaciente($dni);
+        session_start();
+        if (!isset($_SESSION["usuario"])) {
+            header("Location:/login");
+            exit(); 
+        }
+        $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
+        $rol = $this->model->verificarRolUsuario($nombreUsuario);
+        if($rol == 'ADMIN' || $rol == 'INSTRUMENTADOR') {
+            if (isset($_POST['dni'])) {
+                $dni = $_POST['dni'];
+                $resultados = [];
+                $resultados = $this->model->buscarPaciente($dni);
 
-            $this->presenter->render("view/obtenerPaciente.mustache", ["resultados" => $resultados]);
+                $this->presenter->render("view/obtenerPaciente.mustache", ["resultados" => $resultados, "rol" => $rol]);
 
+            } else {
+                echo "No se ingreso un dni";
+            }
         } else {
-            echo "No se ingreso un dni";
+            header("Location: /homeUsuario");
         }
 
     }

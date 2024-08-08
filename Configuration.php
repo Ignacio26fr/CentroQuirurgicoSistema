@@ -11,6 +11,7 @@ include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
 include_once ("model/QuirurgicoModel.php");
 include_once("model/EstadisticasModel.php");
+include_once("model/OpcionesModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
@@ -58,7 +59,7 @@ public static function getEstadisticasController()
 
 public static function getOpcionesController()
 {
-    return new OpcionesController(self::getPresenter());
+    return new OpcionesController(self::getOpcionesModel(), self::getPresenter());
 }
 
 //Models
@@ -82,6 +83,10 @@ private static function getEstadisticasModel()
 {
     return new EstadisticasModel(self::getDatabase());
 }
+    private static function getOpcionesModel()
+    {
+        return new OpcionesModel(self::getDatabase());
+    }
 
 //helper
 public static function getDatabase()

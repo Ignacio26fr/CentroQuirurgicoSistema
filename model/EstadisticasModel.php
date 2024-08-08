@@ -10,7 +10,16 @@ class EstadisticasModel
         $this->database = $database;
     }
 
+    public function verificarSiHayUnaSessionIniciada($session){
+        return isset($session) ? $session : null;
+    }
 
+    public function verificarRolUsuario($idUsuario) {
+        $query = "SELECT rol FROM persona WHERE matricula = $idUsuario";
+        $result = $this->database->query($query);
+        return !empty($result) ? $result[0]['rol'] : null;
+
+    }
     public function obtenerCirugias($fechaInicio, $fechaFin)
     {
         $query = "SELECT * FROM cirugia WHERE fecha BETWEEN ? AND ? ";
@@ -963,9 +972,9 @@ class EstadisticasModel
 
     public function obtenerMaterialProtesico($idCirugia)
     {
-        $query = "SELECT m.nombre FROM materialprotesico m
+        $query = "SELECT m.nombre, lc.cantidad FROM materialprotesico m
                   INNER JOIN materialprotesicocirugia lc ON m.id = lc.idMaterialProtesico
-                  WHERE lc.idCirugia = ?";
+                  WHERE lc.idCirugia = ? and lc.idTipo = 1";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -985,6 +994,56 @@ class EstadisticasModel
             return [];
         }
     }
+    public function obtenerMaterialProtesicoSecundario($idCirugia)
+    {
+        $query = "SELECT m.nombre, lc.cantidad FROM materialprotesico m
+                  INNER JOIN materialprotesicocirugia lc ON m.id = lc.idMaterialProtesico
+                  WHERE lc.idCirugia = ? and lc.idTipo = 2";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $material = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $material[] = $row;
+            }
+
+            return $material;
+        } else {
+            return [];
+        }
+    }
+
+    public function obtenerMaterialProtesicoTerciario($idCirugia)
+    {
+        $query = "SELECT m.nombre, lc.cantidad FROM materialprotesico m
+                  INNER JOIN materialprotesicocirugia lc ON m.id = lc.idMaterialProtesico
+                  WHERE lc.idCirugia = ? and lc.idTipo = 3";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idCirugia);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $material = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $material[] = $row;
+            }
+
+            return $material;
+        } else {
+            return [];
+        }
+    }
+
 
     public function obtenerTecnologia($idCirugia)
     {

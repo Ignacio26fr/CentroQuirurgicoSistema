@@ -15,30 +15,43 @@ class FormularioController
     {
 
         session_start();
-        $paciente = $_SESSION['paciente'];
+        if (!isset($_SESSION["usuario"])) {
+            header("Location:/login");
+            exit();
+        }
+        $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
+        $rol = $this->model->verificarRolUsuario($nombreUsuario);
+        if ($rol == 'ADMIN' || $rol == 'INSTRUMENTADOR') {
 
-        $primario = $this->model->obtenerPrimario();
-        $espquirurgica = $this->model->obtenerEspecialidadQuirurgica();
-        $tipoAnestesia = $this->model->obtenerTipoAnestesia();
-        $lugar = $this->model->obtenerLugar();
-        $tipoCirugia = $this->model->obtenerTipoDeCirugia();
-        $tecnologiaUsada = $this->model->obtenerTecnologiaUsada();
-        $moduloAnestesia = $this->model->obtenerModuloAnestesia();
 
-        $data = [
-            "primario" => $primario,
-            "espquirurgica" => $espquirurgica,
-            "tipoAnestesia" => $tipoAnestesia,
-            "lugar" => $lugar,
-            "tipoCirugia" => $tipoCirugia,
-            "tecnologiaUsada" => $tecnologiaUsada,
-            "paciente" => $paciente,
-            "moduloAnestesia" => $moduloAnestesia
+            $paciente = $_SESSION['paciente'];
 
-        ];
+            $primario = $this->model->obtenerPrimario();
+            $espquirurgica = $this->model->obtenerEspecialidadQuirurgica();
+            $tipoAnestesia = $this->model->obtenerTipoAnestesia();
+            $lugar = $this->model->obtenerLugar();
+            $tipoCirugia = $this->model->obtenerTipoDeCirugia();
+            $tecnologiaUsada = $this->model->obtenerTecnologiaUsada();
+            $moduloAnestesia = $this->model->obtenerModuloAnestesia();
 
-        $this->presenter->render("view/formularioQuirurgico.mustache", ["data" => $data]);
+            $data = [
+                "primario" => $primario,
+                "espquirurgica" => $espquirurgica,
+                "tipoAnestesia" => $tipoAnestesia,
+                "lugar" => $lugar,
+                "tipoCirugia" => $tipoCirugia,
+                "tecnologiaUsada" => $tecnologiaUsada,
+                "paciente" => $paciente,
+                "moduloAnestesia" => $moduloAnestesia
+
+            ];
+
+            $this->presenter->render("view/formularioQuirurgico.mustache", ["data" => $data]);
+        } else {
+            header("Location: /homeUsuario");
     }
+
+}
 
 
     public function obtenerOpcionesSecundario()
@@ -228,6 +241,7 @@ class FormularioController
 
 
 
+
             $result = $this->model->insertCirugia(
                 $data['observacion'],
                 $data['horaInicio'],
@@ -247,6 +261,7 @@ class FormularioController
                $data['cultivo'],
                  $data['anatomiaPatologica']
             );
+
 
 
 
@@ -279,11 +294,12 @@ class FormularioController
             $this->insertSitioAnatomico($result, $data);
             $this->insertActoQuirurgico($result, $data);
             $this->insertCodigo($result, $data);
+            $this->insertMaterialProtesico($result, $data);
 
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
 
-            $this->insertMaterialProtesico($data, $result);
+
 
 
 
@@ -449,15 +465,16 @@ class FormularioController
     }
 
 
-    private function insertMaterialProtesico(array $data, $result)
+    private function insertMaterialProtesico($result, array $data)
     {
-        if ($data['materialProtesico' != null]) {
+        if ($data['materialProtesico'] != null) {
+
             $this->model->insertMaterialProtesico($data['materialProtesico'], $result, 1, $data['cantidadDeMaterial']);
         }
-        if ($data['materialProtesico2' != null]) {
+        if ($data['materialProtesico2'] != null) {
             $this->model->insertMaterialProtesico($data['materialProtesico2'], $result, 2, $data['cantidadDeMaterial2']);
         }
-        if ($data['materialProtesico3' != null]) {
+        if ($data['materialProtesico3'] != null) {
             $this->model->insertMaterialProtesico($data['materialProtesico3'], $result, 3, $data['cantidadDeMaterial3']);
         }
     }

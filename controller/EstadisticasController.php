@@ -55,7 +55,7 @@ class EstadisticasController
             list($lugaresProvieneDo) = $this->obtenerLugarProviene($idsCirugias);
             list($lugarEgresaDo) = $this->obtenerLugarEgresa($idsCirugias);
             list($codigoDePracticasDo, $codigoDePracticasDo2, $codigoDePracticasDo3) = $this->obtenerCodigoDePracticas($idsCirugias);
-            list($materialProtesicoDo) = $this->obtenerMaterialProtesico($idsCirugias);
+            list($materialProtesicoDo,$materialProtesicoDo2,  $materialProtesicoDo3) = $this->obtenerMaterialProtesico($idsCirugias);
             list($tecnologiaDo) = $this->obtenerTecnologia($idsCirugias);
             list($espQuirurgicaDo, $espQuirurgicaDo2, $espQuirurgicaDo3) = $this->obtenerEspQuirurgica($idsCirugias);
             list($actoQuirurgicoDo, $actoQuirurgicoDo2, $actoQuirurgicoDo3) = $this->obtenerNombreCirugia($idsCirugias);
@@ -123,6 +123,9 @@ class EstadisticasController
                 $codigoDePractica2 = isset($codigoDePracticasDo2[$idCirugia][0]['nombre']) ? $codigoDePracticasDo2[$idCirugia][0]['nombre'] : 'N/A';
                 $codigoDePractica3 = isset($codigoDePracticasDo3[$idCirugia][0]['nombre']) ? $codigoDePracticasDo3[$idCirugia][0]['nombre'] : 'N/A';
                 $materialProtesico = isset($materialProtesicoDo[$idCirugia][0]['nombre']) ? $materialProtesicoDo[$idCirugia][0]['nombre'] : 'N/A';
+                var_dump($materialProtesico);
+                $materialProtesico2 = isset($materialProtesicoDo2[$idCirugia][0]['nombre']) ? $materialProtesicoDo2[$idCirugia][0]['nombre'] : 'N/A';
+                $materialProtesico3 = isset($materialProtesicoDo3[$idCirugia][0]['nombre']) ? $materialProtesicoDo3[$idCirugia][0]['nombre'] : 'N/A';
                 $tecnologias = isset($tecnologiaDo[$idCirugia]) ? $tecnologiaDo[$idCirugia] : [];
                 $tecnologiasNombres = '';
                 $caja = isset($cajaDo[$idCirugia][0]['nombre']) ? $cajaDo[$idCirugia][0]['nombre'] : 'N/A';
@@ -185,6 +188,9 @@ class EstadisticasController
                     'caja2' =>$caja2,
                     'caja3' =>$caja3,
                     'caja4' =>$caja4,
+                    'materialProtesico' => $materialProtesico,
+                    'materialProtesico2' => $materialProtesico2,
+                    'materialProtesico3' => $materialProtesico3,
 
                 ];
 
@@ -238,6 +244,8 @@ class EstadisticasController
             $unidadFuncional2 = $this->model->obtenerUnidadFuncionalSecundario($idCirugia);
             $unidadFuncional3 = $this->model->obtenerUnidadFuncionalTerciario($idCirugia);
             $materialProtesico = $this->model->obtenerMaterialProtesico($idCirugia);
+           $materialProtesico2 = $this->model->obtenerMaterialProtesicoSecundario($idCirugia);
+           $materialProtesico3 = $this->model->obtenerMaterialProtesicoTerciario($idCirugia);
             $codigoDePracticas = $this->model->obtenerCodigoDePracticas($idCirugia);
             $codigoDePracticas2 = $this->model->obtenerCodigoDePracticasSecundario($idCirugia);
             $codigoDePracticas3= $this->model->obtenerCodigoDePracticasTerciario($idCirugia);
@@ -256,7 +264,7 @@ class EstadisticasController
 
 
 
-         //   $cantidadMaterialProtesico = $this->model->obtenerCantidadMaterialProtesico($idCirugia);
+
 
 
 
@@ -308,6 +316,11 @@ class EstadisticasController
                 "unidadFuncional2" => !empty($unidadFuncional2[0]['nombre']) ? $unidadFuncional2[0]['nombre'] : 'N/A',
                 "unidadFuncional3" => !empty($unidadFuncional3[0]['nombre']) ? $unidadFuncional3[0]['nombre'] : 'N/A',
                 "materialProtesico" => !empty($materialProtesico[0]['nombre']) ? $materialProtesico[0]['nombre'] : 'N/A',
+                "CantidadmaterialProtesico" => !empty($materialProtesico[0]['cantidad']) ? $materialProtesico[0]['cantidad'] : 'N/A',
+                "materialProtesico2" => !empty($materialProtesico2[0]['nombre']) ? $materialProtesico2[0]['nombre'] : 'N/A',
+                "CantidadmaterialProtesico2" => !empty($materialProtesico2[0]['cantidad']) ? $materialProtesico2[0]['cantidad'] : 'N/A',
+               "materialProtesico3" => !empty($materialProtesico3[0]['nombre']) ? $materialProtesico3[0]['nombre'] : 'N/A',
+               "CantidadmaterialProtesico3" => !empty($materialProtesico3[0]['cantidad']) ? $materialProtesico3[0]['cantidad'] : 'N/A',
                 "tecnologia" => $nombreTecnologia,
                 "codigoPractica" => !empty($codigoDePracticas[0]['nombre']) ? $codigoDePracticas[0]['nombre'] : 'N/A',
                 "codigoPractica2" => !empty($codigoDePracticas2[0]['nombre']) ? $codigoDePracticas2[0]['nombre'] : 'N/A',
@@ -544,11 +557,17 @@ class EstadisticasController
     private function obtenerMaterialProtesico(array $idCirugias): array
     {
         $materialProtesico = [];
+        $materialProtesico2 = [];
+        $materialProtesico3 = [];
         foreach($idCirugias as $idCirugia) {
             $material = $this->model->obtenerMaterialProtesico($idCirugia);
+            $material2 = $this->model->obtenerMaterialProtesicoSecundario($idCirugia);
+            $material3 = $this->model->obtenerMaterialProtesicoTerciario($idCirugia);
             $materialProtesico[$idCirugia] = $material;
+            $materialProtesico2[$idCirugia] = $material2;
+            $materialProtesico3[$idCirugia] = $material3;
         }
-        return array($materialProtesico);
+        return array($materialProtesico, $materialProtesico2, $materialProtesico3);
     }
 
     private function obtenerTecnologia(array $idCirugias): array
