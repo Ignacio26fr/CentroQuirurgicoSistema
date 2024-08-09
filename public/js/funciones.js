@@ -842,6 +842,26 @@ $(document).ready(function() {
     setupFieldEvents($('#field-container-material'));
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const fechaDesde = document.getElementById('fechaDesde');
+    const fechaHasta = document.getElementById('fechaHasta');
+    const btnFiltrar = document.getElementById('btnFiltrar');
+
+    function validateForm() {
+        if (fechaDesde.value && fechaHasta.value) {
+            btnFiltrar.disabled = false;
+        } else {
+            btnFiltrar.disabled = true;
+        }
+    }
+
+    fechaDesde.addEventListener('input', validateForm);
+    fechaHasta.addEventListener('input', validateForm);
+
+
+    validateForm();
+});
+
 
 
 

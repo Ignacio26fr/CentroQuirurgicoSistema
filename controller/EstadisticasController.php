@@ -22,7 +22,7 @@ class EstadisticasController
     {
 
 
-        if (isset($_GET['fechaDesde']) && isset($_GET['fechaHasta'])) {
+        if (isset($_GET['fechaDesde']) && $_GET['fechaHasta'] && $_GET['fechaDesde'] !== '' && $_GET['fechaHasta'] !== '') {
             $fechaInicio = $_GET['fechaDesde'];
             $fechaFin = $_GET['fechaHasta'];
 
@@ -123,7 +123,6 @@ class EstadisticasController
                 $codigoDePractica2 = isset($codigoDePracticasDo2[$idCirugia][0]['nombre']) ? $codigoDePracticasDo2[$idCirugia][0]['nombre'] : 'N/A';
                 $codigoDePractica3 = isset($codigoDePracticasDo3[$idCirugia][0]['nombre']) ? $codigoDePracticasDo3[$idCirugia][0]['nombre'] : 'N/A';
                 $materialProtesico = isset($materialProtesicoDo[$idCirugia][0]['nombre']) ? $materialProtesicoDo[$idCirugia][0]['nombre'] : 'N/A';
-                var_dump($materialProtesico);
                 $materialProtesico2 = isset($materialProtesicoDo2[$idCirugia][0]['nombre']) ? $materialProtesicoDo2[$idCirugia][0]['nombre'] : 'N/A';
                 $materialProtesico3 = isset($materialProtesicoDo3[$idCirugia][0]['nombre']) ? $materialProtesicoDo3[$idCirugia][0]['nombre'] : 'N/A';
                 $tecnologias = isset($tecnologiaDo[$idCirugia]) ? $tecnologiaDo[$idCirugia] : [];
@@ -203,6 +202,8 @@ class EstadisticasController
 
 
             ]);
+        } else {
+            header("Location: /estadisticas");
         }
     }
 
