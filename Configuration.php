@@ -6,12 +6,16 @@ include_once ("controller/QuirurgicoController.php");
 include_once("controller/FormularioController.php");
 include_once ("controller/EstadisticasController.php");
 include_once ("controller/OpcionesController.php");
+include_once("controller/DiagnosticoController.php");
+include_once("controller/ActoQuirurgicoController.php");
 
 include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
 include_once ("model/QuirurgicoModel.php");
 include_once("model/EstadisticasModel.php");
 include_once("model/OpcionesModel.php");
+include_once("model/DiagnosticoModel.php");
+include_once("model/ActoQuirurgicoModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
@@ -62,6 +66,16 @@ public static function getOpcionesController()
     return new OpcionesController(self::getOpcionesModel(), self::getPresenter());
 }
 
+public static function getDiagnosticoController()
+{
+    return new DiagnosticoController(self::getDiagnosticoModel(), self::getPresenter());
+}
+
+public static function getActoQuirurgicoController()
+{
+    return new ActoQuirurgicoController(self::getActoQuirurgicoModel(), self::getPresenter());
+}
+
 //Models
 
 private static function getLoginModel()
@@ -87,12 +101,21 @@ private static function getEstadisticasModel()
     {
         return new OpcionesModel(self::getDatabase());
     }
+    private static function getDiagnosticoModel()
+    {
+        return new DiagnosticoModel(self::getDatabase());
+    }
+
+ private static function getActoQuirurgicoModel()
+ {
+     return new ActoQuirurgicoModel(self::getDatabase());
+ }
 
 //helper
 public static function getDatabase()
 {
     $config = self::getConfig();
-    return new Database($config["servername"] . ":" . $config["port"], $config["username"], $config["password"], $config["dbname"]);
+    return new Database("db", $config["username"], $config["password"], $config["dbname"]);
 
 }
 

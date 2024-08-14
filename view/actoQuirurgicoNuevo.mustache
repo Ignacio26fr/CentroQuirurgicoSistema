@@ -1,0 +1,109 @@
+{{> slidebar}}
+<div class="content">
+    <button class="btn btn-warning btn-volver" onclick="window.history.back();">Volver</button>
+    <h1 class="mb-4">ABM Registro Centro Quirúrgico</h1>
+
+    <!-- Sección de Nuevo Diagnóstico -->
+    <section id="nuevo-diagnostico">
+        <h2>Nuevo Diagnóstico</h2>
+        <form action="/diagnostico/insertarDiagnostico" method="post" name="diagnosticos" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="espQuirurgica" class="form-label">Especialidad quirurgica</label>
+                <select class="form-control espQuirurgica" id="espQuirurgica" name="espQuirurgica" required>
+                    <option value="0">Seleccionar</option>
+                    {{#espquirurgica}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/espquirurgica}}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="unidadFuncional" class="form-label">Unidad funcional</label>
+                <select class="form-control unidadFuncional" id="unidadFuncional" name="unidadFuncional" required>
+                    <option value="0">Seleccionar</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="sitioAnatomico" class="form-label">Sitio anatomico</label>
+                <select class="form-control sitioAnatomico" id="sitioAnatomico" name="sitioAnatomico" required>
+                    <option value="0">Seleccionar</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="actoQuirurgico" class="form-label">Acto quirurgico</label>
+                <select class="form-control actoQuirurgico" id="actoQuirurgico" name="actoQuirurgico" required>
+                    <option value="0">Seleccionar</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end mb-3">
+                <button type="submit" class="btn btn-success">Guardar Diagnóstico</button>
+            </div>
+        </form>
+    </section>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#espQuirurgica').change(function() {
+            var idEspQuirurgica = $(this).val();
+            fetchUnits(idEspQuirurgica, $('#unidadFuncional'), function() {
+                $('#sitioAnatomico').empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+                $('#actoQuirurgico').empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+            });
+        });
+
+        $('#unidadFuncional').change(function() {
+            var idUnidadFuncional = $(this).val();
+            fetchSites(idUnidadFuncional, $('#sitioAnatomico'), function() {
+                $('#actoQuirurgico').empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+            });
+        });
+
+        $('#sitioAnatomico').change(function() {
+            var idSitioAnatomico = $(this).val();
+            fetchActo(idSitioAnatomico, $('#actoQuirurgico'), function() {});
+        });
+    });
+
+    function fetchUnits(idEspQuirurgica, $unitSelect, callback) {
+        $.ajax({
+            url: '/actoQuirurgico/ajaxObtenerUnidadesFuncionales',  //
+            method: 'GET',
+            data: { idEspQuirurgica: idEspQuirurgica },
+            success: function(data) {
+                if (data && data.length > 0) {
+                    $unitSelect.empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+                    $.each(data, function(index, unidad) {
+                        $unitSelect.append($('<option>', { value: unidad.id, text: unidad.nombre }));
+                    });
+                } else {
+                    $unitSelect.empty().append($('<option>', { value: '0', text: 'No hay unidades disponibles' }));
+                }
+                callback();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function fetchSites(idUnidadFuncional, $siteSelect, callback) {
+        $.ajax({
+            url: '/actoQuirurgico/ajaxObtenerSitiosAnatomicos',
+            method: 'GET',
+            data: { idUnidadFuncional: idUnidadFuncional },
+            success: function(data) {
+                if (data && data.length > 0) {
+                    $siteSelect.empty().append($('<option>', { value: '0', text: 'Seleccionar' }));
+                    $.each(data, function(index, sitio) {
+                        $siteSelect.append($('<option>', { value: sitio.id, text: sitio.nombre }));
+                    });
+                } else {
+                    $siteSelect.empty().append($('<option>', { value: '0', text: 'No hay sitios disponibles' }));
+                }
+                callback();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+</script>

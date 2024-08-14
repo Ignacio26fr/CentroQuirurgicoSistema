@@ -34,15 +34,22 @@
         <th style="display: none">Acto secundario</th>
         <th style="display: none">Acto terciario</th>
         <th><input type="text" class="form-control" id="filtroCirujano" name="filtroCirujano" placeholder="Filtrar por Cirujano">Cirujano</th>
-        <th><input type="text" class="form-control" id="filtroAnestesista" name="filtroAnestesista" placeholder="Filtrar por Anestesista">Anestesia</th>
+        <th style="display: none">Cirujano sec</th>
+        <th style="display: none">Cirujano ter</th>
+        <th><input type="text" class="form-control" id="filtroAnestesista" name="filtroAnestesista" placeholder="Filtrar por Anestesista">Anestesista</th>
         <th><input type="text" class="form-control" id="filtroInstrumentador" name="filtroInstrumentador" placeholder="Filtrar por Instrumentador quirúrgico">Instrumentador</th>
         <th>Tecnico</th>
+        <th style="display: none">Hora de ingreso centro quirurgico</th>
         <th>Hora inicio</th>
         <th>Hora fin</th>
+        <th style="display: none">Hora de egreso centro quirurgico</th>
+        <th style="display: none">Hora de nacimiento</th>
+        <th style="display: none">N° quirofano</th>
         <th>Accion</th>
         <th style="display: none">Observacion</th>
         <th style="display: none">TipoDeAnestesia</th>
         <th style="display: none">TipoDeCirugia</th>
+        <th style="display: none">Codigo modulo anestesia</th>
         <th style="display: none">SitioAnatomico</th>
         <th style="display: none">SitioAnatomico sec</th>
         <th style="display: none">SitioAnatomico ter</th>
@@ -52,7 +59,11 @@
         <th style="display: none">Neonatologo</th>
         <th style="display: none">Circulante</th>
         <th style="display: none">Primer ayudante</th>
+        <th style="display: none">Primer ayudante sec</th>
+        <th style="display: none">Primer ayudante ter</th>
         <th style="display: none">Segundo ayudante</th>
+        <th style="display: none">Segundo ayudante sec</th>
+        <th style="display: none">Segundo ayudante ter</th>
         <th style="display: none">asa</th>
         <th style="display: none">Proviene</th>
         <th style="display: none">Egresa</th>
@@ -65,8 +76,11 @@
         <th style="display: none">Codigo de practicas secundario</th>
         <th style="display: none">Codigo de practicas terciario</th>
         <th style="display: none">Material protesico</th>
+        <th style="display: none">Cant Material protesico</th>
         <th style="display: none">Material protesico sec</th>
+        <th style="display: none">Cant Material protesico sec</th>
         <th style="display: none">Material protesico ter </th>
+        <th style="display: none">Cant Material protesico ter</th>
         <th style="display: none">Tecnologia usada</th>
         <th style="display: none">Caja quirurgica</th>
         <th style="display: none">Caja quirurgica secundaria</th>
@@ -85,7 +99,7 @@
             <td>{{id}}</td>
             <td>{{fecha}}</td>
             <td>{{paciente}}</td>
-            <td></td>
+            <td>{{dni}}</td>
             <td>{{primario}}</td>
             <td>{{secundario}}</td>
             <td>{{especialidad}}</td>
@@ -95,17 +109,25 @@
             <td style="display: none">{{nombreCirugia2}}</td>
             <td style="display: none">{{nombreCirugia3}}</td>
             <td>{{nombreCirujano}}</td>
+            <td style="display: none">{{nombreCirujano2}}</td>
+            <td style="display: none">{{nombreCirujano3}}</td>
             <td>{{anestesista}}</td>
             <td>{{instrumentador}}</td>
             <td>{{tecnico}}</td>
+            <td style="display: none">{{horaIngresoCentroQuirurgico}}</td>
             <td>{{horaInicio}}</td>
             <td>{{horaFin}}</td>
+            <td style="display: none">{{horaEgresoCentroQuirurgico}}</td>
+            <td style="display: none">{{horaNac}}</td>
+            <td style="display: none">{{NroQuirofano}}</td>
+
             <td>
                 <a href="/estadisticas/verDetalle?idCirugia={{id}}" class="btn btn-info">Ver Detalle</a>
             </td>
             <td style="display: none">{{observacion}}</td>
             <td style="display: none">{{tipoDeAnestesia}}</td>
             <td style="display: none">{{tipoDeCirugia}}</td>
+            <td style="display: none">{{moduloAnestesia}}</td>
             <td style="display: none">{{sitioAnatomico}}</td>
             <td style="display: none">{{sitioAnatomico2}}</td>
             <td style="display: none">{{sitioAnatomico3}}</td>
@@ -115,7 +137,11 @@
             <td style="display: none">{{neonatologo}}</td>
             <td style="display: none">{{circulante}}</td>
             <td style="display: none">{{primerAyudante}}</td>
+            <td style="display: none">{{primerAyudante2}}</td>
+            <td style="display: none">{{primerAyudante3}}</td>
             <td style="display: none">{{segundoAyudante}}</td>
+            <td style="display: none">{{segundoAyudante2}}</td>
+            <td style="display: none">{{segundoAyudante3}}</td>
             <td style="display: none">{{asa}}</td>
             <td style="display: none">{{proviene}}</td>
             <td style="display: none">{{egresa}}</td>
@@ -128,8 +154,11 @@
             <td style="display: none">{{codigo2}}</td>
             <td style="display: none">{{codigo3}}</td>
             <td style="display: none">{{materialProtesico}}</td>
+            <td style="display: none">{{cantidadMaterialProtesico}}</td>
             <td style="display: none">{{materialProtesico2}}</td>
+            <td style="display: none">{{cantidadMaterialProtesico2}}</td>
             <td style="display: none">{{materialProtesico3}}</td>
+            <td style="display: none">{{cantidadMaterialProtesico3}}</td>
             <td style="display: none">{{tecnologia}}</td>
             <td style="display: none">{{caja}}</td>
             <td style="display: none">{{caja2}}</td>

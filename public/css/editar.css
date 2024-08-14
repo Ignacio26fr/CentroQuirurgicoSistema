@@ -1,0 +1,29 @@
+.resultados ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.resultados li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 40%;
+    margin-bottom: 5px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.resultados a {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+}
+
+
+.boton {
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+

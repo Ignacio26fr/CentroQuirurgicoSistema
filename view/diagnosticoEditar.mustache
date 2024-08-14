@@ -1,0 +1,59 @@
+{{> slidebar}}
+<link rel="stylesheet" href="/public/css/editar.css">
+<div class="content">
+    <a class="btn btn-warning btn-volver" href="/diagnostico" >Volver</a>
+
+    <!-- Sección de Búsqueda de Diagnóstico -->
+    <section id="buscar-diagnostico">
+        <h2>Buscar Diagnóstico</h2>
+        <form action="/diagnostico/buscarDiagnostico" method="get" name="buscarDiagnostico">
+            <div class="mb-3">
+                <input type="text" class="form-control" id="buscar" name="nombre" placeholder="Ingrese el nombre del diagnóstico">
+            </div>
+            <div class="d-flex justify-content-end mb-3">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+        {{#diagnosticos}}
+            <div class="resultados">
+                <h3>Resultados de la Búsqueda</h3>
+                <ul>
+                    {{#diagnosticos}}
+                        <li class="">
+                            <a href="/diagnostico/editarDiagnosticoSeleccionado?id={{id}}">{{nombre}}</a>
+                            <div>
+                                <a href="/diagnostico/editarDiagnosticoSeleccionado?id={{id}}" class="btn btn-primary boton" style="color: white">Editar</a>
+                                <a href="/diagnostico/eliminarDiagnosticoSeleccionado?id={{id}}" class="btn btn-danger boton" style="color: white" onclick="return confirmarEliminacion();">Eliminar</a>
+                            </div>
+
+
+                        </li>
+                    {{/diagnosticos}}
+                </ul>
+            </div>
+        {{/diagnosticos}}
+    </section>
+
+    <!-- Sección de Edición de Diagnóstico -->
+    {{#diagnostico}}
+        <section id="editar-diagnostico">
+            <h2>Editar Diagnóstico</h2>
+            <form action="/diagnostico/obtenerElPostEditarDiagnostico" method="post" name="editarDiagnostico" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="{{id}}">
+                <div class="mb-3">
+                    <label for="diagnostico" class="form-label">Nombre del Diagnóstico: </label>
+
+                    <input type="text" class="form-control" id="diagnostico" name="nombre" placeholder="Ingrese el nombre del diagnóstico" value="{{nombre}}">
+                </div>
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                </div>
+            </form>
+        </section>
+    {{/diagnostico}}
+</div>
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro de que quieres eliminar este diagnóstico?");
+    }
+</script>

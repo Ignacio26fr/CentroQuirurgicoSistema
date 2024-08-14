@@ -259,7 +259,8 @@ class FormularioController
                   $data['radiograma'],
                  $data['hemoterapia'],
                $data['cultivo'],
-                 $data['anatomiaPatologica']
+                 $data['anatomiaPatologica'],
+                $data['moduloAnestesia']
             );
 
 
@@ -297,7 +298,7 @@ class FormularioController
             $this->insertMaterialProtesico($result, $data);
 
             $this->model->insertLugarCirugia($result, $data['lugarProviene'], 1);
-            $this->model->insertLugarCirugia($result, $data['lugarProviene'], 2);
+            $this->model->insertLugarCirugia($result, $data['lugarEgreso'], 2);
 
 
 
@@ -351,6 +352,7 @@ class FormularioController
             'cajaQuirurgica3' => $_POST['idCajaQuirurgica_2'] ?? null,
             'cajaQuirurgica4' => $_POST['idCajaQuirurgica_3'] ?? null,
             'tipoCirugia' => $_POST['tipoCirugia'],
+            'moduloAnestesia' => $_POST['moduloAnestesia'],
             'tecnologiaUsada' => $_POST['tecnologiasUsadas'],
             'codigo' => $_POST['idCodigoSeleccionado_0'] ?? null,
             'codigo1' => $_POST['idCodigoSeleccionado_1'] ?? null,

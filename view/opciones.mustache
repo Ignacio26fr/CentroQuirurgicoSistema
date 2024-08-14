@@ -1,53 +1,9 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-    .sidebar {
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 250px;
-        background-color: #343a40;
-        padding-top: 20px;
-    }
-    .sidebar a {
-        padding: 15px;
-        text-align: center;
-        font-size: 18px;
-        color: white;
-        display: block;
-        text-decoration: none;
-    }
-    .sidebar a:hover {
-        background-color: #575d63;
-    }
-    .content {
-        margin-left: 250px;
-        padding: 20px;
-    }
-    .btn-volver {
-        margin-bottom: 20px;
-    }
-</style>
-</head>
-<body>
-<div class="sidebar">
-    <a href="#nuevo-usuario">Nuevo Usuario</a>
-    <a href="#nueva-caja-quirurgica">Nueva Caja Quirúrgica</a>
-    <a href="#nuevo-codigo-practica">Nuevo Código de Práctica</a>
-    <a href="#nuevo-diagnostico">Nuevo Diagnóstico</a>
-    <a href="#nuevo-diagnostico">Nueva Especialidad</a>
-    <a href="#nuevo-diagnostico">Nuevo Lugar</a>
-    <a href="#nuevo-diagnostico">Nuevo Material protesico</a>
-    <a href="#nuevo-diagnostico">Nuevo rol cirugia</a>
-    <a href="#nuevo-diagnostico">Nueva Tecnologia</a>
-</div>
+
+{{> slidebar}}
 
 <div class="content">
-    <button class="btn btn-warning btn-volver" onclick="window.history.back();">Volver</button>
+    <a class="btn btn-warning btn-volver" href="/homeUsuario">Home</a>
     <h1 class="mb-4">ABM Registro Centro Quirúrgico</h1>
 
-    <!-- Secciones de contenido -->
-    <section id="nuevo-usuario">
+</div>

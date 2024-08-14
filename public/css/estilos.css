@@ -177,6 +177,69 @@ header:hover {
 .custom-select-option:hover {
     background-color: #f1f1f1;
 }
+.profile-container {
+    position: absolute;
+    top: 16vh;
+    flex-direction: column;
+    align-items: flex-start;
+    left: 1vh;
+    padding: 15px;
+    background-color: #f3f3f3;
+    width: 15%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.profile-container h3 {
+    margin: 5px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-container h3:first-child {
+    color: #007bff;
+}
+
+
+.profile-container h3:last-child {
+    color: #28a745;
+}
+
+@media (max-width: 768px) {
+    .logout-button {
+        padding: 10px 20px;
+        font-size: 1em;
+        top: 17vh;
+        right: 10px;
+        width: auto;
+        max-width: 150px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+    }
+
+    .menu {
+        margin-top: 10vh;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .menu a {
+
+        margin: 10px 0;
+        padding: 15px;
+    }
+
+    .logo-container {
+        margin-top: 10vh;
+    }
+    .profile-container {
+        display: flex;
+        position: relative;
+        width: 30%;
+        top: 0;
+    }
+}
 
 

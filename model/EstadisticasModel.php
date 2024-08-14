@@ -714,7 +714,7 @@ class EstadisticasModel
     public function obtenerTipoCirugia($idTipoCirugia)
     {
         $query = "SELECT t.nombre from tipodecirugia t inner join
-                    cirugia c on c.idTipoDeCirugia = t.id where c.id = ? ";
+                    cirugia c on c.idTipoDeCirugia = t.id where t.id = ? ";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idTipoCirugia);
         $stmt->execute();
@@ -1162,6 +1162,28 @@ class EstadisticasModel
             return [];
         }
     }
+    public function obtenerModuloAnestesia($idModuloAnestesia)
+    {
+        $query = "SELECT m.nombre from moduloAnestesia m INNER JOIN cirugia c
+                 on c.idModuloAnestesia = m.id where m.id = ?;";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idModuloAnestesia);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $cirugias = [];
+            while ($row = $result->fetch_assoc()) {
+                $cirugias[] = $row;
+
+            }
+            return $cirugias;
+        } else {
+            return [];
+        }
+    }
+
     private function obtenerNombreYApellidoDelProfesional($idProfesional)
     {
         $query = "SELECT nombre, apellido FROM persona WHERE id = ?";

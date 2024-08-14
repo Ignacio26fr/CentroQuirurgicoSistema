@@ -346,7 +346,7 @@ class QuirurgicoModel
                                   $idTipoDeCirugia, $idPaciente,
                                   $asa, $nroQuirofanoUsado, $horaIngresoCentroQuirurgico,
                                   $horaEgresoCentroQuirurgico, $horaDeNacimiento, $conteo, $radiografia, $hemoterapia,
-                                  $cultivo, $anatomiaPatologica)
+                                  $cultivo, $anatomiaPatologica, $moduloAnestesia)
     {
 
         // Verifica el número de columnas y valores
@@ -367,8 +367,9 @@ class QuirurgicoModel
         radiografiaControl,
         hemoterapia,
         cultivo,
-        anatomiaPatologica
-    ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        anatomiaPatologica,
+        idModuloAnestesia
+    ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($query);
 
@@ -378,7 +379,7 @@ class QuirurgicoModel
 
         // Realiza el bind de los parámetros
         $stmt->bind_param(
-            "sssssssiisssiiiii",
+            "sssssssiisssiiiiis",
             $observacion,
             $horaInicio,
             $horaFin,
@@ -395,7 +396,8 @@ class QuirurgicoModel
             $radiografia,
             $hemoterapia,
             $cultivo,
-            $anatomiaPatologica
+            $anatomiaPatologica,
+            $moduloAnestesia
         );
 
         if (!$stmt->execute()) {
