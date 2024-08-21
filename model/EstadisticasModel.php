@@ -750,7 +750,7 @@ class EstadisticasModel
 
     public function obtenerSitioAnatomico($idSitioAnatomico)
     {
-        $query = "Select s.nombre from sitioAnatomico s inner join 
+        $query = "Select s.nombre from sitioanatomico s inner join 
                   cirugiasitioanatomico c on c.idSitioAnatomico = s.id where c.idCirugia = ? AND c.idTipo = 1";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idSitioAnatomico);
@@ -766,7 +766,7 @@ class EstadisticasModel
     }
     public function obtenerSitioAnatomicoSecundario($idSitioAnatomico)
     {
-        $query = "Select s.nombre from sitioAnatomico s inner join 
+        $query = "Select s.nombre from sitioanatomico s inner join 
                   cirugiasitioanatomico c on c.idSitioAnatomico = s.id where c.idCirugia = ? AND c.idTipo = 2";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idSitioAnatomico);
@@ -782,7 +782,7 @@ class EstadisticasModel
     }
     public function obtenerSitioAnatomicoTerciario($idSitioAnatomico)
     {
-        $query = "Select s.nombre from sitioAnatomico s inner join 
+        $query = "Select s.nombre from sitioanatomico s inner join 
                   cirugiasitioanatomico c on c.idSitioAnatomico = s.id where c.idCirugia = ? AND c.idTipo = 3";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idSitioAnatomico);
@@ -798,7 +798,7 @@ class EstadisticasModel
     }
     public function obtenerUnidadFuncional($idCirugia)
     {
-        $query = "Select s.nombre from unidadFuncional s INNER JOIN
+        $query = "Select s.nombre from unidadfuncional s INNER JOIN
                     cirugiaunidadfuncional c on c.idUnidadFuncional = s.id where c.idCirugia = ? AND c.idTipo = 1";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -814,7 +814,7 @@ class EstadisticasModel
     }
     public function obtenerUnidadFuncionalSecundario($idCirugia)
     {
-        $query = "Select s.nombre from unidadFuncional s INNER JOIN
+        $query = "Select s.nombre from unidadfuncional s INNER JOIN
                     cirugiaunidadfuncional c on c.idUnidadFuncional = s.id where c.idCirugia = ? AND c.idTipo = 2";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -830,7 +830,7 @@ class EstadisticasModel
     }
     public function obtenerUnidadFuncionalTerciario($idCirugia)
     {
-        $query = "Select s.nombre from unidadFuncional s INNER JOIN
+        $query = "Select s.nombre from unidadfuncional s INNER JOIN
                     cirugiaunidadfuncional c on c.idUnidadFuncional = s.id where c.idCirugia = ? AND c.idTipo = 3";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idCirugia);
@@ -1164,7 +1164,7 @@ class EstadisticasModel
     }
     public function obtenerModuloAnestesia($idModuloAnestesia)
     {
-        $query = "SELECT m.nombre from moduloAnestesia m INNER JOIN cirugia c
+        $query = "SELECT m.nombre from moduloanestesia m INNER JOIN cirugia c
                  on c.idModuloAnestesia = m.id where m.id = ?;";
 
         $stmt = $this->database->prepare($query);

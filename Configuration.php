@@ -8,6 +8,7 @@ include_once ("controller/EstadisticasController.php");
 include_once ("controller/OpcionesController.php");
 include_once("controller/DiagnosticoController.php");
 include_once("controller/ActoQuirurgicoController.php");
+include_once("controller/ConsultasController.php");
 
 include_once("model/LoginModel.php");
 include_once("model/UsuarioModel.php");
@@ -16,11 +17,13 @@ include_once("model/EstadisticasModel.php");
 include_once("model/OpcionesModel.php");
 include_once("model/DiagnosticoModel.php");
 include_once("model/ActoQuirurgicoModel.php");
+include_once("model/ConsultasModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
 include_once("helper/Presenter.php");
 include_once("helper/MustachePresenter.php");
+
 
 include_once("vendor/mustache/src/Mustache/Autoloader.php");
 
@@ -76,6 +79,11 @@ public static function getActoQuirurgicoController()
     return new ActoQuirurgicoController(self::getActoQuirurgicoModel(), self::getPresenter());
 }
 
+public static function getConsultasController()
+{
+    return new ConsultasController(self::getPresenter(), self::getConsultasModel());
+}
+
 //Models
 
 private static function getLoginModel()
@@ -110,12 +118,16 @@ private static function getEstadisticasModel()
  {
      return new ActoQuirurgicoModel(self::getDatabase());
  }
+ private static function getConsultasModel()
+ {
+     return new ConsultasModel(self::getDatabase());
+ }
 
 //helper
 public static function getDatabase()
 {
     $config = self::getConfig();
-    return new Database("db", $config["username"], $config["password"], $config["dbname"]);
+    return new Database($config['servername'], $config["username"], $config["password"], $config["dbname"]);
 
 }
 

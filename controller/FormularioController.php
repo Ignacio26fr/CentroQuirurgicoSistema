@@ -73,8 +73,13 @@ class FormularioController
         if (isset($_GET['filtroPrimario'])) {
             $filtro = $_GET['filtroPrimario'];
             $resultados = $this->model->obtenerDiagnosticoPrimario($filtro);
-
-            echo json_encode($resultados);
+            $json = json_encode($resultados);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo 'Error en JSON: ' . json_last_error_msg();
+            } else {
+                echo $json;
+            }
+            exit();
         }
     }
 
@@ -215,12 +220,13 @@ class FormularioController
     public function obtenerCodigos()
     {
         header('Content-Type: application/json');
+        $resultados = array();
         if (isset($_GET['filtroCodigo'])) {
             $filtroCodigo = $_GET['filtroCodigo'];
             $resultados = $this->model->obtenerCodigos($filtroCodigo);
-
-            echo json_encode($resultados);
         }
+            echo json_encode($resultados);
+
 
     }
 
@@ -236,6 +242,11 @@ class FormularioController
     }
 
     public function insertarDatos(){
+        session_start();
+
+        $idUsuario = $this->model->obtenerUsuario($_SESSION['usuario']);
+
+
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $data = $this->obtenerDatosDelPost();
 
@@ -283,6 +294,7 @@ class FormularioController
 
             $this->insertInstrumentador($data['instrumentador'], $result);
             $this->model->insertCirugiaPersona($result, $data['tecnico'], 8);
+            $this->model->insertCirugiaPersona($result, $idUsuario, 9);
 
                 foreach($data['tecnologiaUsada'] as $tecnologia){
 
@@ -290,7 +302,14 @@ class FormularioController
 
             }
 
-            $this->insertEspQuirurgica($result, $data);
+            $this->model->insertEspQuirurgica($result, $data['espquirurgica'], 1);
+            if ($data['espquirurgica1'] != null && $data['espquirurgica1'] != 0) {
+                $this->model->insertEspQuirurgica($result, $data['espquirurgica1'], 2);
+            }
+            if ($data['espquirurgica2'] != null && $data['espquirurgica2'] != 0) {
+                $this->model->insertEspQuirurgica($result, $data['espquirurgica2'], 3);
+            }
+
             $this->insertUnidadFuncional($result, $data);
             $this->insertSitioAnatomico($result, $data);
             $this->insertActoQuirurgico($result, $data);
@@ -382,10 +401,10 @@ class FormularioController
     private function insertarCirujanoPrimerYSegPrimario($result, array $data)
     {
         $this->model->insertCirugiaPersonaCirujano($result, $data['cirujano'], 1, 1);
-        if ($data['primerAyudante'] != null) {
+        if ($data['primerAyudante'] != null && $data['primerAyudante'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['primerAyudante'], 2, 1);
         }
-        if ($data['segundoAyudante'] != null) {
+        if ($data['segundoAyudante'] != null && $data['segundoAyudante'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante'], 3, 1);
         }
     }
@@ -393,27 +412,27 @@ class FormularioController
     private function insertarCirujanoPrimerYSegSecundario($result, array $data)
     {
 
-        if($data['cirujano1'] != null) {
+        if($data['cirujano1'] != null && $data['cirujano1'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['cirujano1'], 1, 2);
         }
 
-        if ($data['primerAyudante1'] != null) {
+        if ($data['primerAyudante1'] != null && $data['primerAyudante1'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['primerAyudante1'], 2, 2);
         }
-        if ($data['segundoAyudante1'] != null) {
+        if ($data['segundoAyudante1'] != null && $data['segundoAyudante1'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante1'], 3, 2);
         }
     }
     private function insertarCirujanoPrimerYSegTerciario($result, array $data)
     {
-        if($data['cirujano2'] != null) {
+        if($data['cirujano2'] != null && $data['cirujano2'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['cirujano2'], 1, 3);
         }
 
-        if ($data['primerAyudante2'] != null) {
+        if ($data['primerAyudante2'] != null && $data['primerAyudante2'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['primerAyudante2'], 2, 3);
         }
-        if ($data['segundoAyudante2'] != null) {
+        if ($data['segundoAyudante2'] != null && $data['segundoAyudante2'] != 0) {
             $this->model->insertCirugiaPersonaCirujano($result, $data['segundoAyudante2'], 3, 3);
         }
     }
@@ -421,11 +440,12 @@ class FormularioController
 
     private function insertEspQuirurgica($result, array $data)
     {
+        var_dump($data['espquirurgica']);
         $this->model->insertEspQuirurgica($result, $data['espquirurgica'], 1);
-        if ($data['espquirurgica1'] != null) {
+        if ($data['espquirurgica1'] != null && $data['espquirurgica1'] != 0) {
             $this->model->insertEspQuirurgica($result, $data['espquirurgica1'], 2);
         }
-        if ($data['espquirurgica2'] != null) {
+        if ($data['espquirurgica2'] != null && $data['espquirurgica2'] != 0) {
             $this->model->insertEspQuirurgica($result, $data['espquirurgica2'], 3);
         }
     }
@@ -434,10 +454,10 @@ class FormularioController
     private function insertUnidadFuncional($result, array $data)
     {
         $this->model->insertCirugiaUnidadFuncional($result, $data['unidadFuncional'], 1);
-        if ($data['unidadFuncional1'] != null) {
+        if ($data['unidadFuncional1'] != null && $data['unidadFuncional1'] != 0) {
             $this->model->insertCirugiaUnidadFuncional($result, $data['unidadFuncional1'], 2);
         }
-        if ($data['unidadFuncional2'] != null) {
+        if ($data['unidadFuncional2'] != null && $data['unidadFuncional2'] != 0) {
             $this->model->insertCirugiaUnidadFuncional($result, $data['unidadFuncional2'], 3);
         }
     }
@@ -446,10 +466,10 @@ class FormularioController
     private function insertSitioAnatomico($result, array $data)
     {
         $this->model->insertCirugiaSitioAnatomico($result, $data['sitioAnatomico'], 1);
-        if ($data['sitioAnatomico1'] != null) {
+        if ($data['sitioAnatomico1'] != null && $data['sitioAnatomico1'] != 0) {
             $this->model->insertCirugiaSitioAnatomico($result, $data['sitioAnatomico1'], 2);
         }
-        if ($data['sitioAnatomico2'] != null) {
+        if ($data['sitioAnatomico2'] != null  && $data['primerAyudante'] != 0) {
             $this->model->insertCirugiaSitioAnatomico($result, $data['sitioAnatomico2'], 3);
         }
     }
@@ -458,10 +478,10 @@ class FormularioController
     private function insertActoQuirurgico($result, array $data)
     {
         $this->model->insertActoQuirurgico($result, $data['actoQuirurgico'], 1);
-        if ($data['actoQuirurgico1'] != null) {
+        if ($data['actoQuirurgico1'] != null && $data['actoQuirurgico1'] != 0) {
             $this->model->insertActoQuirurgico($result, $data['actoQuirurgico1'], 2);
         }
-        if ($data['actoQuirurgico2'] != null) {
+        if ($data['actoQuirurgico2'] != null && $data['actoQuirurgico2'] != 0) {
             $this->model->insertActoQuirurgico($result, $data['actoQuirurgico2'], 3);
         }
     }
@@ -469,14 +489,14 @@ class FormularioController
 
     private function insertMaterialProtesico($result, array $data)
     {
-        if ($data['materialProtesico'] != null) {
+        if ($data['materialProtesico'] != null && $data['materialProtesico'] != 0) {
 
             $this->model->insertMaterialProtesico($data['materialProtesico'], $result, 1, $data['cantidadDeMaterial']);
         }
-        if ($data['materialProtesico2'] != null) {
+        if ($data['materialProtesico2'] != null && $data['primerAyudante'] != 0) {
             $this->model->insertMaterialProtesico($data['materialProtesico2'], $result, 2, $data['cantidadDeMaterial2']);
         }
-        if ($data['materialProtesico3'] != null) {
+        if ($data['materialProtesico3'] != null && $data['primerAyudante'] != 0) {
             $this->model->insertMaterialProtesico($data['materialProtesico3'], $result, 3, $data['cantidadDeMaterial3']);
         }
     }
@@ -484,11 +504,14 @@ class FormularioController
 
     private function insertCodigo($result, array $data)
     {
-        $this->model->insertCodigoCirugia($result, $data['codigo'], 1);
-        if ($data['codigo1'] !== 0) {
+        if ($data['codigo'] != null && $data['codigo'] != 0) {
+            $this->model->insertCodigoCirugia($result, $data['codigo'], 1);
+        }
+
+        if ($data['codigo1'] != 0 && $data['codigo1'] != null) {
             $this->model->insertCodigoCirugia($result, $data['codigo1'], 2);
         }
-        if ($data['codigo2'] !== 0) {
+        if ($data['codigo2'] != 0 && $data['codigo2'] != null) {
             $this->model->insertCodigoCirugia($result, $data['codigo2'], 3);
         }
     }
@@ -496,7 +519,7 @@ class FormularioController
 
     private function insertInstrumentador($instrumentador, $result)
     {
-        if ($instrumentador != null) {
+        if ($instrumentador != null && $instrumentador != 0) {
             $this->model->insertCirugiaPersona($result, $instrumentador, 6);
         }
     }
@@ -504,7 +527,7 @@ class FormularioController
 
     private function insertNeonatologo($neonatologo, $result)
     {
-        if ($neonatologo != null) {
+        if ($neonatologo != null && $neonatologo != 0) {
             $this->model->insertCirugiaPersona($result, $neonatologo, 5);
         }
     }
@@ -512,14 +535,17 @@ class FormularioController
 
     private function insertCajaQuirurgica($result, array $data)
     {
-        $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica'], 1);
-        if ($data['cajaQuirurgica2'] != null) {
+        if($data['cajaQuirurgica'] != null && $data['cajaQuirurgica'] != 0) {
+            $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica'], 1);
+        }
+
+        if ($data['cajaQuirurgica2'] != null && $data['cajaQuirurgica2'] != 0) {
             $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica2'], 2);
         }
-        if ($data['cajaQuirurgica3'] != null) {
+        if ($data['cajaQuirurgica3'] != null && $data['cajaQuirurgica3'] != 0) {
             $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica3'], 3);
         }
-        if ($data['cajaQuirurgica4'] != null) {
+        if ($data['cajaQuirurgica4'] != null && $data['cajaQuirurgica4'] != 0) {
             $this->model->insertCajaQuirurgica($result, $data['cajaQuirurgica4'], 4);
         }
     }

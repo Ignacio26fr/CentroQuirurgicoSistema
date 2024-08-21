@@ -34,13 +34,22 @@
 <body>
 
 <div class="sidebar">
-    <a href="#nuevo-usuario">Nuevo Usuario</a>
+    <a href="#nuevo-diagnostico" >Nuevo Usuario</a>
     <a href="/diagnostico">Nuevo Diagnóstico</a>
     <a href="/actoQuirurgico">Nuevo Acto Quirúrgico</a>
+    <a href="/opciones/verComentarios">Ver comentarios</a>
     <a href="#nuevo-diagnostico">Nuevo Material Protésico</a>
     <a href="#nuevo-diagnostico">Nuevo Diagnóstico</a>
     <a href="#nuevo-diagnostico">Nueva Especialidad</a>
     <a href="#nuevo-diagnostico">Nuevo Lugar</a>
     <a href="#nuevo-diagnostico">Nuevo Rol Cirugía</a>
     <a href="#nuevo-diagnostico">Nueva Tecnología</a>
+
 </div>
+<script>
+    document.querySelectorAll('.sidebar a').forEach(function(link) {
+        if (link.getAttribute('href') === '#nuevo-diagnostico') {
+            link.style.display = 'none';
+        }
+    });
+</script>

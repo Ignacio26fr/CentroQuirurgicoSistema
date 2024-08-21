@@ -6,6 +6,7 @@ $(document).ready(function() {
             method: 'GET',
             data: {filtroPrimario: filtroPrimario},
             success: function (data) {
+                console.log(data)
                 $('#opcionesPrimario').empty();
                 $.each(data, function (index, option) {
                     var $opcion = $('<div class="opcion-diagnostico select-option" data-id="' + option.id + '">' + option.nombre + '</div>');
@@ -14,6 +15,7 @@ $(document).ready(function() {
             },
             error: function (xhr, status, error) {
                 console.error(error);
+
             }
         });
     });

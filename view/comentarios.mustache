@@ -1,0 +1,23 @@
+<div class="container mt-5">
+    <div>
+        <a class="btn btn-warning" href="/homeUsuario">Volver</a>
+    </div>
+    <h1 class="text-center">Deja tu Comentario o Duda</h1>
+    <form id="formComentario" class="mt-4" method="POST" action="/consultas/mandarComentario" enctype="multipart/form-data">
+        <div class="mb-3">
+            <textarea class="form-control" id="comentario" name="comentario" rows="3" placeholder="Escribe tu comentario aquí..."></textarea>
+        </div>
+        <div class="">
+            <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+        </div>
+    </form>
+    <div class="mt-4" id="mensajeExito" style="display: none;">
+        <div class="alert alert-success" role="alert">
+            ¡Tu comentario ha sido enviado con éxito!
+        </div>
+        <div>
+            <a class="btn btn-warning" href="/homeUsuario">Volver</a>
+        </div>
+    </div>
+</div>
+

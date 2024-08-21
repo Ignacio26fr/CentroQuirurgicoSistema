@@ -15,3 +15,5 @@ EXPOSE 80
 
 # Comando para ejecutar Apache en primer plano
 CMD ["apache2-foreground"]
+
+RUN a2enmod rewrite
