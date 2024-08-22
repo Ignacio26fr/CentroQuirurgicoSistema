@@ -6,7 +6,7 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 RUN a2enmod rewrite
 
-COPY centroquirurgico.conf /etc/apache2/sites-available/000-default.conf
+
 # Copia el código fuente de tu proyecto al contenedor
 COPY . /var/www/html/
 
