@@ -41,10 +41,12 @@ class LoginController
         if($resultado == 1) {
 
             header("Location:/homeUsuario");
+            exit();
         } else {
             header("Location:/login");
+            exit();
         }
-        exit();
+
     }
 
 

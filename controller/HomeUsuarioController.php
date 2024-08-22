@@ -24,13 +24,14 @@ class HomeUsuarioController
         if($rol == 'ADMIN' || $rol == 'INSTRUMENTADOR' || $rol == 'ANESTESISTA') {
 
             if ($nombreUsuario) {
-
                 $this->presenter->render("view/home.mustache", ["nombreUsuario" => $nombreUsuario, "rol" => $rol]);
             } else {
                 header("Location:/login");
+                exit();
             }
         } else {
             header("Location:/login");
+            exit();
         }
 
 
