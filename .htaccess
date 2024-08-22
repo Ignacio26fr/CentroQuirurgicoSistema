@@ -1,4 +1,4 @@
-Options -Indexes
+ Options -Indexes
 
 <FilesMatch ".*\.(log|ini|htaccess)$">
     deny from all
@@ -6,7 +6,7 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /centroQuirurgico/
+    RewriteBase /
 
 
 
