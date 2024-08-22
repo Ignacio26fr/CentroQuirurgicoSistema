@@ -16,7 +16,7 @@ class HomeUsuarioController
     {
         session_start();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
+            header("Location: /login");
             exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
