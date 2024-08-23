@@ -38,7 +38,7 @@ class Configuration
 {
 
 
- //Controller   
+ //Controller
 public static function getLoginController()
 {
     return new LoginController(self::getLoginModel(), self::getPresenter());
@@ -145,4 +145,11 @@ public static function getRouter()
 {
     return new Router("getHomeUsuarioController", "get");
 }
+
+    public static function getBaseUrl()
+    {
+        $config = self::getConfig();
+        return "http://localhost:8082/centroQuirurgico/" ;
+    }
+
 }

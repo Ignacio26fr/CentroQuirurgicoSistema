@@ -1,5 +1,5 @@
 <?php
-
+include_once ("Configuration.php");
 
 class LoginController
 {
@@ -23,8 +23,8 @@ class LoginController
 
     public function login()
     {
-        session_start();
 
+session_start();
         $usuario = $_POST["usuario"];
         $password = $_POST["password"];
 
@@ -38,12 +38,15 @@ class LoginController
 
     private function redirigirResultadoLogin($resultado)
     {
+
+        $baseUrl = Configuration::getBaseUrl();
         if($resultado == 1) {
 
-            header("Location:/homeUsuario");
+            header("Location:" . $baseUrl . "homeUsuario");
             exit();
         } else {
-            header("Location:/login");
+            header("Location:" . $baseUrl . "login");
+
             exit();
         }
 

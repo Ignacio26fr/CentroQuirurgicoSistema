@@ -15,8 +15,9 @@ class HomeUsuarioController
     public function get()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location: /login");
+            header("Location:" .  $baseUrl . "login");
             exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
@@ -26,11 +27,11 @@ class HomeUsuarioController
             if ($nombreUsuario) {
                 $this->presenter->render("view/home.mustache", ["nombreUsuario" => $nombreUsuario, "rol" => $rol]);
             } else {
-                header("Location:/login");
+                header("Location:" .  $baseUrl . "login");
                 exit();
             }
         } else {
-            header("Location:/login");
+            header("Location:" .  $baseUrl . "login");
             exit();
         }
 
@@ -42,8 +43,9 @@ class HomeUsuarioController
         session_start();
 
         session_destroy();
+        $baseUrl = Configuration::getBaseUrl();
 
-        header("Location:/ login");
+        header("Location:" .  $baseUrl . "login");
     }
 
 

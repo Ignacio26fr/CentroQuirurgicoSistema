@@ -13,10 +13,10 @@ COPY . /var/www/html/centroQuirurgico
 
 COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
-WORKDIR /var/www/html/centroQuirurgico
+WORKDIR /var/www/html
 
 # Establece permisos adecuados
-RUN chown -R www-data:www-data /var/www/html/centroQuirurgico
+RUN chown -R www-data:www-data /var/www/html
 
 # Expone el puerto en el que se ejecuta Apache
 EXPOSE 80
