@@ -149,7 +149,7 @@ public static function getRouter()
     public static function getBaseUrl()
     {
         $config = self::getConfig();
-        return "http://localhost:8082/centroQuirurgico/" ;
+        return $config['base_url'];
     }
 
 }
