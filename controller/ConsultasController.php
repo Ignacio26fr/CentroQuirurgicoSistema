@@ -17,28 +17,31 @@ class ConsultasController
     public function get()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         $nombreUsuario = $this->database->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
         if($nombreUsuario != null) {
             $this->presenter->render("view/consultas.mustache");
         } else {
-            header("Location: /login");
+            header("Location:" . $baseUrl . "login");
         }
     }
 
     public function dejarComentario()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         $nombreUsuario = $this->database->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
         if($nombreUsuario != null) {
             $this->presenter->render("view/comentarios.mustache");
         }else {
-            header("Location: /login");
+            header("Location:" . $baseUrl . "login");
         }
     }
 
     public function mandarComentario()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         $nombreUsuario = $this->database->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
         if($nombreUsuario != null) {
             if (isset($_POST['comentario']) && !empty($_POST['comentario'])) {
@@ -47,10 +50,10 @@ class ConsultasController
                 $this->database->mandarConsulta($_POST['comentario'], $idUsuario, date('Y-m-d H:i:s'));
                 $this->presenter->render("view/comentarioExito.mustache");
             } else {
-                header("Location: /homeUsuario");
+                header("Location:" . $baseUrl . "homeUsuario");
             }
         } else {
-            header("Location: /login");
+            header("Location:" . $baseUrl . "login");
         }
 }
 

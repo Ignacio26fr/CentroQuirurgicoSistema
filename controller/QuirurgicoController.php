@@ -9,6 +9,7 @@ class QuirurgicoController
     private $presenter;
 
 
+
     public function __construct($model, $presenter)
     {
         $this->model = $model;
@@ -18,16 +19,17 @@ class QuirurgicoController
     public function get()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
-            exit(); // Asegura que el script se detiene después de la redirección
+            header("Location:" .  $baseUrl . "login");
+            exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
         $rol = $this->model->verificarRolUsuario($nombreUsuario);
         if($rol == 'ADMIN' || $rol == 'INSTRUMENTADOR') {
             $this->presenter->render("view/obtenerPaciente.mustache" ,["rol" => $rol]);
         } else {
-            header("Location: /homeUsuario");
+            header("Location:" .  $baseUrl . "homeUsuario");
         }
     }
 
@@ -40,8 +42,9 @@ class QuirurgicoController
     public function buscarPorDni()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
+            header("Location:" .  $baseUrl . "login");
             exit(); 
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
@@ -58,7 +61,7 @@ class QuirurgicoController
                 echo "No se ingreso un dni";
             }
         } else {
-            header("Location: /homeUsuario");
+            header("Location:" .  $baseUrl . "homeUsuario");
         }
 
     }
@@ -66,11 +69,12 @@ class QuirurgicoController
     public function obtenerPacienteSeleccionado()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (isset($_POST['paciente'])) {
             $paciente = $_POST['paciente'];
 
             $_SESSION['paciente'] = $paciente;
-            header('Location: /formulario');
+            header("Location:" .  $baseUrl . "formulario");
 
 
         }

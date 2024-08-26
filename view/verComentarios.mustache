@@ -20,16 +20,16 @@ cursor: pointer;
 <div class="content">
     <div class="container mt-5">
         <div>
-            <a href="/homeUsuario" class="btn btn-warning">Home</a>
+            <a href="/centroQuirurgico/homeUsuario" class="btn btn-warning">Home</a>
         </div>
         <h1 class="text-center mb-4">Comentarios de Usuarios</h1>
         <div class="list-group mt-4">
             {{#comentarios}}
                 <div class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Usuario: {{nombreUsuario}}</h5>
-                        <small class="text-muted">{{fecha}}</small>
-                        <form method="POST" action="/opciones/eliminarComentario" style="display:inline;">
+                        <h5 class="mb-1">Usuario: {{nombreUsuario}} {{apellido}} {{matricula}}</h5>
+                        <small class="text-muted">fecha envio: {{fecha}}</small>
+                        <form method="POST" action="/centroQuirurgico/opciones/eliminarComentario" style="display:inline;">
                             <input type="hidden" name="idComentario" value="{{idComentario}}">
                             <button type="submit" class="btn btn-link btn-trash"  onclick="confirmarEliminacion({{idComentario}})">
                                 <i class="fas fa-trash"></i>

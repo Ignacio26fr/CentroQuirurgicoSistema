@@ -24,7 +24,7 @@ class OpcionesModel
     }
     public function getConsultas()
     {
-        $query = "SELECT c.id as idComentario, c.comment, u.nombre AS nombreUsuario, c.fecha
+        $query = "SELECT c.id as idComentario, c.comment, u.nombre AS nombreUsuario, u.apellido, u.matricula, c.fecha
               FROM comentarios c
               INNER JOIN persona u ON c.idUser = u.id
               ORDER BY c.fecha DESC";

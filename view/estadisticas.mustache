@@ -1,9 +1,9 @@
 <div class="container">
     <div>
-        <a href="/homeUsaurio" class="btn btn-warning">Volver</a>
+        <a href="/centroQuirurgico/homeUsuario" class="btn btn-warning">Volver</a>
     </div>
     <h2>Lista de Cirugías</h2>
-    <form id="filtroForm" method="GET" action="/estadisticas/obtenerDatos" enctype="multipart/form-data">
+    <form id="filtroForm" method="GET" action="/centroQuirurgico/estadisticas/obtenerDatos" enctype="multipart/form-data">
         <div class="form-group">
             <label for="fechaDesde">Fecha Desde:</label>
             <input type="date" class="form-control" id="fechaDesde" name="fechaDesde">
@@ -122,7 +122,7 @@
             <td style="display: none">{{NroQuirofano}}</td>
 
             <td>
-                <a href="/estadisticas/verDetalle?idCirugia={{id}}" class="btn btn-info">Ver Detalle</a>
+                <a href="/centroQuirurgico/estadisticas/verDetalle?idCirugia={{id}}" class="btn btn-info">Ver Detalle</a>
             </td>
             <td style="display: none">{{observacion}}</td>
             <td style="display: none">{{tipoDeAnestesia}}</td>

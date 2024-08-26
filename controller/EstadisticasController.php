@@ -21,6 +21,8 @@ class EstadisticasController
     public function obtenerDatos()
     {
 
+        session_start();
+        $baseUrl = Configuration::getBaseUrl();
 
         if (isset($_GET['fechaDesde']) && $_GET['fechaHasta'] && $_GET['fechaDesde'] !== '' && $_GET['fechaHasta'] !== '') {
             $fechaInicio = $_GET['fechaDesde'];
@@ -240,12 +242,14 @@ class EstadisticasController
 
             ]);
         } else {
-            header("Location: /estadisticas");
+            header("Location:" . $baseUrl . "estadisticas");
         }
     }
 
     public function verDetalle ()
     {
+        session_start();
+        $baseUrl = Configuration::getBaseUrl();
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['idCirugia'])) {
             $idCirugia = $_GET['idCirugia'];
@@ -381,7 +385,7 @@ class EstadisticasController
 
             ]);
         } else {
-            header("Location: /home");
+            header("Location:" . $baseUrl . "home");
         }
     }
 

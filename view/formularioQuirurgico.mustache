@@ -1,8 +1,8 @@
 <div class="container">
 
     <h1>Formulario Quirúrgico</h1>
-    <a href="/quirurgico" class="btn btn-warning mb-3">Volver</a>
-    <form action="/formulario/insertarDatos" method="post" enctype="multipart/form-data">
+    <a href="/centroQuirurgico/quirurgico" class="btn btn-warning mb-3">Volver</a>
+    <form action="/centroQuirurgico/formulario/insertarDatos" method="post" enctype="multipart/form-data">
         {{#data}}
             <input type="hidden" name="paciente" value="{{paciente}}">
             <div class="form-group">
@@ -329,7 +329,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/public/js/funciones.js"></script>
+<script src="/centroQuirurgico/public/js/funciones.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var today = new Date();

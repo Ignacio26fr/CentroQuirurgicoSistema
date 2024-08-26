@@ -2,7 +2,7 @@ $(document).ready(function() {
     $('#filtroPrimario').on('input', function () {
         var filtroPrimario = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerOpcionesPrimario',
+            url: '/centroQuirurgico/formulario/obtenerOpcionesPrimario',
             method: 'GET',
             data: {filtroPrimario: filtroPrimario},
             success: function (data) {
@@ -39,7 +39,7 @@ $(document).ready(function() {
     $('#filtroSecundario').on('input', function () {
         var filtroSecundario = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerOpcionesSecundario',
+            url: '/centroQuirurgico/formulario/obtenerOpcionesSecundario',
             method: 'GET',
             data: {filtroSecundario: filtroSecundario},
             success: function (data) {
@@ -87,7 +87,7 @@ $(document).ready(function() {
 
     function fetchUnits(idEspQuirurgica, $unitSelect, callback) {
         $.ajax({
-            url: '/formulario/obtenerUnidadesFuncionales',
+            url: '/centroQuirurgico/formulario/obtenerUnidadesFuncionales',
             method: 'GET',
             data: { idEspQuirurgica: idEspQuirurgica },
             success: function(data) {
@@ -105,7 +105,7 @@ $(document).ready(function() {
 
     function fetchSites(idUnidadFuncional, $siteSelect, callback) {
         $.ajax({
-            url: '/formulario/obtenerSitiosAnatomicos',
+            url: '/centroQuirurgico/formulario/obtenerSitiosAnatomicos',
             method: 'GET',
             data: { idUnidadFuncional: idUnidadFuncional },
             success: function(data) {
@@ -122,7 +122,7 @@ $(document).ready(function() {
     }
     function fetchActo(idSitioAnatomico, $actoSelect, callback) {
         $.ajax({
-            url: '/formulario/obtenerActosQuirurgico',
+            url: '/centroQuirurgico/formulario/obtenerActosQuirurgico',
             method: 'GET',
             data: {idSitioAnatomico: idSitioAnatomico},
             success: function (data) {
@@ -219,7 +219,7 @@ $(document).ready(function() {
             var filtroCirujano = $(this).val();
             var $opcionesCirujano = $(this).next('.opcion-cirujano');
             $.ajax({
-                url: '/formulario/obtenerCirujano',
+                url: '/centroQuirurgico/formulario/obtenerCirujano',
                 method: 'GET',
                 data: { filtroCirujano: filtroCirujano },
                 success: function (data) {
@@ -256,7 +256,7 @@ $(document).ready(function() {
             var filtroPrimer = $(this).val();
             var $opcionesPrimer = $(this).next('.opcion-primer');
             $.ajax({
-                url: '/formulario/obtenerPrimerAyudante',
+                url: '/centroQuirurgico/formulario/obtenerPrimerAyudante',
                 method: 'GET',
                 data: { filtroPrimer: filtroPrimer },
                 success: function (data) {
@@ -293,7 +293,7 @@ $(document).ready(function() {
             var filtroSegundo = $(this).val();
             var $opcionesSegundo = $(this).next('.opcion-segundo');
             $.ajax({
-                url: '/formulario/obtenerSegundoAyudante',
+                url: '/centroQuirurgico/formulario/obtenerSegundoAyudante',
                 method: 'GET',
                 data: { filtroSegundo: filtroSegundo },
                 success: function (data) {
@@ -382,7 +382,7 @@ $(document).ready(function() {
     $('#filtroAnestesista').on('input', function () {
         var filtroAnestesista = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerAnestesistas',
+            url: '/centroQuirurgico/formulario/obtenerAnestesistas',
             method: 'GET',
             data: { filtroAnestesista: filtroAnestesista},
             success: function (data) {
@@ -422,7 +422,7 @@ $(document).ready(function() {
     $('#filtroNeo').on('input', function () {
         var filtroNeo = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerNeonatologo',
+            url: '/centroQuirurgico/formulario/obtenerNeonatologo',
             method: 'GET',
             data: { filtroNeo: filtroNeo},
             success: function (data) {
@@ -460,7 +460,7 @@ $(document).ready(function() {
     $('#filtroTecnico').on('input', function () {
         var filtroTecnico = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerTecnico',
+            url: '/centroQuirurgico/formulario/obtenerTecnico',
             method: 'GET',
             data: { filtroTecnico: filtroTecnico},
             success: function (data) {
@@ -496,7 +496,7 @@ $(document).ready(function() {
     $('#filtroInstrumentador').on('input', function () {
         var filtroInstrumentador = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerInstrumentador',
+            url: '/centroQuirurgico/formulario/obtenerInstrumentador',
             method: 'GET',
             data: { filtroInstrumentador: filtroInstrumentador},
             success: function (data) {
@@ -533,7 +533,7 @@ $(document).ready(function() {
     $('#filtroCirculante').on('input', function () {
         var filtroCirculante = $(this).val();
         $.ajax({
-            url: '/formulario/obtenerCirculante',
+            url: '/centroQuirurgico/formulario/obtenerCirculante',
             method: 'GET',
             data: { filtroCirculante: filtroCirculante},
             success: function (data) {
@@ -587,7 +587,7 @@ $(document).ready(function() {
             var $opcionesCaja = $container.find('.opcionesCaja');
 
             $.ajax({
-                url: '/formulario/obtenerCajas',
+                url: '/centroQuirurgico/formulario/obtenerCajas',
                 method: 'GET',
                 data: { filtroCaja: filtroCaja },
                 success: function (data) {
@@ -681,7 +681,7 @@ $(document).ready(function() {
             var $opcionesCodigo = $container.find('.opcionesCodigo');
 
             $.ajax({
-                url: '/formulario/obtenerCodigos',
+                url: '/centroQuirurgico/formulario/obtenerCodigos',
                 method: 'GET',
                 data: { filtroCodigo: filtroCodigo },
                 success: function (data) {
@@ -775,7 +775,7 @@ $(document).ready(function() {
             var $opcionesMaterial = $(this).next('.opcion-material');
 
             $.ajax({
-                url: '/formulario/obtenerMaterialProtesico',
+                url: '/centroQuirurgico/formulario/obtenerMaterialProtesico',
                 method: 'GET',
                 data: { filtroMaterial: filtroMaterial },
                 success: function (data) {

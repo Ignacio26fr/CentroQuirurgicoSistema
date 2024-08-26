@@ -15,8 +15,10 @@ class FormularioController
     {
 
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
+
+            header("Location" . $baseUrl . "login");
             exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
@@ -48,7 +50,7 @@ class FormularioController
 
             $this->presenter->render("view/formularioQuirurgico.mustache", ["data" => $data]);
         } else {
-            header("Location: /homeUsuario");
+            header("Location" . $baseUrl . "homeUsuario");
     }
 
 }
@@ -243,7 +245,7 @@ class FormularioController
 
     public function insertarDatos(){
         session_start();
-
+        $baseUrl = Configuration::getBaseUrl();
         $idUsuario = $this->model->obtenerUsuario($_SESSION['usuario']);
 
 
@@ -323,7 +325,7 @@ class FormularioController
 
 
 
-            header('Location: /quirurgico');
+            header('Location:' . $baseUrl . "quirurgico");
         }
     }
 
@@ -489,14 +491,14 @@ class FormularioController
 
     private function insertMaterialProtesico($result, array $data)
     {
-        if ($data['materialProtesico'] != null && $data['materialProtesico'] != 0) {
+        if ($data['materialProtesico'] != null && $data['materialProtesico'] != 0 && $data['cantidadDeMaterial'] != 0) {
 
             $this->model->insertMaterialProtesico($data['materialProtesico'], $result, 1, $data['cantidadDeMaterial']);
         }
-        if ($data['materialProtesico2'] != null && $data['primerAyudante'] != 0) {
+        if ($data['materialProtesico2'] != null && $data['primerAyudante'] != 0 && $data['cantidadDeMaterial2'] != 0) {
             $this->model->insertMaterialProtesico($data['materialProtesico2'], $result, 2, $data['cantidadDeMaterial2']);
         }
-        if ($data['materialProtesico3'] != null && $data['primerAyudante'] != 0) {
+        if ($data['materialProtesico3'] != null && $data['primerAyudante'] != 0 && $data['cantidadDeMaterial3'] != 0) {
             $this->model->insertMaterialProtesico($data['materialProtesico3'], $result, 3, $data['cantidadDeMaterial3']);
         }
     }

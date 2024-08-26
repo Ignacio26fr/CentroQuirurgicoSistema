@@ -6,7 +6,7 @@
     <!-- Sección de Nuevo Diagnóstico -->
     <section id="nuevo-diagnostico">
         <h2>Nuevo Diagnóstico</h2>
-        <form action="/diagnostico/insertarDiagnostico" method="post" name="diagnosticos" enctype="multipart/form-data">
+        <form action="/centroQuirurgico/diagnostico/insertarDiagnostico" method="post" name="diagnosticos" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="espQuirurgica" class="form-label">Especialidad quirurgica</label>
                 <select class="form-control espQuirurgica" id="espQuirurgica" name="espQuirurgica" required>
@@ -65,7 +65,7 @@
 
     function fetchUnits(idEspQuirurgica, $unitSelect, callback) {
         $.ajax({
-            url: '/actoQuirurgico/ajaxObtenerUnidadesFuncionales',  //
+            url: '/centroQuirurgico/actoQuirurgico/ajaxObtenerUnidadesFuncionales',  //
             method: 'GET',
             data: { idEspQuirurgica: idEspQuirurgica },
             success: function(data) {
@@ -87,7 +87,7 @@
 
     function fetchSites(idUnidadFuncional, $siteSelect, callback) {
         $.ajax({
-            url: '/actoQuirurgico/ajaxObtenerSitiosAnatomicos',
+            url: '/centroQuirurgico/actoQuirurgico/ajaxObtenerSitiosAnatomicos',
             method: 'GET',
             data: { idUnidadFuncional: idUnidadFuncional },
             success: function(data) {

@@ -24,16 +24,16 @@ class DiagnosticoController
 
     public function insertarDiagnostico()
     {
+        session_start();
+        $baseUrl = Configuration::getBaseUrl();
         $diagnostico = $_POST['diagnostico'];
-        var_dump($diagnostico);
         $resultado = $this->model->verificarSiExisteUnDiagnosticoConEseNombre($diagnostico);
-        var_dump($resultado);
         if($resultado){
-            header("Location: /homeUsuario");
+            header("Location:" . $baseUrl . "homeUsuario");
             exit();
         } else {
             $this->model->nuevoDiagnostico($diagnostico);
-            header("Location: /diagnostico");
+            header("Location:" . $baseUrl . "diagnostico");
 
         }
         exit();
@@ -58,22 +58,26 @@ class DiagnosticoController
     }
 
     public function obtenerElPostEditarDiagnostico(){
+        session_start();
+        $baseUrl = Configuration::getBaseUrl();
         $nombre = $_POST['nombre'];
         $id = $_POST['id'];
 
         $this->model->updateDiagnostico($id, $nombre);
-        header("Location: /diagnostico");
+        header("Location:" . $baseUrl . "diagnostico");
 
     }
 
     public function eliminarDiagnosticoSeleccionado(){
+        session_start();
+        $baseUrl = Configuration::getBaseUrl();
         $diagnostico = $_GET["id"];
 
         if($diagnostico != null || $diagnostico != 0){
                 $this->model->eliminarDiagnostico($diagnostico);
-                header("Location: /diagnostico");
+            header("Location:" . $baseUrl . "diagnostico");
         }else {
-            header("Location: /homeUsuario");
+            header("Location:" . $baseUrl . "homeUsuario");
         }
 
 

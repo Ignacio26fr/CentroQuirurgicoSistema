@@ -15,9 +15,10 @@ class OpcionesController
 
     public function get(){
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
-            exit(); // Asegura que el script se detiene después de la redirección
+            header("Location:" . $baseUrl . "login");
+            exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
         $rol = $this->model->verificarRolUsuario($nombreUsuario);
@@ -25,15 +26,16 @@ class OpcionesController
             $this->presenter->render("view/opciones.mustache", ["rol" => $rol]);
 
         } else {
-            header("Location: /homeUsuario");
+            header("Location:" . $baseUrl . "homeUsuario");
         }
     }
 
     public function verComentarios()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
+            header("Location:" . $baseUrl . "login");
             exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
@@ -44,15 +46,16 @@ class OpcionesController
             $this->presenter->render("view/verComentarios.mustache", ["rol" => $rol, "comentarios" => $resultado]);
 
         } else {
-            header("Location: /homeUsuario");
+            header("Location:" . $baseUrl . "homeUsuario");
         }
     }
 
         public function eliminarComentario()
     {
         session_start();
+        $baseUrl = Configuration::getBaseUrl();
         if (!isset($_SESSION["usuario"])) {
-            header("Location:/login");
+            header("Location:" . $baseUrl . "login");
             exit();
         }
         $nombreUsuario = $this->model->verificarSiHayUnaSessionIniciada($_SESSION["usuario"]);
@@ -61,11 +64,11 @@ class OpcionesController
 
             if($_POST['idComentario'] != 0 || $_POST['idComentario'] != null){
                 $this->model->eliminarComentario($_POST['idComentario']);
-                header("Location: /opciones");
+                header("Location:" . $baseUrl . "opciones");
 
             }
         } else {
-            header("Location: /homeUsuario");
+            header("Location:" . $baseUrl . "homeUsuario");
         }
     }
 
