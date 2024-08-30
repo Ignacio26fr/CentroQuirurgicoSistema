@@ -45,7 +45,7 @@ class EstadisticasController
             }
 
 
-            list($idsDiagnosticos, $idsSecundario, $idCirugia) = $this->obtenerDiagnosticos($idsCirugias);
+            list($idsDiagnosticos, $idsSecundario) = $this->obtenerDiagnosticos($idsCirugias);
             list($pacientes) = $this->obtenerPaciente($idsPaciente);
             list($cirujanosDo, $cirujanosDo2, $cirujanosDo3) = $this->obtenerCirujanos($idsCirugias);
             list($anestesistasDo) = $this->obtenerAnestesista($idsCirugias);
@@ -691,7 +691,7 @@ class EstadisticasController
             $idsSecundario[$idCirugia] = $diagSecundario;
 
         }
-        return array($idsDiagnosticos, $idsSecundario, $idCirugia);
+        return array($idsDiagnosticos, $idsSecundario);
     }
 
 
